@@ -2,7 +2,7 @@
   "name": "Tu Barrio a un Clik",
   "short_name": "BarrioClik",
   "description": "Plataforma de comercios y comunidad local en Castelar",
-  "start_url": "/index.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#e1306c",
   "theme_color": "#e1306c",
