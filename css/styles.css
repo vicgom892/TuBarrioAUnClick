@@ -1413,7 +1413,7 @@ border: 2px solid #333;
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     cursor: pointer;
     z-index: 1000;
-    animation: float 3s ease-in-out infinite;
+    /*animation: float 3s ease-in-out infinite;*/
     border: none;
     outline: none;
 }

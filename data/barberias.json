@@ -2,7 +2,7 @@
   {
     "id": "barberia-01",
     "nombre": "Barbería El Cortes",
-    "imagen": "/img/barberia-1.webp",
+    "imagen": "img/barberia-1.webp",
     "horario": "Lun-Sab 8:00-20:00",
     "horarioData": "Mon-Sat 08:00-20:00",
     "telefono": "11 5555 2222",
@@ -17,7 +17,7 @@
   {
     "id": "barberia-02",
     "nombre": "The Barber Shop",
-    "imagen": "/img/barberia-2.webp",
+    "imagen": "img/barberia-2.webp",
     "horario": "Mar-Dom 9:00-19:00",
     "horarioData": "Tue-Sun 09:00-19:00",
     "telefono": "11 5555 2223",
@@ -32,7 +32,7 @@
   {
     "id": "barberia-03",
     "nombre": "Barbería Central",
-    "imagen": "/img/barberia-3.webp",
+    "imagen": "img/barberia-3.webp",
     "horario": "Lun-Sab 8:00-20:00",
     "horarioData": "Mon-Sat 08:00-20:00",  
     "telefono": "11 5555 2224",
@@ -47,7 +47,7 @@
   {
     "id": "barberia-04",
     "nombre": "Classic Barber",
-    "imagen": "/img/barberia-1.webp",
+    "imagen": "img/barberia-1.webp",
     "horario": "Lun-Sab 9:00-20:00",
     "horarioData": "Mon-Sat 09:00-20:00", 
     "telefono": "11 5555 2225",
@@ -62,7 +62,7 @@
   {
     "id": "barberia-05",
     "nombre": "Barbería del Barrio",
-    "imagen": "/img/barberia-2.webp",
+    "imagen": "img/barberia-2.webp",
     "horario": "Lun-Sab 8:00-20:00",
     "horarioData": "Mon-Sat 08:00-20:00", 
     "telefono": "11 5555 2226",
@@ -77,7 +77,7 @@
   {
     "id": "barberia-06",
     "nombre": "Urban Barber",
-    "imagen": "/img/barberia-3.webp",
+    "imagen": "img/barberia-3.webp",
     "horario": "Lun-Vie 7:00-20:00",
     "horarioData": "Mon-Fri 07:00-20:00", 
     "telefono": "11 5555 2227",
@@ -92,7 +92,7 @@
   {
     "id": "barberia-07",
     "nombre": "Barbería Express",
-    "imagen": "/img/barberia-1.webp",
+    "imagen": "img/barberia-1.webp",
     "horario": "Lun-Sab 7:00-20:00",
     "horarioData": "Mon-Sat 07:00-20:00", 
     "telefono": "11 5555 2228",
@@ -107,7 +107,7 @@
   {
     "id": "barberia-08",
     "nombre": "The Gentlemen's Club",
-    "imagen": "/img/barberia-2.webp",
+    "imagen": "img/barberia-2.webp",
     "horario": "Lun-Sab 7:00-20:00",
     "horarioData": "Mon-Sat 07:00-20:00",  
     "telefono": "11 5555 2229",
