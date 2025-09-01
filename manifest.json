@@ -1,0 +1,36 @@
+{
+  "name": "Tu Barrio a un Clik",
+  "short_name": "BarrioClik",
+  "description": "Plataforma de comercios y comunidad local en Castelar",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#e1306c",
+  "theme_color": "#e1306c",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "img/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Explorar Comercios",
+      "short_name": "Comercios",
+      "url": "/index.html#panaderias",
+      "icons": [{ "src": "img/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Unirse a la Comunidad",
+      "short_name": "Comunidad",
+      "url": "/comunidad.html",
+      "icons": [{ "src": "img/icon-abeja-sola.png", "sizes": "192x192" }]
+    }
+  ]
+}

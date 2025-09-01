@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Tu Barrio a un Clik - Conectamos los mejores comercios de Castelar con sus vecinos.">
+  <title>Tu Barrio a un Clik | Tus Compras Más Fáciles</title>
+  <!-- Iconos y Manifest -->
+  <link rel="icon" href="/img/icon-abeja-sola.png" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="/img/icon-192x192.png">
+  <!-- CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">  
+  <!-- Meta tags para PWA -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Tu Barrio a un Clik">
+  <meta name="apple-mobile-web-app-title" content="BarrioClik">
+  <meta name="theme-color" content="#e1306c">
+  <meta name="msapplication-navbutton-color" content="#e1306c">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="msapplication-starturl" content="/">
+</head>
+<body class="bg-light">
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-particles" id="splashParticles"></div>
+        <div class="splash-grid"></div>
+        <div class="splash-logo">
+            <!--<i class="fas fa-store logo-icon"></i>-->
+            <img src="/img/icon-192x192.png" class="logo-icon" alt="logo de la app">
+        </div>
+        <h1 class="splash-text">Tu Barrio A Un Clic</h1>
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="loadingBar"></div>
+        </div>
+        <p class="loading-text" id="loadingText">Cargando experiencia local...</p>
+        <button onclick="skipSplash()" class="skip-btn">Saltar</button>
+    </div>
+  <!-- Hero Section Mejorado -->
+  <section class="hero-modern">
+    <div class="hero-content">
+      <h1>Descubre Tu Barrio</h1>
+      <p>Conectamos los mejores comercios de Castelar directamente con vos. Comprá local, apoyá a tu comunidad.</p>
+      <a href="index.html" class="btn btn-hero">
+        <i class="fas fa-store me-2"></i>Explorar Comercios
+      </a>
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-number">150+</div>
+          <div class="stat-label">Negocios</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Acceso</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Local</div>
+        </div>
+      </div>
+    </div>
+    <a href="index.html" class="scroll-down">
+      <i class="fas fa-chevron-down"></i>
+    </a>
+  </section>
+   <!-- Sección de Planes de Contratación Elegante -->
+<section class="pricing-section py-5 bg-gradient-to-b from-gray-50 to-white">
+  <div class="container">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">Planes que Impulsan tu Negocio</h2>
+      <p class="text-lg text-gray-600">Elige el plan perfecto para tu comercio y aumenta tu visibilidad en tu barrio. Todos nuestros planes incluyen soporte técnico y actualizaciones gratuitas.</p>
+      
+      <div class="mt-6 inline-flex items-center bg-blue-50 rounded-full px-4 py-2 border border-blue-100">
+        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mr-3">¡OFERTA!</span>
+        <span class="text-blue-700 font-medium">15% de descuento en tu primer año con el plan Premium</span>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <!-- Plan Básico -->
+      <div class="pricing-card bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl border border-gray-200">
+        <div class="p-8">
+          <div class="text-center mb-6">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Básico</h3>
+            <div class="flex items-baseline justify-center">
+              <span class="text-4xl font-bold text-gray-900">$0</span>
+              <span class="ml-2 text-gray-500">/mes</span>
+            </div>
+            <p class="mt-2 text-gray-500">Ideal para comenzar</p>
+          </div>
+          
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Listado en directorio de comercios</span>
+            </li>
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Información básica del negocio</span>
+            </li>
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Horarios de atención</span>
+            </li>
+            <li class="flex items-center opacity-50">
+              <div class="bg-gray-200 rounded-full p-1 mr-3">
+                <i class="fas fa-times text-gray-500 text-xs"></i>
+              </div>
+              <span class="text-gray-500">Promociones destacadas</span>
+            </li>
+            <li class="flex items-center opacity-50">
+              <div class="bg-gray-200 rounded-full p-1 mr-3">
+                <i class="fas fa-times text-gray-500 text-xs"></i>
+              </div>
+              <span class="text-gray-500">Análisis de visitas</span>
+            </li>
+          </ul>
+          
+          <a href="https://wa.me/5491157194796?text=Estoy%20interesado%20en%20el%20Plan%20B%C3%A1sico%20%28Gratis%29" 
+             class="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-3 px-6 rounded-lg transition-colors duration-300 block text-center">
+            <i class="fab fa-whatsapp mr-2"></i> Contratar Plan
+          </a>
+        </div>
+      </div>
+      
+      <!-- Plan Estándar (destacado) -->
+      <div class="pricing-card bg-white rounded-2xl shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-all duration-300 border-2 border-indigo-500 relative">
+        <div class="absolute top-0 right-0 bg-indigo-500 text-white text-xs font-bold px-4 py-1 rounded-bl-lg rounded-tr-xl">
+          MÁS POPULAR
+        </div>
+        <div class="p-8">
+          <div class="text-center mb-6">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Estándar</h3>
+            <div class="flex items-baseline justify-center">
+              <span class="text-4xl font-bold text-indigo-600">$999</span>
+              <span class="ml-2 text-gray-500">/mes</span>
+            </div>
+            <p class="mt-2 text-gray-500">Para negocios en crecimiento</p>
+          </div>
+          
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Todo el plan Básico</span>
+            </li>
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Fotos profesionales</span>
+            </li>
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Promociones destacadas</span>
+            </li>
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Análisis de visitas</span>
+            </li>
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Integración con WhatsApp</span>
+            </li>
+          </ul>
+          
+          <a href="https://wa.me/5491157194796?text=Estoy%20interesado%20en%20el%20Plan%20Est%C3%A1ndar%20%28%24999%2Fmes%29" 
+             class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 transform hover:shadow-md block text-center">
+            <i class="fab fa-whatsapp mr-2"></i> Contratar Plan
+          </a>
+        </div>
+      </div>
+      
+      <!-- Plan Premium -->
+      <div class="pricing-card bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl border border-gray-200">
+        <div class="p-8">
+          <div class="text-center mb-6">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Premium</h3>
+            <div class="flex items-baseline justify-center">
+              <span class="text-4xl font-bold text-purple-600">$1999</span>
+              <span class="ml-2 text-gray-500">/mes</span>
+            </div>
+            <p class="mt-2 text-gray-500">Para negocios profesionales</p>
+          </div>
+          
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Todo el plan Estándar</span>
+            </li>
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Diseño personalizado</span>
+            </li>
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Campañas publicitarias</span>
+            </li>
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Soporte prioritario</span>
+            </li>
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Reportes mensuales</span>
+            </li>
+            <li class="flex items-center">
+              <div class="bg-green-100 rounded-full p-1 mr-3">
+                <i class="fas fa-check text-green-600 text-xs"></i>
+              </div>
+              <span class="text-gray-700">Integración con redes sociales</span>
+            </li>
+          </ul>
+          
+          <a href="https://wa.me/5491157194796?text=Estoy%20interesado%20en%20el%20Plan%20Premium%20%28%241999%2Fmes%29" 
+             class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 transform hover:shadow-md block text-center">
+            <i class="fab fa-whatsapp mr-2"></i> Contratar Plan
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+    <!-- Sección de Comparación -->
+    <div class="mt-16 max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">Comparación de Planes</h3>
+        <p class="text-gray-600">Encuentra el plan que mejor se adapta a tus necesidades</p>
+      </div>
+      
+      <div class="overflow-x-auto rounded-xl shadow-md">
+        <table class="w-full bg-white rounded-xl overflow-hidden">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="py-4 px-6 text-left font-semibold text-gray-700">Característica</th>
+              <th class="py-4 px-6 text-center font-semibold text-gray-700">Básico</th>
+              <th class="py-4 px-6 text-center font-semibold text-gray-700">Estándar</th>
+              <th class="py-4 px-6 text-center font-semibold text-gray-700">Premium</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t">
+              <td class="py-4 px-6 text-gray-700">Listado en directorio</td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr class="border-t bg-gray-50">
+              <td class="py-4 px-6 text-gray-700">Información básica</td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr class="border-t">
+              <td class="py-4 px-6 text-gray-700">Fotos profesionales</td>
+              <td class="py-4 px-6 text-center text-gray-400"><i class="fas fa-times"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr class="border-t bg-gray-50">
+              <td class="py-4 px-6 text-gray-700">Promociones destacadas</td>
+              <td class="py-4 px-6 text-center text-gray-400"><i class="fas fa-times"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr class="border-t">
+              <td class="py-4 px-6 text-gray-700">Análisis de visitas</td>
+              <td class="py-4 px-6 text-center text-gray-400"><i class="fas fa-times"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr class="border-t bg-gray-50">
+              <td class="py-4 px-6 text-gray-700">Integración con WhatsApp</td>
+              <td class="py-4 px-6 text-center text-gray-400"><i class="fas fa-times"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr class="border-t">
+              <td class="py-4 px-6 text-gray-700">Diseño personalizado</td>
+              <td class="py-4 px-6 text-center text-gray-400"><i class="fas fa-times"></i></td>
+              <td class="py-4 px-6 text-center text-gray-400"><i class="fas fa-times"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr class="border-t bg-gray-50">
+              <td class="py-4 px-6 text-gray-700">Soporte prioritario</td>
+              <td class="py-4 px-6 text-center text-gray-400"><i class="fas fa-times"></i></td>
+              <td class="py-4 px-6 text-center text-gray-400"><i class="fas fa-times"></i></td>
+              <td class="py-4 px-6 text-center text-green-600"><i class="fas fa-check"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <!-- Preguntas Frecuentes -->
+<div class="mt-16 max-w-4xl mx-auto">
+  <div class="text-center mb-10">
+    <h3 class="text-2xl font-bold text-gray-800 mb-2">Preguntas Frecuentes</h3>
+    <p class="text-gray-600">Resolvemos tus dudas antes de elegir tu plan</p>
+  </div>
+
+  <div class="space-y-4" id="faq-accordion">
+    <!-- Pregunta 1 -->
+    <div class="border rounded-xl overflow-hidden bg-white shadow-sm">
+      <button class="flex justify-between items-center w-full p-5 text-left font-medium text-gray-800 hover:bg-gray-50 transition-colors" 
+              data-bs-toggle="collapse" 
+              data-bs-target="#faq1" 
+              aria-expanded="false" 
+              aria-controls="faq1">
+        <span>¿Puedo cambiar de plan en cualquier momento?</span>
+        <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+      </button>
+      <div class="px-5 pb-5 collapse" id="faq1">
+        <p class="text-gray-600">Sí, puedes actualizar o cambiar tu plan en cualquier momento. Los cambios se aplicarán al inicio del próximo ciclo de facturación.</p>
+      </div>
+    </div>
+
+    <!-- Pregunta 2 -->
+    <div class="border rounded-xl overflow-hidden bg-white shadow-sm">
+      <button class="flex justify-between items-center w-full p-5 text-left font-medium text-gray-800 hover:bg-gray-50 transition-colors" 
+              data-bs-toggle="collapse" 
+              data-bs-target="#faq2" 
+              aria-expanded="false" 
+              aria-controls="faq2">
+        <span>¿Incluye soporte técnico?</span>
+        <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+      </button>
+      <div class="px-5 pb-5 collapse" id="faq2">
+        <p class="text-gray-600">Todos nuestros planes incluyen soporte técnico básico. El plan Estándar incluye soporte prioritario y el Premium tiene soporte 24/7 con respuesta en menos de 2 horas.</p>
+      </div>
+    </div>
+
+    <!-- Pregunta 3 -->
+    <div class="border rounded-xl overflow-hidden bg-white shadow-sm">
+      <button class="flex justify-between items-center w-full p-5 text-left font-medium text-gray-800 hover:bg-gray-50 transition-colors" 
+              data-bs-toggle="collapse" 
+              data-bs-target="#faq3" 
+              aria-expanded="false" 
+              aria-controls="faq3">
+        <span>¿Qué métodos de pago aceptan?</span>
+        <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+      </button>
+      <div class="px-5 pb-5 collapse" id="faq3">
+        <p class="text-gray-600">Aceptamos transferencias bancarias, Mercado Pago y tarjetas de crédito y débito. También ofrecemos la posibilidad de pago anual con un 15% de descuento.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Seleccionar todos los botones del acordeón
+    const faqButtons = document.querySelectorAll('[data-faq-button]');
+
+    faqButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const icon = this.querySelector('i');
+        const content = this.nextElementSibling;
+
+        // Alternar visibilidad
+        if (content.classList.contains('hidden')) {
+          content.classList.remove('hidden');
+          icon.classList.remove('fa-chevron-down');
+          icon.classList.add('fa-chevron-up');
+        } else {
+          content.classList.add('hidden');
+          icon.classList.remove('fa-chevron-up');
+          icon.classList.add('fa-chevron-down');
+        }
+      });
+    });
+  });
+</script>
+ <!-- Sección del Formulario Mejorado -->
+  <section class="business-form-section parallax my-5" id="contacto">
+    <div class="container">
+      <h2 class="mb-3">Agrega tu Emprendimiento</h2>
+      <div class="form-wrapper">
+        <div class="form-container">
+          <form id="addBusinessForm">
+            <div class="mb-3 input-wrapper">
+              <label for="businessName" class="form-label">Nombre de tu Emprendimiento *</label>
+              <div class="position-relative">
+                <input type="text" placeholder="Ej. Juan el Plomero" class="form-control" id="businessName" required>
+                <i class="fas fa-store form-icon"></i>
+              </div>
+              <div id="businessNameError" class="error-message text-red-500 text-xs mt-1 hidden">Por favor, ingresá el nombre del comercio.</div>
+            </div>
+            
+            <div class="mb-3 input-wrapper">
+              <label for="businessType" class="form-label">Rubro *</label>
+              <div class="position-relative">
+                <select id="businessType" class="form-select" required>
+                  <option value="" disabled selected>Selecciona un rubro</option>
+                  <option value="plomero">Plomero</option>
+                  <option value="electricista">Electricista</option>
+                  <option value="albañil">Albañil</option>
+                  <option value="herrero">Herrero</option>
+                  <option value="cerrajero">Cerrajero</option>
+                  <option value="pintor">Pintor</option>
+                  <option value="gasista">Gasista</option>
+                  <option value="carpintero">Carpintero</option>
+                  <option value="otro">Otro</option>
+                </select>
+                <i class="fas fa-tag form-icon"></i>
+              </div>
+              <div id="businessTypeError" class="error-message text-red-500 text-xs mt-1 hidden">Por favor, seleccioná un rubro.</div>
+            </div>
+            
+            <div class="mb-3 input-wrapper">
+              <label for="businessAddress" class="form-label">Dirección *</label>
+              <div class="position-relative">
+                <input type="text" placeholder="Ej. Av. San Martín 567" class="form-control" id="businessAddress" required>
+                <i class="fas fa-map-marker-alt form-icon"></i>
+              </div>
+              <div id="businessAddressError" class="error-message text-red-500 text-xs mt-1 hidden">Por favor, ingresá una dirección válida.</div>
+            </div>
+            
+            <div class="mb-3 input-wrapper">
+              <label for="businessPhone" class="form-label">Número de WhatsApp *</label>
+              <div class="position-relative">
+                <input type="tel" placeholder="Ej. +5491157194796" class="form-control" id="businessPhone" required>
+                <i class="fab fa-whatsapp form-icon"></i>
+              </div>
+              <div id="businessPhoneError" class="error-message text-red-500 text-xs mt-1 hidden">Por favor, ingresá un número de WhatsApp válido.</div>
+              <div class="form-text">Incluye el código de país (e.g., +54)</div>
+            </div>
+            
+            <!-- TÉRMINOS Y CONDICIONES -->
+            <div class="mb-3 form-check">
+              <input class="form-check-input" type="checkbox" id="acceptTerms" required>
+              <label class="form-check-label" for="acceptTerms">
+                Acepto los <a href="#" class="terms-link" data-bs-toggle="modal" data-bs-target="#terminosModal" 
+                              style="color: #4a6fa5; text-decoration: underline; font-weight: 500;">términos y condiciones</a> 
+                y la <a href="#" class="privacy-link" data-bs-toggle="modal" data-bs-target="#privacidadModal" 
+                       style="color: #4a6fa5; text-decoration: underline; font-weight: 500;">política de privacidad</a>
+              </label>
+              <div id="acceptTermsError" class="error-message text-red-500 text-xs mt-1 hidden">Debes aceptar los términos y condiciones para continuar</div>
+            </div>
+            
+            <button type="submit" 
+                class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 font-semibold text-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+              <i class="fab fa-whatsapp mr-2"></i> Enviar por WhatsApp
+            </button>
+          </form>
+        </div>
+        
+        <!-- Columna derecha con el botón de instalación (oculta en móviles) -->
+        <div class="md:w-1/3 bg-gradient-to-br from-gray-50 to-gray-100 p-6 md:p-8 flex flex-col items-center justify-center hidden md:flex">
+          <div class="text-center mb-6">
+            <div class="bg-white p-4 rounded-full shadow-lg inline-block mb-4">
+              <img src="/img/icon-192x192.png" alt="Logo App" class="w-16 h-16 mx-auto">
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Descarga nuestra App</h3>
+            <p class="text-gray-600 text-sm">Accede a todos los comercios y promociones desde tu móvil</p>
+          </div>
+          
+          <button class="botonInstalarForm w-full max-w-xs bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 px-4 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 font-semibold shadow-md hover:shadow-lg flex items-center justify-center">
+            <i class="fas fa-download mr-2"></i>Instalar App
+          </button>
+          
+          <div class="mt-6 text-center">
+            <p class="text-xs text-gray-500">¿Ya tienes la app?</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Botón de instalación para móviles (solo visible en móviles) -->
+      <div class="md:hidden p-4 border-t border-gray-200">
+        <div class="flex items-center bg-gray-50 rounded-lg p-3">
+          <img src="/img/icon-192x192.png" alt="Logo App" class="w-10 h-10 mr-3">
+          <div class="flex-grow">
+            <div class="text-xs text-gray-500">¿Quieres la app?</div>
+            <div class="font-medium text-gray-700 text-sm">Descarga nuestra aplicación</div>
+          </div>
+          <button class="botonInstalarForm w-1/2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 px-3 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 font-semibold shadow-md hover:shadow-lg flex items-center justify-center">
+            <i class="fas fa-download mr-1"></i>Instalar
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal de Confirmación para addBusinessForm -->
+    <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center" id="addConfirmModal">
+      <div class="modal-content bg-white p-6 rounded-lg shadow-2xl max-w-md w-full mx-4 transform transition-all duration-300 scale-95 opacity-0">
+        <button class="modal-close absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl font-bold" id="addCloseModal" aria-label="Cerrar modal">&times;</button>
+        <h3 class="text-xl font-bold mb-4 text-gray-800">Confirma tu Información</h3>
+        <div id="addModalBody" class="mb-6 space-y-2 text-gray-700"></div>
+        <div class="modal-actions flex justify-between">
+          <button class="btn-cancel bg-gray-300 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors" id="addBackToForm">Editar</button>
+          <button class="btn-confirm bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors" id="addSendToWhatsApp">Enviar por WhatsApp</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mensaje de Éxito para addBusinessForm -->
+    <div id="addSuccessMessage" class="success-message hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white p-4 rounded-lg shadow-lg text-center z-50 min-w-64">
+      ¡Gracias! Nos pondremos en contacto contigo pronto.
+    </div>
+  </section>
+<!-- Testimonials Section -->
+    <section id="testimonios" class="testimonials-section">
+        <div class="container">
+            <div class="section-header mb-4">
+                <h2 class="section-title">Lo que Dicen Nuestros Comerciantes</h2>
+                <p class="section-subtitle">Conoce las experiencias de otros empresarios que ya forman parte de nuestra comunidad</p>
+            </div>
+            <div class="testimonials-container" id="testimonialsContainer"></div>
+        </div>
+    </section>
+   
+ <!-- Formulario Nuevo Comercio -->
+  <section id="nuevoEmprendimiento" class="parallax py-10 bg-gradient-to-b from-gray-100 to-white min-h-screen flex items-center justify-center px-4">
+    <div class="form-card w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-3xl"
+         style="max-height: 97vh; width: 90vw; max-width: 90vw;">
+      <div class="md:flex">
+        <!-- Columna izquierda con el formulario -->
+        <div class="md:w-2/3 p-6 md:p-8 overflow-y-auto" style="max-height: 80vh;">
+          <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-6 text-gray-800">Registra tu Comercio</h2>
+          <p class="text-center text-gray-600 mb-6 md:mb-8">¡Únete a nuestra comunidad y dale visibilidad a tu negocio!</p>
+          
+          <form id="newBusinessForm" class="space-y-5 md:space-y-6">
+            <div class="form-group">
+              <label for="newBusinessName" class="block text-sm font-medium text-gray-700 mb-1">Nombre del Emprendimiento *</label>
+              <input type="text" 
+                     id="newBusinessName" 
+                     class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                     placeholder="Ej. Kiosco El Rincón" 
+                     required>
+              <div id="newBusinessNameError" class="error-message text-red-500 text-xs mt-1 hidden">Por favor, ingresá el nombre del comercio.</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="newBusinessType" class="block text-sm font-medium text-gray-700 mb-1">Rubro *</label>
+              <select id="newBusinessType" 
+                      class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all appearance-none bg-white"
+                      required>
+                <option value="" disabled selected>Selecciona un rubro</option>
+                <option value="panaderia">Panadería</option>
+                <option value="pastas">Fábrica de Pastas</option>
+                <option value="kiosco">Kiosco</option>
+                <option value="verduleria">Verdulería</option>
+                <option value="mediopago">Medios de Pago</option>
+                <option value="mascotas">Mascotas</option>
+                <option value="barberia">Barbería</option>
+                <option value="ferreteria">Ferretería</option>
+                <option value="ropa">Ropa</option>
+                <option value="fiambreria">Fiambrería</option>
+                <option value="otro">Otro</option>
+              </select>
+              <div id="newBusinessTypeError" class="error-message text-red-500 text-xs mt-1 hidden">Por favor, seleccioná un rubro.</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="newBusinessAddress" class="block text-sm font-medium text-gray-700 mb-1">Dirección *</label>
+              <input type="text" 
+                     id="newBusinessAddress" 
+                     class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                     placeholder="Ej. Av. San Martín 567" 
+                     required>
+              <div id="newBusinessAddressError" class="error-message text-red-500 text-xs mt-1 hidden">Por favor, ingresá una dirección válida.</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="newBusinessPhone" class="block text-sm font-medium text-gray-700 mb-1">Teléfono (WhatsApp) *</label>
+              <input type="tel" 
+                     id="newBusinessPhone" 
+                     class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                     placeholder="Ej. 1157194796" 
+                     required>
+              <div id="newBusinessPhoneError" class="error-message text-red-500 text-xs mt-1 hidden">Por favor, ingresá un número de teléfono válido.</div>
+              <small class="text-xs text-gray-500">Solo números, sin +54</small>
+            </div>
+            
+            <!-- TÉRMINOS Y CONDICIONES -->
+            <div class="form-group mt-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="acceptTerms" required>
+                <label class="form-check-label" for="acceptTerms">
+                  Acepto los <a href="#" data-bs-toggle="modal" data-bs-target="#terminosModal" class="text-green-600 hover:underline font-medium">términos y condiciones</a> 
+                  y la <a href="#" data-bs-toggle="modal" data-bs-target="#privacidadModal" class="text-green-600 hover:underline font-medium">política de privacidad</a>
+                </label>
+                <div id="acceptTermsError" class="error-message text-red-500 text-xs mt-1 hidden">Debes aceptar los términos y condiciones para continuar</div>
+              </div>
+            </div>
+            
+            <button type="submit" 
+                    class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 font-semibold text-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+              <i class="fab fa-whatsapp mr-2"></i> Enviar por WhatsApp
+            </button>
+          </form>
+        </div>
+        
+        <!-- Columna derecha con el botón de instalación (oculta en móviles) -->
+        <div class="md:w-1/3 bg-gradient-to-br from-gray-50 to-gray-100 p-6 md:p-8 flex flex-col items-center justify-center hidden md:flex">
+          <div class="text-center mb-6">
+            <div class="bg-white p-4 rounded-full shadow-lg inline-block mb-4">
+              <img src="/img/icon-192x192.png" alt="Logo App" class="w-16 h-16 mx-auto">
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Descarga nuestra App</h3>
+            <p class="text-gray-600 text-sm">Accede a todos los comercios y promociones desde tu móvil</p>
+          </div>
+          
+          <button class="botonInstalarForm w-full max-w-xs bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 px-4 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 font-semibold shadow-md hover:shadow-lg flex items-center justify-center">
+            <i class="fas fa-download mr-2"></i>Instalar App
+          </button>
+          
+          <div class="mt-6 text-center">
+            <p class="text-xs text-gray-500">¿Ya tienes la app?</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Botón de instalación para móviles (solo visible en móviles) -->
+      <div class="md:hidden p-4 border-t border-gray-200">
+        <div class="flex items-center bg-gray-50 rounded-lg p-3">
+          <img src="/img/icon-192x192.png" alt="Logo App" class="w-10 h-10 mr-3">
+          <div class="flex-grow">
+            <div class="text-xs text-gray-500">¿Quieres la app?</div>
+            <div class="font-medium text-gray-700 text-sm">Descarga nuestra aplicación</div>
+          </div>
+          <button class="botonInstalarForm w-1/2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 px-3 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 font-semibold shadow-md hover:shadow-lg flex items-center justify-center">
+            <i class="fas fa-download mr-1"></i>Instalar
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal de Confirmación para newBusinessForm -->
+    <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center" id="newConfirmModal">
+      <div class="modal-content bg-white p-6 rounded-lg shadow-2xl max-w-md w-full mx-4 transform transition-all duration-300 scale-95 opacity-0">
+        <button class="modal-close absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl font-bold" id="newCloseModal" aria-label="Cerrar modal">&times;</button>
+        <h3 class="text-xl font-bold mb-4 text-gray-800">Confirma tu Información</h3>
+        <div id="newModalBody" class="mb-6 space-y-2 text-gray-700"></div>
+        <div class="modal-actions flex justify-between">
+          <button class="btn-cancel bg-gray-300 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors" id="newBackToForm">Editar</button>
+          <button class="btn-confirm bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors" id="newSendToWhatsApp">Enviar por WhatsApp</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mensaje de Éxito para newBusinessForm -->
+    <div id="newSuccessMessage" class="success-message hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white p-4 rounded-lg shadow-lg text-center z-50 min-w-64">
+      ¡Bienvenid@, posible suscriptor! Nos pondremos en contacto contigo pronto.
+    </div>
+  </section>
+
+  <!-- TÉRMINOS Y CONDICIONES - MODALES -->
+  <!-- Terms Modal -->
+  <div class="modal fade" id="terminosModal" tabindex="-1" aria-labelledby="terminosModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="terminosModalLabel">Términos y Condiciones</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p>Al utilizar nuestra plataforma, aceptas los siguientes términos y condiciones:</p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li>Los datos proporcionados serán utilizados únicamente para contactarte y verificar tu negocio.</li>
+            <li>Reservamos el derecho de verificar y aprobar todos los negocios antes de publicarlos.</li>
+            <li>La plataforma es completamente gratuita para los comerciantes.</li>
+            <li>Comprometemos a proteger tus datos personales según la ley de protección de datos.</li>
+            <li>Podemos utilizar información de tu negocio para fines promocionales de la plataforma.</li>
+          </ul>
+          <p class="mt-4">Actualizado: Enero 2025</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Privacy Modal -->
+  <div class="modal fade" id="privacidadModal" tabindex="-1" 
+       aria-labelledby="privacidadModalLabel" aria-hidden="true"
+       data-accessibility-configured="false">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="privacidadModalLabel">Política de Privacidad</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p>En Tu Barrio A Un Clic, valoramos tu privacidad y nos comprometemos a proteger tus datos personales:</p>
+          <ul>
+            <li>Tus datos personales no serán compartidos con terceros sin tu consentimiento.</li>
+            <li>Utilizamos tus datos únicamente para contactarte y verificar tu negocio.</li>
+            <li>Implementamos medidas de seguridad para proteger tu información.</li>
+            <li>Puedes solicitar la eliminación de tus datos en cualquier momento.</li>
+            <li>Utilizamos cookies para mejorar tu experiencia en la plataforma.</li>
+          </ul>
+          <p>Actualizado: Enero 2025</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <!-- Footer -->
+<footer class="site-footer bg-dark text-white py-5">
+  <div class="container">
+    <div class="row">
+      <!-- Columna 1: Logo y Descripción -->
+      <div class="uno col-md-4 col-sm-6 mb-4 text-center text-sm-start">
+        <img src="/img/icon-192x192.png" alt="Tu Barrio a un Clik Logo" class="mb-3" height="60">
+        <p>Conectamos los mejores comercios de Castelar con sus vecinos. Comprá local, apoyá a tu barrio.</p>
+        <div class="social-icons mt-3">
+          <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook" class="text-white mx-2"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" class="text-white mx-2"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/541155556666?text=Hola%20desde%20BarrioClik" target="_blank" rel="noopener" aria-label="WhatsApp" class="text-white mx-2"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <!-- Columna 2: Enlaces de Comercios -->
+      <div class="uno col-md-4 col-sm-6 mb-4">
+        <h5 class="font-weight-bold mb-3">Comercios</h5>
+        <ul class="list-unstyled">
+          <li><a href="#panaderias" class="text-white"><i class="fas fa-utensils mr-2"></i>Alimentos</a></li>
+          <li><a href="#fca-de-pastas" class="text-white"><i class="fas fa-tools mr-2"></i>Servicios</a></li>
+          <li><a href="#verdulerias" class="text-white"><i class="fas fa-shopping-bag mr-2"></i>Otros</a></li>
+        </ul>
+      </div>
+      <!-- Columna 3: Enlaces Rápidos -->
+      <div class="uno col-md-4 col-sm-12 mb-4">
+        <h5 class="font-weight-bold mb-3">Enlaces Rápidos</h5>
+        <ul class="list-unstyled">
+          <li><a href="/" class="text-white"><i class="fas fa-home mr-2"></i>Inicio</a></li>
+          <li><a href="#ubicacion" class="text-white"><i class="fas fa-map-marker-alt mr-2"></i>Ubicación</a></li>
+          <li><a href="#contacto" class="text-white"><i class="fas fa-envelope mr-2"></i>Contacto</a></li>
+        </ul>
+      </div>
+       <div class="uno col-md-4 col-sm-12 mb-4">
+      <!-- Logo de la app animado con texto -->
+      <a href="/index.html" class="logo-app group text-decoration-none inline-flex items-center space-x-2 bg-white px-3 py-1 rounded-full shadow-md border border-gray-200 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-bounce-slow">
+        <img src="/img/icon-192x192.png" alt="Logo App" class="h-8" />
+        <span class="text-gray-700 font-semibold text-sm hidden sm:inline">Volver a la App</span>
+      </a>
+       </div>
+    </div>   
+     
+    <div class="text-center mt-4">
+      <p>&copy; 2025 Tu Barrio a un Clik. Todos los derechos reservados.</p>
+      <p><a href="mailto:info@tubarrioaunclik.com" class="text-white">info@tubarrioaunclik.com</a></p>
+    </div>
+  </div>
+</footer>
+<!-- Botón Volver Arriba -->
+<button id="backToTop" class="back-to-top btn btn-primary d-none">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+ <!-- Botón flotante del chatbot -->
+    <button id="chatbotBtn" class="floating-btn" aria-label="Abrir chatbot">
+        <div class="robot-avatar">
+            <img src="/img/icon-abeja-sola.png" alt="Asistente">
+        </div>
+    </button>
+
+    <!-- Contenedor del chatbot -->
+    <div id="chatContainer" class="chat-container">
+        <div class="chat-header">
+            <div>
+                <div class="robot-avatar">
+                    <img src="/img/icon-abeja-sola.png" alt="Asistente">
+                </div>
+            </div>
+            <div>
+                <h5>Asistente Virtual</h5>
+                <small><span class="status-dot"></span>En línea • Inteligencia Artificial</small>
+            </div>
+            <button id="closeChat" class="close-btn" aria-label="Cerrar chat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="chat-body" id="chatBody">
+            <div class="faq-buttons">
+                <button class="faq-btn" onclick="sendQuickReply('negocios')">🏪 Negocios</button>
+                <button class="faq-btn" onclick="sendQuickReply('horarios')">⏰ Horarios</button>
+                <button class="faq-btn" onclick="sendQuickReply('pagos')">💳 Pagos</button>
+                <button class="faq-btn" onclick="sendQuickReply('distancia')">📏 Distancia</button>
+                <button class="faq-btn" onclick="sendQuickReply('soporte')">📞 Soporte</button>
+                <button class="faq-btn" onclick="sendQuickReply('ubicación')">📍 Ubicación</button>
+            </div>
+
+            <div class="message message-bot message-animation">
+                <div class="message-content">
+                    ¡Hola! 👋 Soy tu asistente virtual con inteligencia artificial. Estoy aquí para ayudarte con cualquier pregunta sobre nuestros servicios, negocios, horarios y más. ¿En qué puedo ayudarte hoy?
+                </div>
+                <div class="message-time">10:30</div>
+                <div class="ai-indicator">
+                    <span class="ai-dot"></span>
+                    <span class="ai-dot"></span>
+                    <span class="ai-dot"></span>
+                    <small>AI Assistant</small>
+                </div>
+            </div>
+
+            <div class="quick-replies">
+                <div class="quick-reply" onclick="sendQuickReply('hola')">Hola</div>
+                <div class="quick-reply" onclick="sendQuickReply('gracias')">Gracias</div>
+                <div class="quick-reply" onclick="sendQuickReply('adios')">Adiós</div>
+                <div class="quick-reply" onclick="sendQuickReply('ayuda')">Ayuda</div>
+            </div>
+        </div>
+        
+        <div class="chat-footer">
+            <div class="support-section">
+                <button class="support-btn" onclick="openWhatsApp()">
+                    <i class="fab fa-whatsapp"></i>
+                    Soporte por WhatsApp
+                </button>
+            </div>
+            
+            <div class="input-group mt-3">
+                <button id="voiceBtn" class="voice-btn" title="Hablar">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <textarea 
+                    id="messageInput" 
+                    class="form-control" 
+                    placeholder="Escribe tu mensaje o haz clic en los botones de ayuda..." 
+                    rows="1"
+                    onkeydown="handleKeyPress(event)"></textarea>
+                <button id="sendBtn" class="send-btn" title="Enviar">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <small class="text-muted text-center d-block mt-2">
+                <i class="fas fa-lightbulb"></i> Presiona los botones de arriba para preguntas frecuentes
+            </small>
+        </div>
+    </div>
+
+    <!-- Modal de permisos de micrófono -->
+    <div id="permissionModal" class="permission-modal">
+        <div class="permission-content">
+            <div class="permission-icon">
+                <i class="fas fa-microphone-alt"></i>
+            </div>
+            <h4>Permiso de Micrófono</h4>
+            <p>Para usar la función de voz, necesitamos acceso a tu micrófono. Esto te permitirá hablar con el asistente en lugar de escribir.</p>
+            <p>Tu privacidad es importante: solo usaremos el micrófono cuando lo necesites para interactuar con el chatbot.</p>
+            <div class="mt-4">
+                <button id="denyPermission" class="permission-btn cancel">No, gracias</button>
+                <button id="grantPermission" class="permission-btn">Permitir acceso</button>
+            </div>
+        </div>
+    </div>
+    <!--<script src="js/jquery-3.4.1.min.js"></script>-->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+
+<script src="js/splash.js"></script>
+
+<!--<script src="js/form.js"></script>-->
+<script src="js/testimonials.js"></script>
+<script>
+  AOS.init({
+  duration: 600, // Reducir duración de la animación
+  once: true, // Animar solo una vez al hacer scroll
+  offset: 100, // Iniciar animaciones más cerca del viewport
+});
+</script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Configuración para todos los formularios
+      const forms = [
+        {
+          formId: 'newBusinessForm',
+          modalId: 'newConfirmModal',
+          modalBodyId: 'newModalBody',
+          closeModalId: 'newCloseModal',
+          backToFormId: 'newBackToForm',
+          sendToWhatsAppId: 'newSendToWhatsApp',
+          successMessageId: 'newSuccessMessage',
+          fields: [
+            { id: 'newBusinessName', errorId: 'newBusinessNameError', errorMsg: 'Por favor, ingresá el nombre del comercio.' },
+            { id: 'newBusinessType', errorId: 'newBusinessTypeError', errorMsg: 'Por favor, seleccioná un rubro.' },
+            { id: 'newBusinessAddress', errorId: 'newBusinessAddressError', errorMsg: 'Por favor, ingresá una dirección válida.' },
+            { id: 'newBusinessPhone', errorId: 'newBusinessPhoneError', errorMsg: 'Por favor, ingresá un número de teléfono válido.', isPhone: true },
+            { id: 'acceptTerms', errorId: 'acceptTermsError', errorMsg: 'Debes aceptar los términos y condiciones para continuar.', isCheckbox: true }
+          ],
+          messageTemplate: ({ name, type, address, phone }) => 
+            `Nuevo registro de comercio:\nNombre: ${name}\nRubro: ${type}\nDirección: ${address}\nTeléfono: ${phone}`
+        },
+        {
+          formId: 'addBusinessForm',
+          modalId: 'addConfirmModal',
+          modalBodyId: 'addModalBody',
+          closeModalId: 'addCloseModal',
+          backToFormId: 'addBackToForm',
+          sendToWhatsAppId: 'addSendToWhatsApp',
+          successMessageId: 'addSuccessMessage',
+          fields: [
+            { id: 'businessName', errorId: 'businessNameError', errorMsg: 'Por favor, ingresá el nombre del comercio.' },
+            { id: 'businessType', errorId: 'businessTypeError', errorMsg: 'Por favor, seleccioná un rubro.' },
+            { id: 'businessAddress', errorId: 'businessAddressError', errorMsg: 'Por favor, ingresá una dirección válida.' },
+            { id: 'businessPhone', errorId: 'businessPhoneError', errorMsg: 'Por favor, ingresá un número de WhatsApp válido.', isPhone: true },
+            { id: 'acceptTerms', errorId: 'acceptTermsError', errorMsg: 'Debes aceptar los términos y condiciones para continuar.', isCheckbox: true }
+          ],
+          messageTemplate: ({ name, type, address, phone }) => 
+            `Nuevo registro de oficio:\nNombre: ${name}\nRubro: ${type}\nDirección: ${address}\nTeléfono: ${phone}`
+        }
+      ];
+
+      const formData = {};
+
+      function validateForm(formConfig) {
+        let isValid = true;
+        const values = {};
+
+        formConfig.fields.forEach(field => {
+          const element = document.getElementById(field.id);
+          if (!element) return;
+
+          const errorElement = document.getElementById(field.errorId);
+          if (errorElement) errorElement.classList.add('hidden');
+
+          if (field.isCheckbox) {
+            if (!element.checked) {
+              if (errorElement) errorElement.classList.remove('hidden');
+              isValid = false;
+            }
+          } else if (field.isPhone) {
+            const value = element.value.trim();
+            if (value && !/^\d{10,}$/.test(value.replace(/\D/g, ''))) {
+              if (errorElement) errorElement.classList.remove('hidden');
+              isValid = false;
+            }
+            values[field.id] = value;
+          } else {
+            const value = element.value.trim();
+            if (!value && !field.optional) {
+              if (errorElement) errorElement.classList.remove('hidden');
+              isValid = false;
+            }
+            values[field.id] = value;
+          }
+        });
+
+        return { isValid, values };
+      }
+
+      // Configurar cada formulario
+      forms.forEach(formConfig => {
+        const form = document.getElementById(formConfig.formId);
+        if (!form) {
+          console.log(`Formulario no encontrado: ${formConfig.formId}`);
+          return;
+        }
+
+        const modal = document.getElementById(formConfig.modalId);
+        const modalBody = document.getElementById(formConfig.modalBodyId);
+        const closeModal = document.getElementById(formConfig.closeModalId);
+        const backToForm = document.getElementById(formConfig.backToFormId);
+        const sendToWhatsApp = document.getElementById(formConfig.sendToWhatsAppId);
+        const successMessage = document.getElementById(formConfig.successMessageId);
+
+        if (!modal || !modalBody || !closeModal || !backToForm || !sendToWhatsApp) {
+          console.warn(`Elementos faltantes para ${formConfig.formId}`);
+          return;
+        }
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const { isValid, values } = validateForm(formConfig);
+          if (isValid) {
+            formData[formConfig.formId] = values;
+            modalBody.innerHTML = Object.entries(values)
+              .filter(([key, value]) => !key.includes('Terms') && value)
+              .map(([key, value]) => {
+                const label = key.replace(/new|Business|add|/g, '');
+                return `<p><strong>${label}:</strong> ${value}</p>`;
+              }).join('');
+            
+            // Mostrar modal centrado
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+              const modalContent = modal.querySelector('.modal-content');
+              if (modalContent) {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+              }
+            }, 10);
+          }
+        });
+
+        closeModal.addEventListener('click', () => {
+          const modalContent = modal.querySelector('.modal-content');
+          if (modalContent) {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+          }
+          setTimeout(() => {
+            modal.classList.add('hidden');
+          }, 300);
+        });
+
+        backToForm.addEventListener('click', () => {
+          const modalContent = modal.querySelector('.modal-content');
+          if (modalContent) {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+          }
+          setTimeout(() => {
+            modal.classList.add('hidden');
+          }, 300);
+        });
+
+        sendToWhatsApp.addEventListener('click', () => {
+          const values = formData[formConfig.formId];
+          if (!values) return;
+
+          const messageData = {};
+          if (formConfig.formId === 'newBusinessForm') {
+            messageData.name = values.newBusinessName;
+            messageData.type = values.newBusinessType;
+            messageData.address = values.newBusinessAddress;
+            messageData.phone = values.newBusinessPhone;
+          } else if (formConfig.formId === 'addBusinessForm') {
+            messageData.name = values.businessName;
+            messageData.type = values.businessType;
+            messageData.address = values.businessAddress;
+            messageData.phone = values.businessPhone;
+          }
+
+          const message = formConfig.messageTemplate(messageData);
+          const whatsappUrl = `https://wa.me/5491157194796?text=${encodeURIComponent(message)}`;
+
+          // Cerrar modal con animación
+          const modalContent = modal.querySelector('.modal-content');
+          if (modalContent) {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+          }
+          
+          setTimeout(() => {
+            modal.classList.add('hidden');
+            
+            if (successMessage) {
+              successMessage.classList.remove('hidden');
+              setTimeout(() => {
+                successMessage.classList.add('hidden');
+                window.open(whatsappUrl, '_blank');
+              }, 1500);
+            } else {
+              window.open(whatsappUrl, '_blank');
+            }
+          }, 300);
+        });
+      });
+
+      // --- CÓDIGO PWA ---
+      let deferredPrompt;
+      const installButtons = document.querySelectorAll('.botonInstalarForm');
+
+      // Asegurar que los botones estén ocultos inicialmente
+      installButtons.forEach(btn => {
+        btn.style.display = "none";
+      });
+
+      window.addEventListener("beforeinstallprompt", (e) => {
+        console.log("✅ beforeinstallprompt capturado");
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // Mostrar todos los botones de instalación
+        installButtons.forEach(btn => {
+          btn.style.display = "flex";
+          btn.style.alignItems = "center";
+          btn.style.justifyContent = "center";
+        });
+      });
+
+      // Escuchar si la app ya está instalada
+      window.addEventListener('appinstalled', () => {
+        console.log('🎉 App instalada exitosamente');
+        installButtons.forEach(btn => btn.style.display = 'none');
+        deferredPrompt = null;
+      });
+
+      installButtons.forEach(button => {
+        button.addEventListener("click", async () => {
+          if (!deferredPrompt) {
+            alert("La instalación no está disponible. Puedes instalar la app desde el menú de tu navegador (ícono de aplicación en la barra de direcciones).");
+            return;
+          }
+          deferredPrompt.prompt();
+          const choiceResult = await deferredPrompt.userChoice;
+          if (choiceResult.outcome === "accepted") {
+            console.log("✅ App instalada por el usuario");
+          } else {
+            console.log("❌ El usuario canceló la instalación");
+          }
+          deferredPrompt = null;
+        });
+      });
+    });
+  </script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      // Evitar doble registro
+      if (window.serviceWorkerRegistered) return;
+      window.serviceWorkerRegistered = true;
+
+      navigator.serviceWorker.register('sw.js')
+        .then(function (registration) {
+          console.log('✅ ServiceWorker registrado:', registration.scope);
+
+          // Detectar cuando hay una nueva versión lista
+          registration.onupdatefound = () => {
+            const installingWorker = registration.installing;
+            let refreshing = false;
+
+            installingWorker.onstatechange = function () {
+              if (installingWorker.state === 'installed') {
+                // Solo si ya hay un controlador, significa que hay una actualización
+                if (navigator.serviceWorker.controller) {
+                  console.log('🔄 Nueva versión disponible. Preparando notificación...');
+
+                  // Mostrar notificación de actualización
+                  showUpdateNotification();
+                } else {
+                  console.log('📥 Primera instalación del Service Worker');
+                }
+              }
+            };
+          };
+        })
+        .catch(function (error) {
+          console.log('❌ ServiceWorker falló al registrarse:', error);
+        });
+    });
+
+    // Escuchar cambio de controlador (solo cuando el nuevo SW toma control)
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (refreshing) return;
+      refreshing = true;
+      console.log('🔁 Controlador cambiado: recargando...');
+      window.location.reload();
+    });
+
+    // Función para mostrar notificación de actualización
+    function showUpdateNotification() {
+      const existing = document.querySelector('.update-notification');
+      if (existing) return; // Evitar duplicados
+
+      const updateNotification = document.createElement('div');
+      updateNotification.className = 'update-notification';
+      updateNotification.innerHTML = `
+        <div class="update-content">
+          <p>¡Hay una nueva versión disponible!</p>
+          <button class="btn-update">Actualizar ahora</button>
+        </div>
+      `;
+      document.body.appendChild(updateNotification);
+
+      document.querySelector('.btn-update').addEventListener('click', function () {
+        navigator.serviceWorker.getRegistration().then(reg => {
+          if (reg && reg.waiting) {
+            reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+          }
+        });
+      });
+    }
+  }
+</script>
+
+<style>
+  .update-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .update-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .btn-update {
+    background: #e1306c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-update:hover {
+    background: #c12757;
+    transform: translateY(-1px);
+  }
+</style>
+</body>
+</html>

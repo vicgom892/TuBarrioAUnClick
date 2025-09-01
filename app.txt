@@ -1,0 +1,65 @@
+asi es como esta formado mi app. tu-barrio-a-un-clic/
+├── index.html
+├── comunidad.html
+├── inscripcion.html
+├── indexoffline.html
+├── robot.txt
+├── sw.js
+├── manifest.json
+├── js/
+│   └── main-1.js 
+    └── chat.js 
+    └── form.js
+    └── splash.js 
+    └── maitestimonialsn.js 
+    └── mainotificacionesn.js           
+├── data/
+│   ├── panaderias.json
+│   ├── verdulerias.json
+│   ├── fiambrerias.json
+│   ├── kioscos.json
+│   ├── mascotas.json
+│   ├── ropa.json
+│   ├── barberias.json
+│   ├── ferreterias.json
+│   └── promociones.json
+    ├── panaderias.json
+│   ├── verdulerias.json
+│   ├── fiambrerias.json
+│   ├── kioscos.json
+│   ├── mascotas.json
+│   ├── ropa.json
+│   ├── barberias.json
+│   ├── ferreterias.json
+│   └── promociones.json
+    ├── ropa.json
+│   ├── barberias.json
+│   ├── ferreterias.json
+│   └── promociones.json
+├── img/
+│   ├── panaderia-1.jpg
+│   ├── verduleria-1.jpg
+│   └── ... (tus imágenes)
+└── css/
+    └── style.css 
+    └── negocios.css 
+├──datos
+│   ├── ofertas-panaderias.json
+│   ├── ofertas-verdulerias.json
+│   ├── ofertas-fiambrerias.json
+│   ├── ofertas-kioscos.json
+│   ├── ofertas-mascotas.json
+│   ├── ofertas-ropa.json
+│   ├── ofertas-barberias.json
+│   ├── ofertas-ferreterias.json
+│   └── ofertas-promociones.json 
+├──negocios
+│   ├── panaderias.html
+│   ├── verdulerias.html
+│   ├── fiambrerias.html
+│   ├── kioscos.html
+│   ├── mascotas.html
+│   ├── ropa.html
+│   ├── barberias.html
+│   ├── ferreterias.html
+│   └── promociones.html
