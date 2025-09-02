@@ -4,7 +4,7 @@
       "categoria": "tienda",
       "titulo": "El corte Que Quieras",
       "descripcion": "Ofertas diarias en verduras frescas.",
-      "imagen": "/img/ropa.jpeg",
+      "imagen": "../img/ropa.jpeg",
       "boton": {
         "texto": "Más info",
         "url": "#contacto"
@@ -14,7 +14,7 @@
       "categoria": "tienda",
       "titulo": "Tu Corte",
       "descripcion": "Ofertas diarias en verduras frescas.",
-      "imagen": "/img/ropa-1.jpeg",
+      "imagen": "../img/ropa-1.jpeg",
       "boton": {
         "texto": "Más info",
         "url": "#contacto"

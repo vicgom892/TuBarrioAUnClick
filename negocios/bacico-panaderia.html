@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Medialunas Del Abuelo</title>
-  <link rel="icon" href="/img/icon-192x192.png">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" href="../img/icon-192x192.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/negocios.css">
+  <link rel="stylesheet" href="../css/negocios.css">
   <style>
     body {
       margin: 0;
@@ -221,7 +222,7 @@
         <div class="splash-particles" id="splashParticles"></div>
         <div class="splash-grid"></div>
         <div class="splash-logo">
-            <img src="/img/icon-192x192.png" class="logo-icon" alt="logo de la app">
+            <img src="../img/icon-192x192.png" class="logo-icon" alt="logo de la app">
         </div>
         <h1 class="splash-text">Tu Barrio A Un Clik</h1>
         <div class="loading-bar-container">
@@ -234,7 +235,7 @@
   <section class="container">
     <header class="header" id="mainHeader">
       <div class="header-content">
-        <img src="/img/icon-192x192.png" alt="Logo Medialunas Del Abuelo" class="h-10">
+        <img src="../img/icon-192x192.png" alt="Logo Medialunas Del Abuelo" class="h-10">
         <div>
           <a href="#ofertas">Ofertas</a>
           <a href="#contacto">Contacto</a>
@@ -254,17 +255,17 @@
         <h2 class="text-xl font-semibold mb-4">Ofertas Especiales</h2>
         <div class="offers-grid">
           <div class="offer-card">
-            <img src="/img/panaderia-1.jpeg" alt="Pan Fresco" class="offer-image">
+            <img src="../img/panaderia-1.jpeg" alt="Pan Fresco" class="offer-image">
             <h3 class="font-semibold">Pan Fresco</h3>
             <p>20% de descuento en panes diarios.</p>
           </div>
           <div class="offer-card">
-            <img src="/img/panaderia-2.jpeg" alt="Pasteles Decorados" class="offer-image">
+            <img src="../img/panaderia-2.jpeg" alt="Pasteles Decorados" class="offer-image">
             <h3 class="font-semibold">Pasteles Decorados</h3>
             <p>Oferta especial: $500 por pastel personalizado.</p>
           </div>
           <div class="offer-card">
-            <img src="/img/panaderia-3.jpeg" alt="Tarta Gourmet" class="offer-image">
+            <img src="../img/panaderia-3.jpeg" alt="Tarta Gourmet" class="offer-image">
             <h3 class="font-semibold">Tarta Gourmet</h3>
             <p>Compra 1 y llevate la segunda al 50% off.</p>
           </div>
@@ -279,7 +280,7 @@
     <!-- Botón de instalación en el footer -->
     <div class="install-banner mt-4 p-3 bg-white rounded shadow-sm">
       <div class="d-flex align-items-center">
-        <img src="/img/icon-192x192.png" alt="Logo App" class="me-3" style="width: 60px; height: 60px;">
+        <img src="../img/icon-192x192.png" alt="Logo App" class="me-3" style="width: 60px; height: 60px;">
         <div class="flex-grow-1">
           <div class="small text-muted mb-1">¿Quieres la app completa?</div>
           <button id="botonInstalar" class="btn btn-success w-100 py-2">
@@ -300,8 +301,8 @@
       }
     });
   </script>
-  <script src="/js/splash.js"></script>
-  <script src="/js/install-app.js"></script>
+  <script src="../js/splash.js"></script>
+  <script src="../js/install-app.js"></script>
   <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {

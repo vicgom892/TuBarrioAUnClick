@@ -4,7 +4,7 @@
       "categoria": "fiambreria",
       "titulo": "El corte Que Quieras",
       "descripcion": "Ofertas diarias en verduras frescas.",
-      "imagen": "/img/fiambreria.jpeg",
+      "imagen": "../img/fiambreria.jpeg",
       "boton": {
         "texto": "Más info",
         "url": "#contacto"
@@ -14,7 +14,7 @@
       "categoria": "fiambreria",
       "titulo": "Tu Corte",
       "descripcion": "Ofertas diarias en verduras frescas.",
-      "imagen": "/img/fiambreria-1.jpeg",
+      "imagen": "../img/fiambreria-1.jpeg",
       "boton": {
         "texto": "Más info",
         "url": "#contacto"

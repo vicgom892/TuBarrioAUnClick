@@ -4,7 +4,7 @@
       "categoria": "veterinaria",
       "titulo": "El corte Que Quieras",
       "descripcion": "Ofertas diarias en verduras frescas.",
-      "imagen": "/img/veterinaria-2.jpeg",
+      "imagen": "../img/veterinaria-2.jpeg",
       "boton": {
         "texto": "Más info",
         "url": "#contacto"
@@ -14,7 +14,7 @@
       "categoria": "veterinaria",
       "titulo": "Tu Corte",
       "descripcion": "Ofertas diarias en verduras frescas.",
-      "imagen": "/img/veterinaria-3.jpeg",
+      "imagen": "../img/veterinaria-3.jpeg",
       "boton": {
         "texto": "Más info",
         "url": "#contacto"
