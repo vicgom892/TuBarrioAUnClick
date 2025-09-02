@@ -413,47 +413,47 @@ main section.fade-in {
   position: relative;
 }
 #barberia{
-  background: url('/img/barberia.jpeg') no-repeat center center/cover;
+  background: url('../img/barberia.jpeg') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #ferreteria{
-  background: url('/img/ferreteria-4.jpeg') no-repeat center center/cover;
+  background: url('../img/ferreteria-4.jpeg') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #fiambreria{
-  background: url('/img/fiambreria.jpeg') no-repeat center center/cover;
+  background: url('../img/fiambreria.jpeg') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #kiosco{
-  background: url('/img/kiosco.jpeg') no-repeat center center/cover;
+  background: url('../img/kiosco.jpeg') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #pastas{
-  background: url('/img/pastas-1.jpeg') no-repeat center center/cover;
+  background: url('../img/pastas-1.jpeg') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #panaderia{
-  background: url('/img/panaderia.jpeg') no-repeat center center/cover;
+  background: url('../img/panaderia.jpeg') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #pagos{
-  background: url('/img/pagos.jpeg') no-repeat center center/cover;
+  background: url('../img/pagos.jpeg') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #tienda{
-  background: url('/img/ropa.jpeg') no-repeat center center/cover;
+  background: url('../img/ropa.jpeg') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #verduleria{
-  background: url('/img/verduleria.jpeg') no-repeat center center/cover;
+  background: url('../img/verduleria.jpeg') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #veterinaria{
-  background: url('/img/veterinaria.jpeg') no-repeat center center/cover;
+  background: url('../img/veterinaria.jpeg') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #veterinaria-1{
-  background: url('/img/veterinaria-1.jpeg') no-repeat center center/cover;
+  background: url('../img/veterinaria-1.jpeg') no-repeat center center/cover;
   background-attachment: fixed;
 }
 .hero .overlay-text {
@@ -768,7 +768,7 @@ footer a:hover {
 
 /* Fondo parallax para ofertas */
 .parallax-offer {
-  background-image: url('/img/banner-1.jpeg');
+  background-image: url('../img/banner-1.jpeg');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
