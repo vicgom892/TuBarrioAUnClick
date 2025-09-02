@@ -413,7 +413,7 @@ main section.fade-in {
   position: relative;
 }
 #barberia{
-  background: url('../img/barberia.jpeg') no-repeat center center/cover;
+  background: url('/img/barberia.webp') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #ferreteria{
@@ -768,7 +768,7 @@ footer a:hover {
 
 /* Fondo parallax para ofertas */
 .parallax-offer {
-  background-image: url('../img/banner-1.jpeg');
+  background-image: url('/img/banner-2.webp');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
