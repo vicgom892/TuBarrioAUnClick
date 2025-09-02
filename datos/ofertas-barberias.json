@@ -4,7 +4,7 @@
       "categoria": "barberia",
       "titulo": "El corte Que Quieras",
       "descripcion": "Ofertas diarias en verduras frescas.",
-      "imagen": "/img/barberia.jpeg",
+      "imagen": "../img/barberia.jpeg",
       "boton": {
         "texto": "Más info",
         "url": "#contacto"
@@ -14,7 +14,7 @@
       "categoria": "barberia",
       "titulo": "Tu Corte",
       "descripcion": "Ofertas diarias en verduras frescas.",
-      "imagen": "/img/barberia.jpeg",
+      "imagen": "../img/barberia.jpeg",
       "boton": {
         "texto": "Más info",
         "url": "#contacto"
