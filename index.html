@@ -1823,17 +1823,15 @@ body {
 <!-- Botón flotante del chatbot -->
   <button id="chatbotBtn" class="floating-btn" aria-label="Abrir chatbot">
     <div class="robot-avatar">
-      <img src="img/icon-abeja-sola.png" alt="Asistente">
+      <img src="img/icon-abeja-sola.png" alt="Asistente Virtual">
     </div>
   </button>
-  
+
   <!-- Contenedor del chatbot -->
   <div id="chatContainer" class="chat-container">
     <div class="chat-header">
-      <div>
-        <div class="robot-avatar">
-          <img src="img/icon-abeja-sola.png" alt="Asistente">
-        </div>
+      <div class="robot-avatar">
+        <img src="img/icon-abeja-sola.png" alt="Asistente Virtual">
       </div>
       <div>
         <h5>Asistente Virtual</h5>
@@ -1843,81 +1841,37 @@ body {
         <i class="fas fa-times"></i>
       </button>
     </div>
-    
-    <div class="chat-body" id="chatBody">
-      <div class="faq-buttons">
-        <button class="faq-btn" onclick="sendQuickReply('negocios')">🏪 Negocios</button>
-        <button class="faq-btn" onclick="sendQuickReply('horarios')">⏰ Horarios</button>
-        <button class="faq-btn" onclick="sendQuickReply('pagos')">💳 Pagos</button>
-        <button class="faq-btn" onclick="sendQuickReply('distancia')">📏 Distancia</button>
-        <button class="faq-btn" onclick="sendQuickReply('soporte')">📞 Soporte</button>
-        <button class="faq-btn" onclick="sendQuickReply('ubicación')">📍 Ubicación</button>
-      </div>
 
-      <div class="message message-bot message-animation">
-        <div class="message-content">
-          ¡Hola! 👋 Soy tu asistente virtual con inteligencia artificial. Estoy aquí para ayudarte con cualquier pregunta sobre nuestros servicios, negocios, horarios y más. ¿En qué puedo ayudarte hoy?
-        </div>
-        <div class="message-time">10:30</div>
-        <div class="ai-indicator">
-          <span class="ai-dot"></span>
-          <span class="ai-dot"></span>
-          <span class="ai-dot"></span>
-          <small>AI Assistant</small>
-        </div>
-      </div>
-
-      <div class="quick-replies">
-        <div class="quick-reply" onclick="sendQuickReply('hola')">Hola</div>
-        <div class="quick-reply" onclick="sendQuickReply('gracias')">Gracias</div>
-        <div class="quick-reply" onclick="sendQuickReply('adios')">Adiós</div>
-        <div class="quick-reply" onclick="sendQuickReply('ayuda')">Ayuda</div>
-      </div>
+    <div class="chat-body" id="chatBody" role="log" aria-live="polite">
+      <!-- Mensajes y tarjetas se generan dinámicamente -->
     </div>
-    
+
     <div class="chat-footer">
-      <div class="support-section">
-        <button class="support-btn" onclick="openWhatsApp()">
-          <i class="fab fa-whatsapp"></i>
-          Soporte por WhatsApp
+      <div class="faq-buttons">
+        <button class="faq-btn" onclick="sendQuickReply('negocios')" aria-label="Ver negocios">🏪 Negocios</button>
+        <button class="faq-btn" onclick="sendQuickReply('horarios')" aria-label="Ver horarios">⏰ Horarios</button>
+        <button class="faq-btn" onclick="sendQuickReply('ubicación')" aria-label="Ver ubicaciones">📍 Ubicación</button>
+        <button class="faq-btn" onclick="sendQuickReply('pagos')" aria-label="Ver formas de pago">💳 Pagos</button>
+        <button class="faq-btn support-btn" onclick="openWhatsApp()" aria-label="Contactar por WhatsApp">
+          <i class="fab fa-whatsapp"></i> Soporte
         </button>
       </div>
-      
-      <div class="input-group mt-3">
-        <button id="voiceBtn" class="voice-btn" title="Hablar">
-          <i class="fas fa-microphone"></i>
-        </button>
+
+      <div class="input-group">
         <textarea 
           id="messageInput" 
-          class="form-control" 
-          placeholder="Escribe tu mensaje o haz clic en los botones de ayuda..." 
-          rows="1"
-          onkeydown="handleKeyPress(event)"></textarea>
-        <button id="sendBtn" class="send-btn" title="Enviar">
+          placeholder="Escribe aquí, por ejemplo: 'negocios', 'horarios' o 'ayuda'" 
+          aria-label="Escribe tu mensaje"></textarea>
+        <button id="sendBtn" class="send-btn" aria-label="Enviar mensaje">
           <i class="fas fa-paper-plane"></i>
         </button>
       </div>
-      <small class="text-muted text-center d-block mt-2">
-        <i class="fas fa-lightbulb"></i> Presiona los botones de arriba para preguntas frecuentes
+      <small class="text-muted">
+        <i class="fas fa-lightbulb"></i> Usa los botones de arriba para preguntas frecuentes
       </small>
     </div>
   </div>
-  
-  <!-- Modal de permisos de micrófono -->
-  <div id="permissionModal" class="permission-modal">
-    <div class="permission-content">
-      <div class="permission-icon">
-        <i class="fas fa-microphone-alt"></i>
-      </div>
-      <h4>Permiso de Micrófono</h4>
-      <p>Para usar la función de voz, necesitamos acceso a tu micrófono. Esto te permitirá hablar con el asistente en lugar de escribir.</p>
-      <p>Tu privacidad es importante: solo usaremos el micrófono cuando lo necesites para interactuar con el chatbot.</p>
-      <div class="mt-4">
-        <button id="denyPermission" class="permission-btn cancel">No, gracias</button>
-        <button id="grantPermission" class="permission-btn">Permitir acceso</button>
-      </div>
-    </div>
-  </div>
+
 
   <!-- Modal de selección de rol (solo aparece la primera vez) -->
 <div id="roleSelectionModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50" style="display: none;">
@@ -1969,7 +1923,7 @@ body {
   
   <!-- Scripts principales -->
   <script src="js/main-1.js" defer></script>
-  <script src="js/chat.js"></script>
+  <script src="js/chat-3.js"></script>
   <script src="js/form.js"></script>
   <script src="js/testimonials.js" defer></script>
   <script src="js/notificaciones.js" defer></script>
