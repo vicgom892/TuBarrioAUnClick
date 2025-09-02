@@ -417,43 +417,43 @@ main section.fade-in {
   background-attachment: fixed;
 }
 #ferreteria{
-  background: url('../img/ferreteria-4.jpeg') no-repeat center center/cover;
+  background: url('../img/ferreteria-4.webp') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #fiambreria{
-  background: url('../img/fiambreria.jpeg') no-repeat center center/cover;
+  background: url('../img/fiambreria.webp') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #kiosco{
-  background: url('../img/kiosco.jpeg') no-repeat center center/cover;
+  background: url('../img/kiosco.webp') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #pastas{
-  background: url('../img/pastas-1.jpeg') no-repeat center center/cover;
+  background: url('../img/pastas-1.webp') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #panaderia{
-  background: url('../img/panaderia.jpeg') no-repeat center center/cover;
+  background: url('../img/panaderia.webp') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #pagos{
-  background: url('../img/pagos.jpeg') no-repeat center center/cover;
+  background: url('../img/pagos.webp') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #tienda{
-  background: url('../img/ropa.jpeg') no-repeat center center/cover;
+  background: url('../img/ropa.webp') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #verduleria{
-  background: url('../img/verduleria.jpeg') no-repeat center center/cover;
+  background: url('../img/verduleria.webp') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #veterinaria{
-  background: url('../img/veterinaria.jpeg') no-repeat center center/cover;
+  background: url('../img/veterinaria.webp') no-repeat center center/cover;
   background-attachment: fixed;
 }
 #veterinaria-1{
-  background: url('../img/veterinaria-1.jpeg') no-repeat center center/cover;
+  background: url('../img/veterinaria-1.webp') no-repeat center center/cover;
   background-attachment: fixed;
 }
 .hero .overlay-text {
