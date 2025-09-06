@@ -1,1580 +1,1166 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Tu Barrio a un Clik - Comunidad</title>
-  <!-- Iconos y Manifest -->
-  <link rel="icon" href="img/icon-abeja-sola.png" type="image/png" sizes="32x32" />
-  <link rel="icon" href="img/icon-192x192.png" type="image/png" sizes="192x192" />
-  <link rel="apple-touch-icon" href="img/icon-192x192.png" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="mask-icon" href="img/icon-abeja-sola.png" color="#e1306c">
-
-  <!-- Fuentes -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Iconos -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-  <!-- Estilos personalizados -->
-  <style>
-    /* Reset y base */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #fafafa;
-      min-height: 100vh;
-      padding-bottom: 80px;
-    }
-
-    /* Gradientes */
-    .bg-gradient-to-r {
-      background: linear-gradient(90deg, #9c27b0, #e91e63);
-    }
-
-    .gradient-text {
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc277f, #c13584, #a9378f);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* Header */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: white;
-      border-bottom: 1px solid #e6e6e6;
-    }
-
-    /* Logo */
-    .logo-img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid #e1306c;
-    }
-
-    /* Historias Destacadas - Estilo Instagram */
-    #historias {
-      background: white;
-      padding: 15px 0;
-      overflow-x: auto;
-      white-space: nowrap;
-      scrollbar-width: none;
-      border-bottom: 1px solid #e6e6e6;
-    }
-    
-    #historias::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .story-item {
-      display: inline-block;
-      margin: 0 10px;
-      text-align: center;
-      width: 66px;
-    }
-    
-    .story-avatar {
-      width: 66px;
-      height: 66px;
-      border-radius: 50%;
-      margin: 0 auto;
-      padding: 2px;
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc277f, #c13584, #a9378f);
-      position: relative;
-    }
-    
-    .story-avatar img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-      background: white;
-    }
-    
-    .story-avatar.comercio {
-      background: linear-gradient(45deg, #4CAF50, #2196F3);
-    }
-    
-    .story-badge {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #e6e6e6;
-    }
-    
-    .story-badge i {
-      font-size: 10px;
-    }
-    
-    .story-name {
-      font-size: 12px;
-      color: #262626;
-      margin-top: 5px;
-      white-space: normal;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 66px;
-    }
-
-    .story-name.comercio {
-      color: #4CAF50;
-      font-weight: 600;
-    }
-
-    /* Publicaciones */
-    .post-card {
-      background: white;
-      border: 1px solid #e6e6e6;
-      margin-bottom: 16px;
-      border-radius: 0;
-    }
-    
-    .post-header {
-      display: flex;
-      align-items: center;
-      padding: 12px;
-      border-bottom: 1px solid #e6e6e6;
-    }
-    
-    .post-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      margin-right: 10px;
-      border: 1px solid #e6e6e6;
-    }
-    
-    .post-user {
-      font-weight: 600;
-      font-size: 14px;
-      color: #262626;
-    }
-    
-    .post-user.comercio {
-      color: #4CAF50;
-    }
-    
-    .post-badge {
-      margin-left: 5px;
-      color: #4CAF50;
-    }
-    
-    .post-time {
-      font-size: 12px;
-      color: #8e8e8e;
-      margin-left: 5px;
-    }
-
-    .post-img {
-      width: 100%;
-      height: auto;
-      max-height: 80vh;
-      object-fit: contain;
-    }
-
-    .post-actions {
-      padding: 12px;
-      display: flex;
-      gap: 16px;
-    }
-    
-    .post-actions i {
-      font-size: 24px;
-    }
-    
-    .post-actions .far.fa-heart, .post-actions .far.fa-comment {
-      color: #262626;
-    }
-    
-    .post-actions .fas.fa-heart {
-      color: #ed4956;
-    }
-    
-    .post-actions .fas.fa-comment {
-      color: #262626;
-    }
-    
-    .post-actions .fas.fa-paper-plane {
-      color: #262626;
-    }
-
-    .post-likes {
-      padding: 0 12px;
-      font-weight: 600;
-      font-size: 14px;
-      color: #262626;
-    }
-
-    .post-caption {
-      padding: 0 12px;
-      font-size: 14px;
-      color: #262626;
-    }
-    
-    .post-caption strong {
-      font-weight: 600;
-    }
-
-    .post-comments {
-      padding: 0 12px;
-      font-size: 14px;
-      color: #262626;
-    }
-    
-    .comment {
-      margin: 5px 0;
-    }
-    
-    .comment strong {
-      font-weight: 600;
-    }
-
-    .post-time-footer {
-      padding: 0 12px;
-      font-size: 12px;
-      color: #8e8e8e;
-      margin: 8px 0;
-    }
-
-    /* Barra de navegación inferior fija */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 50px;
-      background: white;
-      border-top: 1px solid #e6e6e6;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      z-index: 1000;
-    }
-    
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 20%;
-      height: 100%;
-      color: #8e8e8e;
-      font-size: 12px;
-       cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .nav-item i {
-      font-size: 22px;
-    }
-    
-    .nav-item.active {
-      color: #262626;
-    }
-    
-    .nav-item:hover {
-      color: #262626;
-    }
-
-    /* Modal de Login mejorado */
-    .login-modal-content {
-      border-radius: 0;
-      overflow: hidden;
-    }
-    
-    .login-header {
-      background: white;
-      padding: 15px;
-      text-align: center;
-      border-bottom: 1px solid #dbdbdb;
-    }
-    
-    .login-body {
-      padding: 20px;
-    }
-    
-    .form-label {
-      font-size: 12px;
-      color: #8e8e8e;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-    
-    .form-control {
-      border: 1px solid #dbdbdb;
-      border-radius: 4px;
-      height: 36px;
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-    
-    .btn-login {
-      background: #0095f6;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      height: 36px;
-      font-weight: 600;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-    
-    .btn-login:disabled {
-      background: #b2dffc;
-      color: rgba(255,255,255,0.8);
-    }
-    
-    .btn-outline-primary {
-      border-color: #0095f6;
-      color: #0095f6;
-    }
-
-    /* Tipo de usuario */
-    .tipo-usuario {
-      display: none;
-      margin-top: 15px;
-    }
-    
-    .tipo-usuario-header {
-      font-size: 14px;
-      color: #8e8e8e;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    
-    .tipo-usuario-options {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .tipo-usuario-btn {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #dbdbdb;
-      border-radius: 4px;
-      text-align: center;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .tipo-usuario-btn:hover {
-      background: #f0f0f0;
-    }
-    
-    .tipo-usuario-btn.active {
-      border-color: #0095f6;
-      background: #0095f6;
-      color: white;
-    }
-    
-    .tipo-usuario-icon {
-      font-size: 20px;
-      margin-bottom: 5px;
-    }
-
-    /* Cámara en tiempo real */
-    .camera-container {
-      position: relative;
-      width: 100%;
-      height: 300px;
-      margin: 15px 0;
-      overflow: hidden;
-    }
-    
-    #videoStream {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .camera-controls {
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-    
-    .camera-btn {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.5);
-      color: white;
-      border: 3px solid white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    /* Vista previa de imagen */
-    .preview-container {
-      margin: 15px 0;
-      text-align: center;
-    }
-    
-    .preview-image {
-      max-width: 100%;
-      max-height: 300px;
-      margin: 10px 0;
-    }
-
-    /* Perfil de usuario */
-    .user-profile {
-      display: flex;
-      align-items: center;
-      padding: 12px;
-      background: white;
-      border-bottom: 1px solid #e6e6e6;
-    }
-    
-    .user-profile-img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-      border: 1px solid #e6e6e6;
-    }
-    
-    .user-profile-badge {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #e6e6e6;
-    }
-    
-    .user-profile-badge i {
-      font-size: 10px;
-      color: #4CAF50;
-    }
-    
-    .user-profile-name {
-      font-weight: 600;
-      font-size: 16px;
-      color: #262626;
-    }
-
-    .user-profile-name.comercio {
-      color: #4CAF50;
-    }
-
-    /* Animaciones */
-    @keyframes heartBeat {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.3); }
-      100% { transform: scale(1); }
-    }
-    
-    .heart-pulse {
-      animation: heartBeat 0.6s ease;
-    }
-
-    /* Filtros */
-    .filters-container {
-      background: white;
-      padding: 10px 0;
-      border-bottom: 1px solid #e6e6e6;
-    }
-
-    /* Overlay para usuarios no autorizados */
-    .overlay-no-autorizado {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      display: none;
-    }
-    
-    .overlay-content {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      text-align: center;
-      max-width: 400px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-    
-    .overlay-content h3 {
-      color: #e1306c;
-      margin-bottom: 15px;
-    }
-    
-    .overlay-content p {
-      margin-bottom: 20px;
-      color: #666;
-    }
-    
-    .btn-overlay {
-      background: #0095f6;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      margin: 0 5px;
-    }
-    button{
-      border: none;
-      background: transparent;
-    }
-    /* Panel de administrador */
-    .admin-panel {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: white;
-      z-index: 9999;
-      display: none;
-      overflow-y: auto;
-    }
-    
-    .admin-header {
-      background: #e1306c;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-    
-    .user-card {
-      border: 1px solid #e6e6e6;
-      border-radius: 8px;
-      padding: 1rem;
-      margin: 1rem;
-      background: white;
-      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-    }
-    
-    .user-photo {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #e1306c;
-    }
-    
-    .btn-aprobar {
-      background: #0095f6;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    
-    .login-container {
-      max-width: 400px;
-      margin: 100px auto;
-      padding: 2rem;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-    
-    .form-control {
-      margin-bottom: 1rem;
-    }
-    #modalCamara{
-          width: 90%;
-    margin: auto;
-    text-align: center;
-    background: #fff;
-    }
-    /* Responsive */
-    @media (max-width: 768px) {
-      .container {
-        padding: 0;
-      }
-      
-      .bottom-nav {
-        height: 50px;
-      }
-      
-      .nav-item i {
-        font-size: 22px;
-      }
-    }
-  </style>
-</head>
-<body class="bg-gray-100">
-
-  <!-- Overlay para usuarios no autorizados -->
-  <div id="overlayNoAutorizado" class="overlay-no-autorizado">
-    <div class="overlay-content">
-      <h3><i class="fas fa-lock"></i> Acceso Restringido</h3>
-      <p>Para poder publicar, comentar o dar "Me gusta", necesitas ser autorizado por el administrador.</p>
-      <p>Por favor, completa el formulario de registro y espera la confirmación.</p>
-      <div>
-        <button id="btnCerrarOverlay" class="btn-overlay">Cerrar</button>
-        <button id="btnIrALogin" class="btn-overlay">Crear Cuenta</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Panel de Administrador -->
-  <div id="adminPanel" class="admin-panel">
-    <div class="admin-header">
-      <h4><i class="fas fa-user-shield"></i> Panel de Administración</h4>
-      <p>Gestiona usuarios de la comunidad</p>
-    </div>
-
-    <div class="container mt-4">
-      <h5>Usuarios Pendientes</h5>
-      <div id="listaUsuarios"></div>
-    </div>
-  </div>
-
-  <!-- Modal de Login -->
-  <div id="loginModal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content login-modal-content">
-        <div class="login-header">
-          <img src="img/icon-abeja-sola.png" alt="Logo" class="img-fluid" style="max-height: 50px;">
-          <h5 class="mb-0 mt-2">Comunidad Castelar</h5>
-        </div>
-        <div class="login-body">
-          <p class="text-center text-muted mb-4">Únete a vecinos y comerciantes de Castelar</p>
-          <form id="loginForm">
-            <div class="mb-3">
-              <label for="nombre" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="nombre" required>
-            </div>
-            <div class="mb-3">
-              <label for="telefono" class="form-label">Teléfono (con código)</label>
-              <input type="tel" class="form-control" id="telefono" placeholder="+5491157194796" required>
-            </div>
-            <div class="mb-3">
-              <label for="fotoPerfil" class="form-label">Foto de perfil</label>
-              <input type="file" class="form-control" id="fotoPerfil" accept="image/*">
-              <div id="previewPerfil" class="mt-2" style="display: none;">
-                <img id="imgPerfil" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-              </div>
-            </div>
-            
-            <div class="mb-3 tipo-usuario" id="tipoUsuario">
-              <div class="tipo-usuario-header">¿Qué tipo de usuario eres?</div>
-              <div class="tipo-usuario-options">
-                <div class="tipo-usuario-btn" id="btnCliente">
-                  <div class="tipo-usuario-icon">
-                    <i class="fas fa-user"></i>
-                  </div>
-                  <div>Cliente</div>
-                </div>
-                <div class="tipo-usuario-btn" id="btnComercio">
-                  <div class="tipo-usuario-icon">
-                    <i class="fas fa-store"></i>
-                  </div>
-                  <div>Comercio</div>
-                </div>
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn-login w-100" id="btnEnviar">
-              <i class="fab fa-whatsapp me-2"></i> Validar por WhatsApp
-            </button>
-            
-            <button type="button" class="btn btn-outline-primary w-100 mt-2" id="btnSeleccionarTipo">
-              Quiero seleccionar mi tipo de usuario
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Header -->
-  <header class="sticky top-0 z-30 bg-white shadow-sm border-b">
-    <div class="container d-flex justify-content-between align-items-center py-3">
-      <div class="d-flex align-items-center">
-        <img src="img/icon-abeja-sola.png" alt="Logo" class="logo-img me-2" style="height: 40px;">
-        <h2 class="h5 mb-0 text-dark">Comunidad</h2>
-      </div>
-      <button id="btnPublicar" class="btn btn-sm btn-outline-primary d-none">
-        <i class="fas fa-plus me-1"></i> Publicar
-      </button>
-      <button id="btnSalir" class="btn btn-sm btn-outline-danger">
-        <i class="fas fa-sign-out-alt"></i>
-      </button>
-      <!-- Botón de alertas en el header -->
-      <button id="btnAlertas" class="btn btn-sm btn-outline-warning ms-2">
-        <i class="fas fa-bullhorn"></i>
-      </button>
-    </div>
-  </header>
-
-  <!-- Perfil de usuario -->
-  <div id="userProfile" class="user-profile d-none">
-    <div style="position: relative;">
-      <img id="userProfileImg" class="user-profile-img" src="" alt="Tu foto">
-      <div id="userProfileBadge" class="user-profile-badge" style="display: none;">
-        <i class="fas fa-store"></i>
-      </div>
-    </div>
-    <div class="user-profile-name" id="userProfileName"></div>
-  </div>
-
-  <div id="userStats" class="d-flex justify-content-around bg-white py-2 border-bottom d-none">
-    <div class="text-center">
-      <div class="fw-bold">12</div>
-      <div class="text-muted small">Publicaciones</div>
-    </div>
-    <div class="text-center">
-      <div class="fw-bold">34</div>
-      <div class="text-muted small">Seguidores</div>
-    </div>
-    <div class="text-center">
-      <div class="fw-bold">28</div>
-      <div class="text-muted small">Siguiendo</div>
-    </div>
-  </div>
-
-  <!-- Filtros -->
-  <div class="filters-container container">
-    <div class="btn-group w-100" role="group">
-      <button id="filterTodos" class="btn btn-sm btn-primary flex-fill">Todos</button>
-      <button id="filterClientes" class="btn btn-sm btn-outline-primary flex-fill">Vecinos</button>
-      <button id="filterComercios" class="btn btn-sm btn-outline-primary flex-fill">Comercios</button>
-    </div>
-  </div>
-
-  <!-- Historias Destacadas -->
-  <section id="historias" class="container">
-    <div id="storiesContainer">
-      <!-- Historias se cargarán aquí -->
-    </div>
-  </section>
-
-  <!-- Contenido principal -->
-  <main class="container my-3">
-    <!-- Muro de publicaciones -->
-    <div id="muroComunidad" class="space-y-4">
-      <!-- Publicaciones se cargarán aquí -->
-    </div>
-  </main>
-
-  <!-- Modal de Cámara en Tiempo Real -->
-  <div id="modalCamara" class="modal-camera">
-    <div class="camera-header">
-      <h5>Cámara</h5>
-      <button id="cerrarCamara" class="btn-close btn-close-white"></button>
-    </div>
-    <div class="camera-container">
-      <video id="videoStream" autoplay></video>
-      <div class="camera-controls">
-        <button id="capturarFoto" class="camera-btn">
-          <i class="fas fa-circle"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal de Subida de Foto -->
-  <div id="modalSubida" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header border-0">
-          <h5 class="modal-title">Nueva Publicación</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body text-center">
-          <div id="previewContainer" class="preview-container" style="display: none;">
-            <img id="previewImagen" class="preview-image">
-          </div>
-
-          <div class="btn-group-vertical w-100 mb-3" role="group">
-            <button id="btnCamara" class="btn btn-white text-start border d-flex align-items-center p-3">
-              <i class="fas fa-camera me-3" style="color: #262626;"></i>
-              <span style="color: #262626;">Tomar foto con cámara</span>
-            </button>
-            <button id="btnGaleria" class="btn btn-white text-start border d-flex align-items-center p-3 mt-2">
-              <i class="fas fa-images me-3" style="color: #262626;"></i>
-              <span style="color: #262626;">Desde galería</span>
-            </button>
-          </div>
-
-          <textarea id="inputComentario" class="form-control mb-3" rows="3" placeholder="Agrega un comentario..."></textarea>
-
-          <div class="d-flex gap-2">
-            <button id="btnCancelar" class="btn btn-light flex-fill">
-              Cancelar
-            </button>
-            <button id="btnCompartir" class="btn btn-primary flex-fill">
-              Compartir
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Barra de Navegación Inferior Fija -->
-  <div class="bottom-nav">
-    <div class="nav-item active" id="navHome">
-      <i class="fas fa-home"></i>
-      <span>Inicio</span>
-    </div>
-    <div class="nav-item" id="navSearch">
-      <i class="fas fa-search"></i>
-      <span>Buscar</span>
-    </div>
-    <div class="nav-item" id="navCamara">
-      <i class="fas fa-plus-circle"></i>
-      <span>Publicar</span>
-    </div>
-    <div class="nav-item" id="navHeart">
-      <i class="far fa-heart"></i>
-      <span>Favoritos</span>
-    </div>
-    <div class="nav-item" id="navProfile">
-      <i class="far fa-user"></i>
-      <span>Perfil</span>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="bg-white border-t py-3 text-center text-sm text-gray-600">
-    <div class="container">
-      <p>🐝 Hecho con amor para Castelar</p>
-      <a href="index.html" class="text-purple-600">Volver al inicio</a>
-    </div>
-  </footer>
-
-  <script>
-    // Detectar si se puede instalar
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      const btnInstalar = document.createElement('button');
-      btnInstalar.innerHTML = '<i class="fas fa-download"></i>';
-      btnInstalar.className = 'btn btn-sm btn-outline-success ms-2';
-      btnInstalar.onclick = () => {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => {
-          deferredPrompt = null;
-        });
-      };
-      document.querySelector('.container').appendChild(btnInstalar);
-    });
-  </script>
-
-  <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Estado de autorización del usuario
-    let usuarioAutorizado = false;
-    
-    // Contraseña del admin (cámbiala después)
-    const CONTRASENA_ADMIN = "admin123";
-
-    // Datos de usuarios activos (simulación)
-    const usuariosActivos = [
-      { nombre: "Panadería Don Juan", imagen: "https://images.unsplash.com/photo-1512151612113-413646f75631?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80", activo: true, tipo: 'comercio' },
-      { nombre: "Ana R.", imagen: "https://images.unsplash.com/photo-1494790108787-9a95c545c4c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80", activo: true, tipo: 'cliente' },
-      { nombre: "Carlos M.", imagen: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80", activo: false, tipo: 'cliente' },
-      { nombre: "Farmacia Central", imagen: "https://images.unsplash.com/photo-1581595219318-439090bc7293?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80", activo: true, tipo: 'comercio' },
-      { nombre: "Luisa P.", imagen: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80", activo: true, tipo: 'cliente' },
-      { nombre: "Kiosco Don Pepe", imagen: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80", activo: false, tipo: 'comercio' }
-    ];
-    
-    // Base de datos simulada
-    let publicaciones = JSON.parse(localStorage.getItem('comunidadPosts')) || [
-      {
-        id: 1,
-        usuario: "Panadería Don Juan",
-        tipo: "comercio",
-        foto: "https://images.unsplash.com/photo-1512151612113-413646f75631?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-        descripcion: "Hoy salieron calentitos! 🧁 #facturitos #dulceDeLeche",
-        likes: 12,
-        liked: false,
-        comentarios: [
-          { usuario: "María G.", texto: "Los amo! Siempre los compro los sábados." }
-        ],
-        timestamp: Date.now() - 3600000
-      }
-    ];
-
-    // Verificar estado de autorización
-    function verificarAutorizacion() {
-      const estado = localStorage.getItem('usuarioAutorizado');
-      if (estado === 'true') {
-        usuarioAutorizado = true;
-        document.getElementById('overlayNoAutorizado').style.display = 'none';
-      } else {
-        usuarioAutorizado = false;
-        if (localStorage.getItem('usuarioValidado') === 'true') {
-          document.getElementById('overlayNoAutorizado').style.display = 'flex';
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidad de Ofertas - Comerciantes Locales</title>
+    <meta name="description" content="Plataforma para comerciantes locales para compartir ofertas y promociones">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --primary-hover: #357abd;
+            --whatsapp-color: #25D366;
+            --whatsapp-hover: #1DA851;
+            --background-color: #f4f7fa;
+            --card-color: #ffffff;
+            --text-color: #333;
+            --light-text: #666;
+            --border-color: #ddd;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
         }
-      }
-    }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        header {
+            text-align: center;
+            padding: 25px;
+            background-color: var(--card-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        header:hover {
+            transform: translateY(-2px);
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            color: var(--light-text);
+        }
+        
+        .form-section {
+            background-color: var(--card-color);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-section:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 12px 0;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px 0;
+        }
+        
+        button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .offer {
+            background-color: var(--card-color);
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .offer:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+        
+        .offer h3 {
+            margin: 0 0 15px;
+            color: var(--text-color);
+            font-size: 1.5rem;
+        }
+        
+        .offer p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .offer img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .offer img:hover {
+            transform: scale(1.02);
+        }
+        
+        .likes {
+            margin: 15px 0;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .like-btn {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            border: 1px solid #dee2e6;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .like-btn:hover {
+            background-color: #e9ecef;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .comments {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border-color);
+        }
+        
+        .comment {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            position: relative;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .comment-form {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-color);
+        }
+        
+        .whatsapp-btn {
+            background-color: var(--whatsapp-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: var(--whatsapp-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
+        }
+        
+        .whatsapp-icon::before {
+            content: "📱";
+            font-size: 1.2em;
+        }
+        
+        .message {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.5s ease;
+        }
+        
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--light-text);
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Auth Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        
+        .modal-content {
+            background-color: var(--card-color);
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 500px;
+            animation: modalOpen 0.3s ease-out;
+        }
+        
+        @keyframes modalOpen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: var(--text-color);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--card-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .logout-btn {
+            background-color: var(--danger-color);
+            margin-left: auto;
+        }
+        
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+        
+        .merchant-badge {
+            background-color: var(--success-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .client-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            header, .form-section, .offer {
+                border-radius: 8px;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            button, .whatsapp-btn {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .modal-content {
+                margin: 5% auto;
+                padding: 20px;
+            }
+        }
+        
+        /* Botón de regreso a la app principal */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50%;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background-color: var(--primary-hover);
+            transform: scale(1.1);
+        }
+        
+        /* Auth buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .auth-btn {
+            flex: 1;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+        
+        .login-btn {
+            background-color: var(--primary-color);
+        }
+        
+        .register-btn {
+            background-color: var(--success-color);
+        }
+        
+        .login-btn:hover {
+            background-color: var(--primary-hover);
+        }
+        
+        .register-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <!-- Botón para regresar a la app principal -->
+    <a href="index.html" class="back-btn" title="Volver a la app principal">←</a>
 
-    // Guardar en localStorage
-    function guardarPublicaciones() {
-      localStorage.setItem('comunidadPosts', JSON.stringify(publicaciones));
-    }
-
-    // Formatear fecha
-    function formatoFecha(timestamp) {
-      const ahora = new Date();
-      const pub = new Date(timestamp);
-      const diff = ahora - pub;
-      const minutos = Math.floor(diff / 60000);
-      if (minutos < 1) return "Ahora";
-      if (minutos < 60) return `Hace ${minutos}m`;
-      const horas = Math.floor(minutos / 60);
-      if (horas < 24) return `Hace ${horas}h`;
-      return pub.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' });
-    }
-
-    // Renderizar historias
-    function renderizarHistorias() {
-      const contenedor = document.getElementById('storiesContainer');
-      contenedor.innerHTML = '';
-
-      
-      const tuHistoria = document.createElement('div');
-      tuHistoria.className = 'story-item';
-      tuHistoria.innerHTML = `
-        <div class="story-avatar ${localStorage.getItem('usuarioTipo') === 'comercio' ? 'comercio' : ''}">
-          <img src="${localStorage.getItem('usuarioFoto') || 'https://ui-avatars.com/api/?name=' + (localStorage.getItem('usuarioNombre') || 'Usuario') + '&background=random'}" alt="Tu foto">
-          ${localStorage.getItem('usuarioTipo') === 'comercio' ? '<div class="story-badge"><i class="fas fa-store"></i></div>' : ''}
+    <!-- User Info Bar (se muestra cuando está logueado) -->
+    <div id="user-info-bar" class="user-info" style="display: none;">
+        <div class="user-avatar" id="user-avatar">U</div>
+        <div>
+            <div id="user-name">Usuario</div>
+            <div id="user-type-badge"></div>
         </div>
-        <div class="story-name ${localStorage.getItem('usuarioTipo') === 'comercio' ? 'comercio' : ''}">Tu historia</div>
-      `;
-      contenedor.appendChild(tuHistoria);
+        <button id="logout-btn" class="logout-btn">Cerrar Sesión</button>
+    </div>
 
-      
-      usuariosActivos.forEach(usuario => {
-        const historia = document.createElement('div');
-        historia.className = 'story-item';
-        historia.innerHTML = `
-          <div class="story-avatar ${usuario.tipo === 'comercio' ? 'comercio' : ''}">
-            <img src="${usuario.imagen}" alt="${usuario.nombre}">
-            ${usuario.activo ? '<div class="story-badge"><i class="fas fa-circle" style="color: #26c43b; font-size: 8px;"></i></div>' : ''}
-          </div>
-          <div class="story-name ${usuario.tipo === 'comercio' ? 'comercio' : ''}">${usuario.nombre}</div>
-        `;
-        contenedor.appendChild(historia);
-      });
-    }
+    <header>
+        <h1>Comunidad de Ofertas</h1>
+        <p>¡Conéctate con comerciantes locales y descubre las mejores promociones!</p>
+        <p id="auth-required-message">Por favor, inicia sesión o regístrate para acceder a todas las funciones.</p>
+    </header>
 
-    // Renderizar muro
-    function renderizarMuro(filtro = 'todos') {
-      const contenedor = document.getElementById('muroComunidad');
-      contenedor.innerHTML = '';
+    <!-- Formulario para subir oferta (solo visible para comerciantes) -->
+    <section class="form-section" id="upload-form" style="display: none;">
+        <h2>Subir Nueva Oferta</h2>
+        <input type="text" id="offer-title" placeholder="Título de la oferta (e.g., Descuento 20% en pizzas)" required>
+        <textarea id="offer-desc" rows="4" placeholder="Descripción detallada de tu oferta" required></textarea>
+        <input type="text" id="whatsapp-number" placeholder="Número WhatsApp (e.g., 56912345678, sin +)">
+        <input type="file" id="offer-image" accept="image/*">
+        <button id="submit-btn">Subir Oferta</button>
+        <div id="upload-message" class="message"></div>
+    </section>
 
+    <!-- Lista de ofertas -->
+    <section id="offers-list">
+        <h2>Ofertas Actuales</h2>
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Cargando ofertas...</p>
+        </div>
+    </section>
 
-      let pubsFiltradas = publicaciones;
-      if (filtro === 'clientes') {
-        pubsFiltradas = publicaciones.filter(p => p.tipo === 'cliente');
-      } else if (filtro === 'comercios') {
-        pubsFiltradas = publicaciones.filter(p => p.tipo === 'comercio');
-      }
+    <!-- Botones de autenticación -->
+    <div id="auth-buttons-container" style="text-align: center; margin: 30px 0;">
+        <div class="auth-buttons">
+            <button id="login-btn" class="auth-btn login-btn">Iniciar Sesión</button>
+            <button id="register-btn" class="auth-btn register-btn">Registrarse</button>
+        </div>
+    </div>
 
-      pubsFiltradas.sort((a, b) => b.timestamp - a.timestamp).forEach(pub => {
-        const pubEl = document.createElement('div');
-        pubEl.className = 'post-card';
+    <!-- Modal de Login -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-login">&times;</span>
+            <h2>Iniciar Sesión</h2>
+            <input type="email" id="login-email" placeholder="Correo electrónico" required>
+            <input type="password" id="login-password" placeholder="Contraseña" required>
+            <button id="login-submit" class="login-btn">Iniciar Sesión</button>
+            <p style="margin-top: 15px;">¿No tienes cuenta? <a href="#" id="switch-to-register">Regístrate aquí</a></p>
+        </div>
+    </div>
 
-        pubEl.innerHTML = `
-          <div class="post-header">
-            <img src="${pub.usuario === localStorage.getItem('usuarioNombre') ? localStorage.getItem('usuarioFoto') || 'https://ui-avatars.com/api/?name=' + pub.usuario + '&background=random' : 'https://ui-avatars.com/api/?name=' + pub.usuario + '&background=random'}" class="post-avatar" alt="${pub.usuario}">
-            <div>
-              <div class="post-user ${pub.tipo === 'comercio' ? 'comercio' : ''}">
-                ${pub.usuario}
-                ${pub.tipo === 'comercio' ? '<i class="fas fa-store post-badge"></i>' : ''}
-              </div>
-              <span class="post-time">${formatoFecha(pub.timestamp)}</span>
-            </div>
-          </div>
-          <img src="${pub.foto}" class="post-img">
-          <div class="post-actions">
-            <button class="btn-like ${usuarioAutorizado ? '' : 'requiere-autorizacion'}" data-id="${pub.id}">
-              <i class="far fa-heart ${pub.liked ? 'fas text-danger' : ''}"></i>
-            </button>
-            <button class="btn-comentar ${usuarioAutorizado ? '' : 'requiere-autorizacion'}" data-id="${pub.id}">
-              <i class="far fa-comment"></i>
-            </button>
-            <button class="btn-compartir" data-id="${pub.id}">
-              <i class="fas fa-paper-plane"></i>
-            </button>
-          </div>
-          <div class="post-likes">${pub.likes} me gusta</div>
-          <div class="post-caption">
-            <strong>${pub.usuario} ${pub.tipo === 'comercio' ? '<i class="fas fa-store" style="color: #4CAF50;"></i>' : ''}</strong> ${pub.descripcion}
-          </div>
-          <div class="post-comments">
-            ${pub.comentarios.map(c => `<div class="comment"><strong>${c.usuario}:</strong> ${c.texto}</div>`).join('')}
-          </div>
-          <div class="post-time-footer">${formatoFecha(pub.timestamp)}</div>
-        `;
+    <!-- Modal de Registro -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-register">&times;</span>
+            <h2>Crear Cuenta</h2>
+            <input type="text" id="register-name" placeholder="Nombre completo" required>
+            <input type="email" id="register-email" placeholder="Correo electrónico" required>
+            <input type="password" id="register-password" placeholder="Contraseña (mínimo 6 caracteres)" required>
+            <select id="register-type" required>
+                <option value="">Selecciona tu tipo de usuario</option>
+                <option value="merchant">Comerciante (quiero publicar ofertas)</option>
+                <option value="client">Cliente (quiero ver y comentar ofertas)</option>
+            </select>
+            <button id="register-submit" class="register-btn">Crear Cuenta</button>
+            <p style="margin-top: 15px;">¿Ya tienes cuenta? <a href="#" id="switch-to-login">Inicia sesión aquí</a></p>
+        </div>
+    </div>
 
-        contenedor.appendChild(pubEl);
-      });
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
-      agregarEventosInteraccion();
-    }
+    <script>
+        // Configuración de Firebase - ¡REEMPLAZA ESTOS VALORES CON LOS DE TU PROYECTO!
+        const firebaseConfig = {
+  apiKey: "AIzaSyCaVm7L3wq23eAcCb6Yqtc5dAg3846eK4k",
+  authDomain: "comunidad-tu-barrio-3cfa9.firebaseapp.com",
+  projectId: "comunidad-tu-barrio-3cfa9",
+  storageBucket: "comunidad-tu-barrio-3cfa9.firebasestorage.app",
+  messagingSenderId: "443673420403",
+  appId: "1:443673420403:web:768aa1a7b5c04babd90006"
+};
 
-    // Eventos de interacción
-    function agregarEventosInteraccion() {
+        // Inicializar Firebase
+        let app, db, storage, auth;
+        try {
+            app = firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            storage = firebase.storage();
+            auth = firebase.auth();
+            console.log("Firebase inicializado correctamente");
+        } catch (error) {
+            if (error.code === 'app/duplicate-app') {
+                app = firebase.app();
+                db = firebase.firestore();
+                storage = firebase.storage();
+                auth = firebase.auth();
+            } else {
+                console.error("Error al inicializar Firebase:", error);
+                showMessage("Error al conectar con la base de datos. Por favor, contacte al administrador.", "error");
+            }
+        }
 
-      document.querySelectorAll('.btn-like').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          if (!usuarioAutorizado) {
-            e.preventDefault();
-            document.getElementById('overlayNoAutorizado').style.display = 'flex';
-            return;
-          }
-          
-          const id = this.getAttribute('data-id');
-          const pub = publicaciones.find(p => p.id == id);
-          
-          if (!pub.liked) {
-            pub.likes += 1;
-            pub.liked = true;
-            this.querySelector('i').classList.replace('far', 'fas');
-            this.querySelector('i').classList.add('text-danger');
-            this.querySelector('i').classList.add('heart-pulse');
-            setTimeout(() => {
-              this.querySelector('i').classList.remove('heart-pulse');
-            }, 600);
-          } else {
-            pub.likes -= 1;
-            pub.liked = false;
-            this.querySelector('i').classList.replace('fas', 'far');
-            this.querySelector('i').classList.remove('text-danger');
-          }
-          
-          guardarPublicaciones();
-          renderizarMuro();
+        // Referencias a las colecciones
+        const offersCollection = db.collection('offers');
+        const commentsCollection = db.collection('comments');
+        const usersCollection = db.collection('users');
+
+        // Variables globales
+        let currentUser = null;
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar modales
+            setupModals();
+            
+            // Configurar autenticación
+            setupAuth();
+            
+            // Configurar eventos
+            setupEventListeners();
+            
+            // Verificar estado de autenticación
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    currentUser = user;
+                    loadUserData(user);
+                } else {
+                    currentUser = null;
+                    showAuthButtons();
+                    hideUploadForm();
+                }
+            });
         });
-      });
 
-      
-      document.querySelectorAll('.btn-comentar').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          if (!usuarioAutorizado) {
-            e.preventDefault();
-            document.getElementById('overlayNoAutorizado').style.display = 'flex';
-            return;
-          }
-          
-          const id = this.getAttribute('data-id');
-          const pub = publicaciones.find(p => p.id == id);
-          
-          const comentario = prompt(`Comentar en la publicación de ${pub.usuario}:`);
-          if (comentario && comentario.trim()) {
-            const usuario = localStorage.getItem('usuarioNombre') || 'Vecino';
-            pub.comentarios.push({
-              usuario: usuario,
-              texto: comentario.trim()
+        // Configurar modales
+        function setupModals() {
+            // Login modal
+            const loginModal = document.getElementById('login-modal');
+            const registerModal = document.getElementById('register-modal');
+            
+            // Abrir modales
+            document.getElementById('login-btn').addEventListener('click', () => {
+                loginModal.style.display = 'block';
             });
             
-            guardarPublicaciones();
-            renderizarMuro();
-          }
-        });
-      });
-    }
-
-    // Variables para cámara
-    let stream = null;
-    let imagenDataURL = null;
-    const modalCamara = document.getElementById('modalCamara');
-    const videoStream = document.getElementById('videoStream');
-    const modalSubida = new bootstrap.Modal(document.getElementById('modalSubida'));
-
-    
-    document.getElementById('navCamara').addEventListener('click', function() {
-      if (!usuarioAutorizado) {
-        document.getElementById('overlayNoAutorizado').style.display = 'flex';
-        return;
-      }
-      
-      abrirCamara();
-    });
-    
-    function abrirCamara() {
-      try {
-        navigator.mediaDevices.getUserMedia({ 
-          video: { facingMode: 'environment' },
-          audio: false 
-        }).then(function(mediaStream) {
-          stream = mediaStream;
-          videoStream.srcObject = stream;
-          modalCamara.style.display = 'flex';
-        }).catch(function(err) {
-          alert('No se pudo acceder a la cámara: ' + err.message);
-          console.error('Error al acceder a la cámara:', err);
-        });
-      } catch (err) {
-        alert('No se pudo acceder a la cámara: ' + err.message);
-        console.error('Error al acceder a la cámara:', err);
-      }
-    }
-
-    document.getElementById('cerrarCamara').addEventListener('click', function() {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        stream = null;
-      }
-      modalCamara.style.display = 'none';
-    });
-
-    document.getElementById('capturarFoto').addEventListener('click', function() {
-      if (!usuarioAutorizado) {
-        document.getElementById('overlayNoAutorizado').style.display = 'flex';
-        return;
-      }
-      
-      const canvas = document.createElement('canvas');
-      canvas.width = videoStream.videoWidth;
-      canvas.height = videoStream.videoHeight;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(videoStream, 0, 0, canvas.width, canvas.height);
-      
-      imagenDataURL = canvas.toDataURL('image/jpeg');
-      
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        stream = null;
-      }
-      modalCamara.style.display = 'none';
-      
-      const previewImagen = document.getElementById('previewImagen');
-      const previewContainer = document.getElementById('previewContainer');
-      previewImagen.src = imagenDataURL;
-      previewContainer.style.display = 'block';
-      
-      modalSubida.show();
-    });
-
-    document.getElementById('btnGaleria').addEventListener('click', function() {
-      if (!usuarioAutorizado) {
-        document.getElementById('overlayNoAutorizado').style.display = 'flex';
-        return;
-      }
-      
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.onchange = function(e) {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            imagenDataURL = e.target.result;
-            const previewImagen = document.getElementById('previewImagen');
-            const previewContainer = document.getElementById('previewContainer');
-            previewImagen.src = imagenDataURL;
-            previewContainer.style.display = 'block';
-            modalSubida.show();
-          };
-          reader.readAsDataURL(file);
+            document.getElementById('register-btn').addEventListener('click', () => {
+                registerModal.style.display = 'block';
+            });
+            
+            // Cerrar modales
+            document.getElementById('close-login').addEventListener('click', () => {
+                loginModal.style.display = 'none';
+            });
+            
+            document.getElementById('close-register').addEventListener('click', () => {
+                registerModal.style.display = 'none';
+            });
+            
+            // Cambiar entre modales
+            document.getElementById('switch-to-register').addEventListener('click', (e) => {
+                e.preventDefault();
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'block';
+            });
+            
+            document.getElementById('switch-to-login').addEventListener('click', (e) => {
+                e.preventDefault();
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'block';
+            });
+            
+            // Cerrar modal al hacer clic fuera
+            window.addEventListener('click', (event) => {
+                if (event.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+                if (event.target === registerModal) {
+                    registerModal.style.display = 'none';
+                }
+            });
         }
-      };
-      input.click();
-    });
 
-    document.getElementById('btnCompartir').addEventListener('click', function() {
-      if (!usuarioAutorizado) {
-        document.getElementById('overlayNoAutorizado').style.display = 'flex';
-        return;
-      }
-      
-      if (!imagenDataURL) {
-        alert('Por favor, selecciona una foto.');
-        return;
-      }
+        // Configurar autenticación
+        function setupAuth() {
+            // Login
+            document.getElementById('login-submit').addEventListener('click', async () => {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                if (!email || !password) {
+                    showMessage('Por favor, completa todos los campos', 'error');
+                    return;
+                }
+                
+                try {
+                    showMessage('Iniciando sesión...', 'info');
+                    await auth.signInWithEmailAndPassword(email, password);
+                    document.getElementById('login-modal').style.display = 'none';
+                    showMessage('¡Bienvenido de nuevo!', 'success');
+                } catch (error) {
+                    console.error('Error al iniciar sesión:', error);
+                    let errorMessage = 'Error al iniciar sesión. ';
+                    switch (error.code) {
+                        case 'auth/user-not-found':
+                            errorMessage += 'Usuario no encontrado.';
+                            break;
+                        case 'auth/wrong-password':
+                            errorMessage += 'Contraseña incorrecta.';
+                            break;
+                        case 'auth/invalid-email':
+                            errorMessage += 'Correo electrónico inválido.';
+                            break;
+                        default:
+                            errorMessage += 'Por favor, intenta nuevamente.';
+                    }
+                    showMessage(errorMessage, 'error');
+                }
+            });
+            
+            // Registro
+            document.getElementById('register-submit').addEventListener('click', async () => {
+                const name = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const userType = document.getElementById('register-type').value;
+                
+                if (!name || !email || !password || !userType) {
+                    showMessage('Por favor, completa todos los campos', 'error');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    showMessage('La contraseña debe tener al menos 6 caracteres', 'error');
+                    return;
+                }
+                
+                try {
+                    showMessage('Creando cuenta...', 'info');
+                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                    const user = userCredential.user;
+                    
+                    // Guardar información adicional del usuario en Firestore
+                    await usersCollection.doc(user.uid).set({
+                        name: name,
+                        email: email,
+                        type: userType,
+                        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+                        updated_at: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    document.getElementById('register-modal').style.display = 'none';
+                    showMessage('¡Cuenta creada exitosamente! Bienvenido a la comunidad.', 'success');
+                } catch (error) {
+                    console.error('Error al crear cuenta:', error);
+                    let errorMessage = 'Error al crear cuenta. ';
+                    switch (error.code) {
+                        case 'auth/email-already-in-use':
+                            errorMessage += 'Este correo electrónico ya está en uso.';
+                            break;
+                        case 'auth/invalid-email':
+                            errorMessage += 'Correo electrónico inválido.';
+                            break;
+                        case 'auth/weak-password':
+                            errorMessage += 'La contraseña es demasiado débil.';
+                            break;
+                        default:
+                            errorMessage += 'Por favor, intenta nuevamente.';
+                    }
+                    showMessage(errorMessage, 'error');
+                }
+            });
+            
+            // Logout
+            document.getElementById('logout-btn').addEventListener('click', async () => {
+                try {
+                    await auth.signOut();
+                    showMessage('Has cerrado sesión correctamente', 'info');
+                } catch (error) {
+                    console.error('Error al cerrar sesión:', error);
+                    showMessage('Error al cerrar sesión', 'error');
+                }
+            });
+        }
 
-      const usuario = localStorage.getItem('usuarioNombre') || 'Vecino de Castelar';
-      const tipo = localStorage.getItem('usuarioTipo') || 'cliente';
-      const comentario = document.getElementById('inputComentario').value.trim();
+        // Configurar eventos
+        function setupEventListeners() {
+            // Configurar el botón de envío de oferta
+            document.getElementById('submit-btn').addEventListener('click', addOffer);
+        }
 
-      const nuevaPub = {
-        id: Date.now(),
-        usuario: usuario,
-        tipo: tipo,
-        descripcion: comentario,
-        foto: imagenDataURL,
-        likes: 0,
-        liked: false,
-        comentarios: [],
-        timestamp: Date.now()
-      };
+        // Cargar datos del usuario
+        async function loadUserData(user) {
+            try {
+                const userDoc = await usersCollection.doc(user.uid).get();
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    
+                    // Mostrar información del usuario
+                    document.getElementById('user-info-bar').style.display = 'flex';
+                    document.getElementById('auth-buttons-container').style.display = 'none';
+                    document.getElementById('auth-required-message').style.display = 'none';
+                    
+                    // Configurar avatar
+                    const firstLetter = userData.name.charAt(0).toUpperCase();
+                    document.getElementById('user-avatar').textContent = firstLetter;
+                    document.getElementById('user-name').textContent = userData.name;
+                    
+                    // Configurar badge de tipo de usuario
+                    const typeBadge = document.getElementById('user-type-badge');
+                    if (userData.type === 'merchant') {
+                        typeBadge.textContent = 'Comerciante';
+                        typeBadge.className = 'merchant-badge';
+                        // Mostrar formulario de subida de ofertas
+                        document.getElementById('upload-form').style.display = 'block';
+                    } else {
+                        typeBadge.textContent = 'Cliente';
+                        typeBadge.className = 'client-badge';
+                        // Ocultar formulario de subida de ofertas
+                        document.getElementById('upload-form').style.display = 'none';
+                    }
+                    
+                    // Cargar ofertas
+                    loadOffers();
+                }
+            } catch (error) {
+                console.error('Error al cargar datos del usuario:', error);
+                showMessage('Error al cargar tu información. Por favor, inicia sesión nuevamente.', 'error');
+                auth.signOut();
+            }
+        }
 
-      publicaciones.unshift(nuevaPub);
-      guardarPublicaciones();
-      renderizarMuro();
+        // Mostrar botones de autenticación
+        function showAuthButtons() {
+            document.getElementById('user-info-bar').style.display = 'none';
+            document.getElementById('auth-buttons-container').style.display = 'block';
+            document.getElementById('auth-required-message').style.display = 'block';
+            document.getElementById('upload-form').style.display = 'none';
+            document.getElementById('offers-list').innerHTML = '<h2>Ofertas Actuales</h2><p class="loading">Por favor, inicia sesión para ver las ofertas disponibles.</p>';
+        }
 
-      modalSubida.hide();
-      imagenDataURL = null;
-    });
+        // Ocultar formulario de subida
+        function hideUploadForm() {
+            document.getElementById('upload-form').style.display = 'none';
+        }
 
-    document.getElementById('btnCancelar').addEventListener('click', function() {
-      modalSubida.hide();
-      imagenDataURL = null;
-    });
+        // Mostrar mensaje temporal
+        function showMessage(message, type) {
+            const messageElement = document.getElementById('upload-message') || 
+                document.createElement('div');
+            if (!document.getElementById('upload-message')) {
+                messageElement.id = 'upload-message';
+                messageElement.className = 'message';
+                document.body.appendChild(messageElement);
+            }
+            
+            messageElement.textContent = message;
+            messageElement.className = `message ${type} show`;
+            
+            setTimeout(() => {
+                messageElement.classList.remove('show');
+                setTimeout(() => {
+                    messageElement.textContent = '';
+                    messageElement.className = 'message';
+                }, 500);
+            }, 3000);
+        }
 
-    document.getElementById('navHome').addEventListener('click', function() {
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-      });
-      this.classList.add('active');
-      renderizarMuro();
-    });
-
-    document.getElementById('navHeart').addEventListener('click', function() {
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-      });
-      this.classList.add('active');
-      
-      const favoritos = publicaciones.filter(pub => pub.liked);
-      if (favoritos.length === 0) {
-        alert('No tienes publicaciones favoritas aún. Dale "Me gusta" a las publicaciones que te gusten.');
-        document.getElementById('navHome').click();
-        return;
-      }
-      
-      const contenedor = document.getElementById('muroComunidad');
-      contenedor.innerHTML = '';
-      
-      favoritos.sort((a, b) => b.timestamp - a.timestamp).forEach(pub => {
-        const pubEl = document.createElement('div');
-        pubEl.className = 'post-card';
-
-        pubEl.innerHTML = `
-          <div class="post-header">
-            <img src="${pub.usuario === localStorage.getItem('usuarioNombre') ? localStorage.getItem('usuarioFoto') || 'https://ui-avatars.com/api/?name=' + pub.usuario + '&background=random' : 'https://ui-avatars.com/api/?name=' + pub.usuario + '&background=random'}" class="post-avatar" alt="${pub.usuario}">
-            <div>
-              <div class="post-user ${pub.tipo === 'comercio' ? 'comercio' : ''}">
-                ${pub.usuario}
-                ${pub.tipo === 'comercio' ? '<i class="fas fa-store post-badge"></i>' : ''}
-              </div>
-              <span class="post-time">${formatoFecha(pub.timestamp)}</span>
-            </div>
-          </div>
-          <img src="${pub.foto}" class="post-img">
-          <div class="post-actions">
-            <button class="btn-like" data-id="${pub.id}">
-              <i class="fas fa-heart text-danger"></i>
-            </button>
-            <button class="btn-comentar" data-id="${pub.id}">
-              <i class="far fa-comment"></i>
-            </button>
-            <button class="btn-compartir" data-id="${pub.id}">
-              <i class="fas fa-paper-plane"></i>
-            </button>
-          </div>
-          <div class="post-likes">${pub.likes} me gusta</div>
-          <div class="post-caption">
-            <strong>${pub.usuario} ${pub.tipo === 'comercio' ? '<i class="fas fa-store" style="color: #4CAF50;"></i>' : ''}</strong> ${pub.descripcion}
-          </div>
-          <div class="post-comments">
-            ${pub.comentarios.map(c => `<div class="comment"><strong>${c.usuario}:</strong> ${c.texto}</div>`).join('')}
-          </div>
-          <div class="post-time-footer">${formatoFecha(pub.timestamp)}</div>
-        `;
-
-        contenedor.appendChild(pubEl);
-      });
-
-      agregarEventosInteraccion();
-    });
-
-    // Manejo de tipo de usuario en login
-    document.getElementById('btnSeleccionarTipo').addEventListener('click', function() {
-      document.getElementById('tipoUsuario').style.display = 'block';
-      this.style.display = 'none';
-    });
-
-    document.getElementById('btnCliente').addEventListener('click', function() {
-      document.querySelectorAll('.tipo-usuario-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      this.classList.add('active');
-      localStorage.setItem('tempTipoUsuario', 'cliente');
-    });
-
-    document.getElementById('btnComercio').addEventListener('click', function() {
-      document.querySelectorAll('.tipo-usuario-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      this.classList.add('active');
-      localStorage.setItem('tempTipoUsuario', 'comercio');
-    });
-
-    // Login
-    document.getElementById('loginForm')?.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const nombre = document.getElementById('nombre').value.trim();
-      const telefono = document.getElementById('telefono').value.trim();
-      const fotoInput = document.getElementById('fotoPerfil');
-
-      if (!nombre || !telefono) return;
-
-      let fotoPerfil = null;
-      let tipoUsuario = localStorage.getItem('tempTipoUsuario') || 'cliente';
-
-      if (fotoInput.files && fotoInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          fotoPerfil = e.target.result;
-          procesarLogin(nombre, telefono, fotoPerfil, tipoUsuario);
-        };
-        reader.readAsDataURL(fotoInput.files[0]);
-      } else {
-        fotoPerfil = 'https://ui-avatars.com/api/?name=' + nombre + '&background=random';
-        procesarLogin(nombre, telefono, fotoPerfil, tipoUsuario);
-      }
-    });
-
-    function procesarLogin(nombre, telefono, fotoPerfil, tipoUsuario) {
-      const texto = `*🔔 NUEVA SOLICITUD DE COMUNIDAD*\n\n*Nombre:* ${nombre}\n*Teléfono:* ${telefono}\n*Tipo:* ${tipoUsuario === 'comercio' ? 'Comercio' : 'Cliente'}`;
-      const numeroWhatsApp = '5491157194796';
-      const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(texto)}`;
-
-      window.open(url, '_blank');
-
-      // Guardar en lista global de usuarios
-      const usuarios = JSON.parse(localStorage.getItem('usuariosRegistrados') || '[]');
-      const existe = usuarios.find(u => u.telefono === telefono);
-      if (!existe) {
-        usuarios.push({
-          nombre,
-          telefono,
-          tipo: tipoUsuario,
-          foto: fotoPerfil,
-          autorizado: false,
-          timestamp: Date.now()
-        });
-        localStorage.setItem('usuariosRegistrados', JSON.stringify(usuarios));
-      }
-
-      localStorage.setItem('usuarioValidado', 'true');
-      localStorage.setItem('usuarioNombre', nombre);
-      localStorage.setItem('usuarioFoto', fotoPerfil);
-      localStorage.setItem('usuarioTipo', tipoUsuario);
-      localStorage.setItem('usuarioTelefono', telefono);
-      localStorage.setItem('usuarioAutorizado', 'false');
-      location.reload();
-    }
-
-    // Salir
-    document.getElementById('btnSalir')?.addEventListener('click', function() {
-      localStorage.removeItem('usuarioValidado');
-      localStorage.removeItem('usuarioNombre');
-      localStorage.removeItem('usuarioFoto');
-      localStorage.removeItem('usuarioTipo');
-      localStorage.removeItem('usuarioTelefono');
-      localStorage.removeItem('usuarioAutorizado');
-      localStorage.removeItem('tempTipoUsuario');
-      location.href = 'index.html';
-    });
-
-    // Filtros
-    document.getElementById('filterTodos').addEventListener('click', function() {
-      document.querySelectorAll('.btn-sm').forEach(btn => {
-        btn.classList.remove('btn-primary');
-        btn.classList.add('btn-outline-primary');
-      });
-      this.classList.remove('btn-outline-primary');
-      this.classList.add('btn-primary');
-      renderizarMuro('todos');
-    });
-
-    document.getElementById('filterClientes').addEventListener('click', function() {
-      document.querySelectorAll('.btn-sm').forEach(btn => {
-        btn.classList.remove('btn-primary');
-        btn.classList.add('btn-outline-primary');
-      });
-      this.classList.remove('btn-outline-primary');
-      this.classList.add('btn-primary');
-      renderizarMuro('clientes');
-    });
-
-    document.getElementById('filterComercios').addEventListener('click', function() {
-      document.querySelectorAll('.btn-sm').forEach(btn => {
-        btn.classList.remove('btn-primary');
-        btn.classList.add('btn-outline-primary');
-      });
-      this.classList.remove('btn-outline-primary');
-      this.classList.add('btn-primary');
-      renderizarMuro('comercios');
-    });
-
-    // Alertas - Acceso al panel de admin
-    document.getElementById('btnAlertas').addEventListener('click', function() {
-      const pass = prompt('🔐 Ingresa la contraseña de administrador:');
-      if (pass === CONTRASENA_ADMIN) {
-        mostrarPanelAdmin();
-      } else if (pass !== null) {
-        alert('Contraseña incorrecta');
-      }
-    });
-
-    // Cerrar overlay
-    document.getElementById('btnCerrarOverlay').addEventListener('click', function() {
-      document.getElementById('overlayNoAutorizado').style.display = 'none';
-    });
-
-    document.getElementById('btnIrALogin').addEventListener('click', function() {
-      document.getElementById('overlayNoAutorizado').style.display = 'none';
-      const modalLogin = new bootstrap.Modal(document.getElementById('loginModal'));
-      modalLogin.show();
-    });
-
-    // Panel de Administrador
-    function mostrarPanelAdmin() {
-      document.getElementById('adminPanel').style.display = 'block';
-      cargarUsuariosPendientes();
-    }
-
-    function cargarUsuariosPendientes() {
-      const lista = document.getElementById('listaUsuarios');
-      lista.innerHTML = '';
-
-      const usuarios = JSON.parse(localStorage.getItem('usuariosRegistrados') || '[]');
-      const pendientes = usuarios.filter(u => u.autorizado !== true);
-
-      if (pendientes.length === 0) {
-        lista.innerHTML = '<p class="text-muted">No hay usuarios pendientes de aprobación.</p>';
-        return;
-      }
-
-      pendientes.forEach(usuario => {
-        const div = document.createElement('div');
-        div.className = 'user-card';
-        div.innerHTML = `
-          <div class="d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-              <img src="${usuario.foto || 'https://ui-avatars.com/api/?name=' + usuario.nombre + '&background=random'}" 
-                   alt="Foto" class="user-photo me-3">
-              <div>
-                <strong>${usuario.nombre}</strong><br>
-                <small>${usuario.telefono} • ${usuario.tipo}</small>
-              </div>
-            </div>
-            <button class="btn-aprobar" onclick="aprobarUsuario('${usuario.telefono}')">
-              Aprobar
-            </button>
-          </div>
-        `;
-        lista.appendChild(div);
-      });
-    }
-
-    function aprobarUsuario(telefono) {
-      const usuarios = JSON.parse(localStorage.getItem('usuariosRegistrados') || '[]');
-      const usuario = usuarios.find(u => u.telefono === telefono);
-      
-      if (usuario) {
-        usuario.autorizado = true;
-        localStorage.setItem('usuariosRegistrados', JSON.stringify(usuarios));
         
-        // Si es el usuario actual, activarlo
-        if (localStorage.getItem('usuarioTelefono') === telefono) {
-          localStorage.setItem('usuarioAutorizado', 'true');
-          location.reload();
+        // Función para subir oferta (solo para comerciantes)
+        async function addOffer() {
+            if (!currentUser) {
+                showMessage('Por favor, inicia sesión para subir una oferta', 'error');
+                return;
+            }
+            
+            // Verificar que el usuario es comerciante
+            try {
+                const userDoc = await usersCollection.doc(currentUser.uid).get();
+                if (!userDoc.exists || userDoc.data().type !== 'merchant') {
+                    showMessage('Solo los comerciantes pueden subir ofertas', 'error');
+                    return;
+                }
+            } catch (error) {
+                console.error('Error al verificar tipo de usuario:', error);
+                showMessage('Error al verificar tu perfil. Por favor, intenta nuevamente.', 'error');
+                return;
+            }
+            
+            const title = document.getElementById('offer-title').value.trim();
+            const desc = document.getElementById('offer-desc').value.trim();
+            const whatsapp = document.getElementById('whatsapp-number').value.trim();
+            const imageFile = document.getElementById('offer-image').files[0];
+            
+            if (!title || !desc) {
+                showMessage('Por favor, completa el título y la descripción', 'error');
+                return;
+            }
+            
+            try {
+                // Mostrar mensaje de carga
+                document.getElementById('submit-btn').disabled = true;
+                showMessage('Subiendo oferta...', 'info');
+                
+                let imageUrl = '';
+                
+                // Si hay imagen, subirla a Firebase Storage
+                if (imageFile) {
+                    const storageRef = storage.ref();
+                    const imageRef = storageRef.child(`offers/${Date.now()}_${imageFile.name}`);
+                    await imageRef.put(imageFile);
+                    imageUrl = await imageRef.getDownloadURL();
+                }
+                
+                // Obtener datos del usuario
+                const userDoc = await usersCollection.doc(currentUser.uid).get();
+                const userData = userDoc.data();
+                
+                // Crear nueva oferta en Firestore
+                const newOffer = {
+                    title,
+                    description: desc,
+                    whatsapp_number: whatsapp,
+                    image_path: imageUrl,
+                    likes: 0,
+                    merchant_id: currentUser.uid,
+                    merchant_name: userData.name,
+                    created_at: firebase.firestore.FieldValue.serverTimestamp(),
+                    updated_at: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                // Guardar en Firestore
+                const docRef = await offersCollection.add(newOffer);
+                
+                showMessage('¡Oferta subida exitosamente!', 'success');
+                
+                // Limpiar formulario
+                document.getElementById('offer-title').value = '';
+                document.getElementById('offer-desc').value = '';
+                document.getElementById('whatsapp-number').value = '';
+                document.getElementById('offer-image').value = '';
+                document.getElementById('submit-btn').disabled = false;
+                
+                // Recargar ofertas
+                loadOffers();
+                
+            } catch (error) {
+                console.error('Error al subir la oferta:', error);
+                showMessage('Error al subir la oferta. Por favor, intenta nuevamente.', 'error');
+                document.getElementById('submit-btn').disabled = false;
+            }
         }
         
-        alert(`Usuario ${usuario.nombre} aprobado correctamente.`);
-        cargarUsuariosPendientes();
-      }
-    }
-
-    // Inicializar
-    document.addEventListener('DOMContentLoaded', function() {
-      const usuarioValidado = localStorage.getItem('usuarioValidado') === 'true';
-      const modalLogin = new bootstrap.Modal(document.getElementById('loginModal'));
-
-      verificarAutorizacion();
-
-      if (!usuarioValidado) {
-        // El usuario puede navegar pero no interactuar
-      } else {
-        document.getElementById('btnPublicar')?.classList.remove('d-none');
-        
-        const userProfile = document.getElementById('userProfile');
-        const userProfileImg = document.getElementById('userProfileImg');
-        const userProfileName = document.getElementById('userProfileName');
-        const userProfileBadge = document.getElementById('userProfileBadge');
-        
-        userProfileImg.src = localStorage.getItem('usuarioFoto') || 'https://ui-avatars.com/api/?name=' + localStorage.getItem('usuarioNombre') + '&background=random';
-        userProfileName.textContent = localStorage.getItem('usuarioNombre');
-        
-        if (localStorage.getItem('usuarioTipo') === 'comercio') {
-          userProfileName.classList.add('comercio');
-          userProfileBadge.style.display = 'block';
+        // Cargar y mostrar ofertas
+        async function loadOffers() {
+            if (!currentUser) return;
+            
+            try {
+                const offersList = document.getElementById('offers-list');
+                offersList.innerHTML = '<h2>Ofertas Actuales</h2>';
+                
+                // Obtener ofertas de Firestore ordenadas por fecha (más recientes primero)
+                const snapshot = await offersCollection
+                    .orderBy('created_at', 'desc')
+                    .get();
+                
+                if (snapshot.empty) {
+                    offersList.innerHTML += '<p class="loading">No hay ofertas disponibles. ¡Los comerciantes pronto publicarán promociones!</p>';
+                    return;
+                }
+                
+                // Mostrar cada oferta
+                for (const doc of snapshot.docs) {
+                    const offer = doc.data();
+                    const offerId = doc.id;
+                    
+                    // Obtener datos del comerciante
+                    let merchantName = offer.merchant_name || 'Comerciante';
+                    try {
+                        if (offer.merchant_id) {
+                            const merchantDoc = await usersCollection.doc(offer.merchant_id).get();
+                            if (merchantDoc.exists) {
+                                merchantName = merchantDoc.data().name;
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error al obtener datos del comerciante:', error);
+                    }
+                    
+                    const offerDiv = document.createElement('div');
+                    offerDiv.classList.add('offer');
+                    offerDiv.id = `offer-${offerId}`;
+                    offerDiv.innerHTML = `
+                        <h3>${offer.title}</h3>
+                        <p><strong>Publicado por:</strong> ${merchantName}</p>
+                        <p>${offer.description}</p>
+                        ${offer.image_path ? `<img src="${offer.image_path}" alt="Imagen de oferta" loading="lazy">` : ''}
+                        <div class="likes">
+                            <span>👍</span>
+                            <span id="likes-count-${offerId}">${offer.likes || 0}</span>
+                            <button class="like-btn" data-offer-id="${offerId}">Me gusta</button>
+                        </div>
+                        ${offer.whatsapp_number ? `<a href="https://wa.me/${offer.whatsapp_number}" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+                            <span class="whatsapp-icon"></span> Contactar por WhatsApp
+                        </a>` : ''}
+                        <div class="comments" id="comments-${offerId}">
+                            <h4>Comentarios:</h4>
+                            <div id="comments-container-${offerId}"></div>
+                        </div>
+                        <div class="comment-form">
+                            <textarea id="comment-${offerId}" placeholder="Escribe un comentario..."></textarea>
+                            <button class="add-comment-btn" data-offer-id="${offerId}">Enviar Comentario</button>
+                        </div>
+                    `;
+                    offersList.appendChild(offerDiv);
+                    
+                    // Configurar eventos para like y comentarios
+                    setupOfferEvents(offerId);
+                    
+                    // Cargar comentarios para esta oferta
+                    loadComments(offerId);
+                }
+                
+            } catch (error) {
+                console.error('Error al cargar ofertas:', error);
+                showMessage('Error al cargar las ofertas. Por favor, intenta nuevamente.', 'error');
+            }
         }
         
-        userProfile.classList.remove('d-none');
-        document.getElementById('userStats').classList.remove('d-none');
-      }
-
-      renderizarHistorias();
-      renderizarMuro();
-
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-      });
-      document.getElementById('navHome').classList.add('active');
-
-      document.getElementById('fotoPerfil')?.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            const previewPerfil = document.getElementById('previewPerfil');
-            const imgPerfil = document.getElementById('imgPerfil');
-            imgPerfil.src = e.target.result;
-            previewPerfil.style.display = 'block';
-          };
-          reader.readAsDataURL(file);
+        // Configurar eventos para una oferta específica
+        function setupOfferEvents(offerId) {
+            // Evento para dar like
+            const likeBtn = document.querySelector(`.like-btn[data-offer-id="${offerId}"]`);
+            if (likeBtn) {
+                likeBtn.addEventListener('click', () => {
+                    if (!currentUser) {
+                        showMessage('Por favor, inicia sesión para dar like', 'error');
+                        return;
+                    }
+                    addLike(offerId);
+                });
+            }
+            
+            // Evento para agregar comentario
+            const commentBtn = document.querySelector(`.add-comment-btn[data-offer-id="${offerId}"]`);
+            if (commentBtn) {
+                commentBtn.addEventListener('click', () => {
+                    if (!currentUser) {
+                        showMessage('Por favor, inicia sesión para comentar', 'error');
+                        return;
+                    }
+                    addComment(offerId);
+                });
+            }
         }
-      });
-
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js');
-      }
-    });
-  </script>
+        
+        // Función para agregar like
+        async function addLike(offerId) {
+            try {
+                const offerRef = offersCollection.doc(offerId);
+                
+                // Actualizar el contador de likes
+                await offerRef.update({
+                    likes: firebase.firestore.FieldValue.increment(1),
+                    updated_at: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Actualizar visualmente
+                const likesElement = document.getElementById(`likes-count-${offerId}`);
+                if (likesElement) {
+                    const currentLikes = parseInt(likesElement.textContent) || 0;
+                    likesElement.textContent = currentLikes + 1;
+                }
+                
+                showMessage('¡Gracias por tu like!', 'success');
+                
+            } catch (error) {
+                console.error('Error al agregar like:', error);
+                showMessage('Error al agregar like. Por favor, intenta nuevamente.', 'error');
+            }
+        }
+        
+        // Función para agregar comentario
+        async function addComment(offerId) {
+            if (!currentUser) {
+                showMessage('Por favor, inicia sesión para comentar', 'error');
+                return;
+            }
+            
+            const commentText = document.getElementById(`comment-${offerId}`).value.trim();
+            if (!commentText) {
+                showMessage('Por favor, escribe un comentario', 'error');
+                return;
+            }
+            
+            try {
+                // Obtener nombre del usuario
+                const userDoc = await usersCollection.doc(currentUser.uid).get();
+                const userName = userDoc.exists ? userDoc.data().name : 'Usuario';
+                const userType = userDoc.exists ? userDoc.data().type : 'client';
+                
+                // Crear nuevo comentario en Firestore
+                const newComment = {
+                    offer_id: offerId,
+                    user_id: currentUser.uid,
+                    user_name: userName,
+                    user_type: userType,
+                    text: commentText,
+                    created_at: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                await commentsCollection.add(newComment);
+                
+                document.getElementById(`comment-${offerId}`).value = '';
+                
+                // Recargar comentarios para esta oferta
+                loadComments(offerId);
+                showMessage('Comentario agregado exitosamente', 'success');
+                
+            } catch (error) {
+                console.error('Error al agregar comentario:', error);
+                showMessage('Error al agregar comentario', 'error');
+            }
+        }
+        
+        // Cargar comentarios
+        async function loadComments(offerId) {
+            try {
+                const commentsContainer = document.getElementById(`comments-container-${offerId}`);
+                if (!commentsContainer) return;
+                
+                // Limpiar comentarios existentes
+                commentsContainer.innerHTML = '';
+                
+                // Obtener comentarios para esta oferta
+                const snapshot = await commentsCollection
+                    .where('offer_id', '==', offerId)
+                    .orderBy('created_at', 'asc')
+                    .get();
+                
+                if (snapshot.empty) {
+                    commentsContainer.innerHTML = '<p class="light-text">Sé el primero en comentar esta oferta.</p>';
+                    return;
+                }
+                
+                // Mostrar cada comentario
+                for (const doc of snapshot.docs) {
+                    const comment = doc.data();
+                    const commentDiv = document.createElement('div');
+                    commentDiv.classList.add('comment');
+                    
+                    // Formatear fecha
+                    let dateStr = 'Recientemente';
+                    if (comment.created_at && comment.created_at.toDate) {
+                        const date = comment.created_at.toDate();
+                        dateStr = date.toLocaleDateString('es-ES', { 
+                            day: 'numeric', 
+                            month: 'short', 
+                            hour: '2-digit', 
+                            minute: '2-digit' 
+                        });
+                    }
+                    
+                    // Badge de tipo de usuario
+                    let userTypeBadge = '';
+                    if (comment.user_type === 'merchant') {
+                        userTypeBadge = '<span class="merchant-badge" style="font-size: 10px; margin-left: 5px;">Comerciante</span>';
+                    } else {
+                        userTypeBadge = '<span class="client-badge" style="font-size: 10px; margin-left: 5px;">Cliente</span>';
+                    }
+                    
+                    commentDiv.innerHTML = `
+                        <p><strong>${comment.user_name}</strong>${userTypeBadge}</p>
+                        <p>${comment.text}</p>
+                        <small>${dateStr}</small>
+                    `;
+                    commentsContainer.appendChild(commentDiv);
+                }
+                
+            } catch (error) {
+                console.error('Error al cargar comentarios:', error);
+            }
+        }
+    </script>
 </body>
 </html>

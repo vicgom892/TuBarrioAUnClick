@@ -421,28 +421,7 @@ body {
   text-align: center;
 }
 
-/* Header */
-.modern-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 99999;
-  background-color: #fff;
-  transition: box-shadow 0.3s ease;
-}
 
-.modern-header.shadow-sm {
-  box-shadow: var(--shadow-sm);
-}
-
-.logo-img {
-  max-height: 80px;
-  max-width: 60px;
-}
-
-.logo-img-mobile {
-  max-height: 48px;
-}
 
   /* Animación de pulso (ya existente) notificaciones */
   .notification-badge {
@@ -665,8 +644,8 @@ body {
 @media (max-width: 767.98px) {
   .modal-dialog {
     margin-top: 4.5rem;
-    width: 90%;
-    max-width: 90%;
+    width: 100%;
+    max-width: 97%;
   }
 
   .close {
@@ -966,11 +945,12 @@ body {
     </div>
   
 <!-- Header -->
+<!-- Header -->
 <header id="mainHeader" class="modern-header bg-white shadow-sm">
   <div class="container d-flex justify-content-between align-items-center py-2">
     <!-- Menú escritorio -->
     <nav class="d-none d-lg-flex align-items-center">
-      <a href="index.html" class="text-dark font-weight-bold mr-3">Inicio</a>
+      <a href="index.html" class="text-white font-weight-bold mr-3">Inicio</a>
       <div class="dropdown">
         <button class="btn btn-light dropdown-toggle" type="button" id="comerciosDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
           <i class="fas fa-store mr-1"></i> Comercios
@@ -984,8 +964,8 @@ body {
                 <a class="dropdown-item" href="#fca-de-pastas"><i class="fas fa-shopping-basket mr-2"></i>Pastas</a>
                 <a class="dropdown-item" href="#verdulerias"><i class="fas fa-carrot mr-2"></i>Verdulerías</a>
                 <a class="dropdown-item" href="#fiambrerias"><i class="fas fa-cheese mr-2"></i>Fiambrerías</a>
-                <a class="dropdown-item" href="#cafeterias"><i class="fas fa-cheese mr-2"></i>Cafeterías</a>
-                <a class="dropdown-item" href="#carnicerias"><i class="fas fa-cheese mr-2"></i>Carnicerías</a>
+                <a class="dropdown-item" href="#cafeterias"><i class="fas fa-mug-hot mr-2"></i>Cafeterías</a>
+                <a class="dropdown-item" href="#carnicerias"><i class="fas fa-drumstick-bite mr-2"></i>Carnicerías</a>
               </div>
               <div class="col-md-3">
                 <h5 class="font-weight-bold mb-3"><i class="fas fa-tools mr-2"></i>Servicios</h5>
@@ -993,17 +973,17 @@ body {
                 <a class="dropdown-item" href="#mascotas"><i class="fas fa-dog mr-2"></i>Mascotas</a>
                 <a class="dropdown-item" href="#barberias"><i class="fas fa-cut mr-2"></i>Barberías</a>
                 <a class="dropdown-item" href="#ferreterias"><i class="fas fa-tools mr-2"></i>Ferreterías</a>
-                <a class="dropdown-item" href="#farmacias"><i class="fas fa-cheese mr-2"></i>Farmacias</a>
-                <a class="dropdown-item" href="#florerias"><i class="fas fa-cheese mr-2"></i>Florerías</a>
-                <a class="dropdown-item" href="#talleres"><i class="fas fa-cheese mr-2"></i>Talleres</a>
-                <a class="dropdown-item" href="#veterinarias"><i class="fas fa-cheese mr-2"></i>Veterinarías</a>
+                <a class="dropdown-item" href="#farmacias"><i class="fas fa-pills mr-2"></i>Farmacias</a>
+                <a class="dropdown-item" href="#florerias"><i class="fas fa-seedling mr-2"></i>Florerías</a>
+                <a class="dropdown-item" href="#talleres"><i class="fas fa-wrench mr-2"></i>Talleres</a>
+                <a class="dropdown-item" href="#veterinarias"><i class="fas fa-clinic-medical mr-2"></i>Veterinarías</a>
               </div>
               <div class="col-md-3">
                 <h5 class="font-weight-bold mb-3"><i class="fas fa-shopping-bag mr-2"></i>Otros</h5>
-                <a class="dropdown-item" href="#profesiones"><i class="fas fa-cheese mr-2"></i>Profeciones</a>
-                <a class="dropdown-item" href="#librerias"><i class="fas fa-cheese mr-2"></i>Librerías</a>
+                <a class="dropdown-item" href="#profesiones"><i class="fas fa-user-tie mr-2"></i>Profesiones</a>
+                <a class="dropdown-item" href="#librerias"><i class="fas fa-book mr-2"></i>Librerías</a>
                 <a class="dropdown-item" href="#ropa"><i class="fas fa-tshirt mr-2"></i>Tiendas</a>
-                <a class="dropdown-item" href="#servicios"><i class="fas fa-tools mr-2"></i>Servicios</a>
+                <a class="dropdown-item" href="#servicios"><i class="fas fa-concierge-bell mr-2"></i>Servicios</a>
                 <a class="dropdown-item" href="#ubicacion"><i class="fas fa-map-marker-alt mr-2"></i>Ubicación</a>
                 <a class="dropdown-item" href="#contacto"><i class="fas fa-envelope mr-2"></i>Contacto</a>
               </div>
@@ -1016,7 +996,7 @@ body {
                     <img src="img/icon-192x192.png" alt="Logo de la aplicación" class="install-logo w-8 h-8 mr-2" style="width: 100px; height: 100px;">
                     <div>
                       <div class="small text-muted">¿Quieres la app?</div>
-                      <button id="botonInstalar" class="install-button text-center text-white btn btn-sm bg-success mt-100">
+                      <button id="botonInstalar" class="install-button text-center text-white btn btn-sm bg-success mt-1">
                         <i class="fas fa-download mr-1"></i>Instalar
                       </button>
                     </div>
@@ -1036,14 +1016,19 @@ body {
       </a>
     </div>
 
-    <!-- Barra de búsqueda -->
-    <div class="search-bar d-flex align-items-center">
-      <input type="text" id="searchInput" class="form-control mr-2" placeholder="Buscar negocio abierto hoy..." style="width: 120px;" />
-      <button onclick="searchBusinesses()" class="btn btn-outline-secondary">Buscar</button>
-      <div id="businessResults" class="ml-2"></div>
+    <!-- Barra de búsqueda mejorada -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" class="form-control" placeholder="Buscar negocio, categoría o producto..." />
+      <button class="search-button" id="searchButton">
+        <i class="fas fa-search"></i>
+      </button>
+      <div class="loading-overlay">
+        <div class="spinner"></div>
+      </div>
+      <div class="suggestions-dropdown" id="suggestionsDropdown"></div>
     </div>
 
-    <!-- 🔔 Campanita sin recuadro (elegante) -->
+    <!-- 🔔 Campanita -->
     <button id="btnNotificacion" class="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-red-50 transition-all duration-200 focus:outline-none group" aria-label="Notificaciones">
       <svg id="campanita" class="w-6 h-6 text-red-600 group-hover:text-red-700" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.93 6 11v5l-2 2v1h16v-1l-2-2z"/>
@@ -1055,12 +1040,12 @@ body {
 
     <!-- Menú derecha escritorio -->
     <nav class="d-none d-lg-flex align-items-center">
-      <a href="#map" class="text-dark font-weight-bold mr-3"><i class="fas fa-map-marker-alt mr-1"></i>Ubicación</a>
-      <a href="#contacto" class="text-dark font-weight-bold"><i class="fas fa-envelope mr-1"></i>Contacto</a>
+      <a href="#map" class="text-white font-weight-bold mr-3"><i class="fas fa-map-marker-alt mr-1"></i>Ubicación</a>
+      <a href="#contacto" class="text-white font-weight-bold"><i class="fas fa-envelope mr-1"></i>Contacto</a>
     </nav>
 
     <!-- Botón menú móvil -->
-    <button class="d-lg-none btn btn-link text-dark" id="mobileMenuToggle" aria-label="Abrir menú">
+    <button class="d-lg-none btn btn-link text-white" id="mobileMenuToggle" aria-label="Abrir menú">
       <i class="fas fa-bars fa-lg"></i>
     </button>
   </div>
@@ -1097,18 +1082,21 @@ body {
     </div>
   </div>
 </div>
-  <!-- Modal de resultados de búsqueda -->
-  <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="searchModalLabel">Resultados</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" id="searchModalBody"></div>
+ 
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header search-results-header">
+        <h5 class="modal-title" id="searchModalLabel"><i class="fas fa-search"></i> Resultados de búsqueda</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body search-results-body" id="searchModalBody"></div>
+      <div class="modal-footer search-results-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
+</div>
   
   <!-- Modal de menú para móviles -->
   <div class="modal fade" id="mobileMenuModal" tabindex="-1" aria-labelledby="mobileMenuModalLabel" aria-hidden="true">
@@ -1923,11 +1911,14 @@ body {
   
   <!-- Scripts principales -->
   <script src="js/main-1.js" defer></script>
+<script src="js/search-functionality.js"></script>
   <script src="js/chat-3.js"></script>
   <script src="js/form.js"></script>
   <script src="js/testimonials.js" defer></script>
   <script src="js/notificaciones.js" defer></script>
   <script src="js/splash.js" defer></script>
+  <!-- Script de búsqueda mejorada (versión final y corregida) -->
+
 <script>
   // Sistema de selección de rol
   document.addEventListener('DOMContentLoaded', () => {

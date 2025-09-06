@@ -1293,6 +1293,7 @@ function loadBusinessesFromCache() {
     });
   }
 
+  
   // --- INICIALIZACIÓN FINAL ---
   if (loadBusinessesFromCache() && window.businesses.length > 0) {
     console.log("✅ Negocios cargados desde caché");
