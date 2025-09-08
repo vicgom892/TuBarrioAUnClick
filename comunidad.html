@@ -570,7 +570,7 @@
                 const container = document.getElementById('offers-container');
                 container.innerHTML = '<div class="loading">Cargando ofertas...</div>';
 
-                const response = await fetch('datos/seccion-ofertas.json');
+                const response = await fetch('./datos/seccion-ofertas.json');
                 if (!response.ok) throw new Error('Error al cargar ofertas.json');
                 offers = await response.json();
 
