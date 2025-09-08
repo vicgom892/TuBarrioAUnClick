@@ -28,7 +28,7 @@
         "description": "Compra 2 paquetes de snacks y lleva 1 gratis. Perfecto para el fin de semana.",
         "rubro": "Kiosco",
         "whatsapp": "56944556677",
-        "image": "../img/farmacia.webp",
+        "image": "./img/farmacia.webp",
         "web_url": "",
         "instagram_url": "https://instagram.com/kiosco",
         "start_date": "2025-09-07T00:00:00",
