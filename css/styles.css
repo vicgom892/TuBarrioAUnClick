@@ -3606,3 +3606,69 @@ margin: 5px !important;
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 } 
+/* Modal de actualización */
+.modal-actualizacion {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-actualizacion.show {
+    display: flex;
+}
+
+.modal-actualizacion .modal-content {
+    background-color: #1e293b; /* var(--card-color) */
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 90%;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
+    border: 1px solid #475569; /* var(--border-color) */
+}
+
+.modal-actualizacion .modal-content h3 {
+    font-size: 1.6rem;
+    color: #00d4ff; /* var(--accent-color) */
+    margin-bottom: 15px;
+}
+
+.modal-actualizacion .modal-content p {
+    color: #94a3b8; /* var(--light-text) */
+    margin-bottom: 20px;
+}
+
+.modal-actualizacion .modal-content button {
+    background-color: #10b981; /* var(--secondary-color) */
+    color: #e2e8f0; /* var(--text-color) */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-actualizacion .modal-content button:hover {
+    background-color: #059669;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-actualizacion .modal-content {
+        width: 95%;
+    }
+}

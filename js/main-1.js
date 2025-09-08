@@ -676,28 +676,62 @@ function loadBusinessesFromCache() {
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
     }
-    // --- Service Worker ---
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js")
-        .then(registration => {
-          console.log("SW registrado con éxito:", registration);
-          // Escuchar si hay un nuevo SW disponible
-          registration.onupdatefound = () => {
-            const newWorker = registration.installing;
-            newWorker.onstatechange = () => {
-              if (newWorker.state === 'installed') {
-                if (navigator.serviceWorker.controller) {
-                  console.log('✅ Nueva versión disponible. Actualizando...');
-                  window.location.reload();
-                }
-              }
-            };
-          };
-        })
-        .catch(err => {
-          console.error("SW registration failed:", err);
+    // Registrar Service Worker y manejar actualización
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => {
+                    console.log('Service Worker registrado:', reg);
+    
+                    // Escuchar cambios en el controlador
+                    navigator.serviceWorker.addEventListener('controllerchange', () => {
+                        console.log('Nuevo Service Worker activado');
+                        showUpdateModal();
+                    });
+    
+                    // Escuchar mensajes del Service Worker
+                    navigator.serviceWorker.addEventListener('message', (event) => {
+                        if (event.data?.type === 'SW_UPDATED') {
+                            console.log('Nueva versión del Service Worker detectada');
+                            showUpdateModal();
+                        }
+                    });
+    
+                    // Manejar actualizaciones del Service Worker
+                    reg.addEventListener('updatefound', () => {
+                        const newWorker = reg.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                console.log('Nueva versión del Service Worker lista');
+                                showUpdateModal();
+                            }
+                        });
+                    });
+                })
+                .catch(err => console.error('Error registrando Service Worker:', err));
         });
     }
+    
+    function showUpdateModal() {
+        const updateModal = document.getElementById('update-modal');
+        if (updateModal) {
+            updateModal.classList.add('show');
+        }
+    }
+    
+    function reloadPage() {
+        window.location.reload();
+    }
+    
+    // Cerrar modal con tecla Esc
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const updateModal = document.getElementById('update-modal');
+            if (updateModal) {
+                updateModal.classList.remove('show');
+            }
+        }
+    });
     // Refrescar animaciones AOS
     if (typeof AOS !== 'undefined') {
       AOS.refresh();
