@@ -1996,13 +1996,19 @@ body {
   </div>
 </div>
 
-<!-- Modal de actualización -->
-<div class="modal-actualizacion" id="update-modal">
-    <div class="modal-content">
-        <h3>¡Nueva versión disponible!</h3>
-        <p>Recarga la página para disfrutar de las últimas mejoras de Tu Barrio a un Click.</p>
-        <button onclick="reloadPage()">Recargar</button>
+<!-- Modal de Actualización de App -->
+<div id="update-modal" class="update-modal">
+  <div class="update-modal-content">
+    <div class="update-icon">
+      <i class="fas fa-sync-alt"></i>
     </div>
+    <h3>¡Hay una nueva versión!</h3>
+    <p>Ya está disponible una actualización con nuevas funciones y mejoras de rendimiento.</p>
+    <div class="update-actions">
+      <button id="update-later" class="btn-update btn-outline">Más tarde</button>
+      <button id="update-now" class="btn-update btn-primary">Actualizar ahora</button>
+    </div>
+  </div>
 </div>
 
   <!-- Scripts - Cargados al final del body en el orden correcto -->

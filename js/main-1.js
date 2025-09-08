@@ -676,62 +676,59 @@ function loadBusinessesFromCache() {
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
     }
-    // Registrar Service Worker y manejar actualización
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(reg => {
-                    console.log('Service Worker registrado:', reg);
-    
-                    // Escuchar cambios en el controlador
-                    navigator.serviceWorker.addEventListener('controllerchange', () => {
-                        console.log('Nuevo Service Worker activado');
-                        showUpdateModal();
-                    });
-    
-                    // Escuchar mensajes del Service Worker
-                    navigator.serviceWorker.addEventListener('message', (event) => {
-                        if (event.data?.type === 'SW_UPDATED') {
-                            console.log('Nueva versión del Service Worker detectada');
-                            showUpdateModal();
-                        }
-                    });
-    
-                    // Manejar actualizaciones del Service Worker
-                    reg.addEventListener('updatefound', () => {
-                        const newWorker = reg.installing;
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                console.log('Nueva versión del Service Worker lista');
-                                showUpdateModal();
-                            }
-                        });
-                    });
-                })
-                .catch(err => console.error('Error registrando Service Worker:', err));
-        });
-    }
-    
-    function showUpdateModal() {
-        const updateModal = document.getElementById('update-modal');
-        if (updateModal) {
-            updateModal.classList.add('show');
-        }
-    }
-    
-    function reloadPage() {
-        window.location.reload();
-    }
-    
-    // Cerrar modal con tecla Esc
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            const updateModal = document.getElementById('update-modal');
-            if (updateModal) {
-                updateModal.classList.remove('show');
+   // --- Service Worker + Modal de Actualización ---
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then(registration => {
+      console.log("SW registrado con éxito:", registration);
+
+      // Escuchar si hay un nuevo SW disponible
+      registration.onupdatefound = () => {
+        const newWorker = registration.installing;
+        newWorker.onstatechange = () => {
+          if (newWorker.state === 'installed') {
+            if (navigator.serviceWorker.controller) {
+              // Mostrar modal de actualización
+              showUpdateModal();
             }
-        }
+          }
+        };
+      };
+    })
+    .catch(err => {
+      console.error("SW registration failed:", err);
     });
+}
+
+// Función para mostrar el modal
+function showUpdateModal() {
+  const modal = document.getElementById('update-modal');
+  const nowBtn = document.getElementById('update-now');
+  const laterBtn = document.getElementById('update-later');
+
+  // Mostrar modal
+  modal.classList.add('active');
+
+  // Botón: Actualizar ahora
+  nowBtn.onclick = () => {
+    modal.classList.remove('active');
+    setTimeout(() => {
+      window.location.reload();
+    }, 300);
+  };
+
+  // Botón: Más tarde
+  laterBtn.onclick = () => {
+    modal.classList.remove('active');
+  };
+
+  // Cerrar al hacer clic fuera (en el fondo oscuro)
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+    }
+  });
+}
     // Refrescar animaciones AOS
     if (typeof AOS !== 'undefined') {
       AOS.refresh();
