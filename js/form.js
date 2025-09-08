@@ -1,171 +1,135 @@
 
-  // Código mejorado para el modal de confirmación
-  document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('modalConfirmacion');
-    const closeModal = document.getElementById('modalConfirmacionClose');
-    const btnEnviar = document.getElementById('btnEnviar');
-    const modalConfirmacionSend = document.getElementById('modalConfirmacionSend');
-    
-    // Variables globales para almacenar los datos del formulario
-    let formData = {
-      nombre: '',
-      tipo: '',
-      mensaje: ''
-    };
-    
-    // Función para abrir el modal
-    function openModal() {
-      modal.classList.remove('opacity-0', 'pointer-events-none');
-      modal.classList.add('opacity-100', 'pointer-events-auto');
-      setTimeout(() => {
-        modal.querySelector('.max-w-md').classList.remove('scale-95');
-        modal.querySelector('.max-w-md').classList.add('scale-100');
-      }, 50);
-    }
-    
-    // Función para cerrar el modal
-    function closeModalFn() {
-      modal.querySelector('.max-w-md').classList.remove('scale-100');
-      modal.querySelector('.max-w-md').classList.add('scale-95');
-      setTimeout(() => {
-        modal.classList.remove('opacity-100', 'pointer-events-auto');
-        modal.classList.add('opacity-0', 'pointer-events-none');
-      }, 200);
-    }
-    
-    // Manejar selección de tipo de mensaje
-    document.querySelectorAll('.btn-tipo').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.btn-tipo').forEach(b => b.classList.remove('active', 'border-purple-500', 'bg-purple-50'));
-        this.classList.add('active', 'border-purple-500', 'bg-purple-50');
-      });
-    });
-    
-    // Manejar validación del formulario
-    function validateForm() {
-      let isValid = true;
-      
-      // Limpiar errores previos
-      document.querySelectorAll('.error-message').forEach(el => {
-        el.classList.add('hidden');
-      });
-      
-      // Validar nombre
-      const nombre = document.getElementById('nombre').value.trim();
-      if (!nombre) {
-        document.getElementById('nombreError').classList.remove('hidden');
-        isValid = false;
-      }
-      
-      // Validar tipo de mensaje
-      const tipo = document.querySelector('.btn-tipo.active');
-      if (!tipo) {
-        document.getElementById('tipoError').classList.remove('hidden');
-        isValid = false;
-      }
-      
-      // Validar mensaje
-      const mensaje = document.getElementById('mensaje').value.trim();
-      if (!mensaje) {
-        document.getElementById('mensajeError').classList.remove('hidden');
-        isValid = false;
-      }
-      
-      return isValid;
-    }
-    
-    // Manejar envío del formulario
-    function handleSubmit(e) {
-      e.preventDefault();
-      
-      if (!validateForm()) {
-        return;
-      }
-      
-      // Obtener valores del formulario
-      formData.nombre = document.getElementById('nombre').value.trim();
-      formData.tipo = document.querySelector('.btn-tipo.active').dataset.value;
-      formData.mensaje = document.getElementById('mensaje').value.trim();
-      
-      // Actualizar contenido del modal
-      document.getElementById('confirmNombre').textContent = formData.nombre;
-      document.getElementById('confirmTipo').textContent = 
-        formData.tipo.charAt(0).toUpperCase() + formData.tipo.slice(1);
-      document.getElementById('confirmMensaje').textContent = formData.mensaje;
-      
-      // Abrir modal
-      openModal();
-    }
-    
-    // Manejar envío a WhatsApp
-    function sendToWhatsApp() {
-      try {
-        // Número de WhatsApp (ajusta este número según tu necesidad)
-        const whatsappNumber = '5491157194796';
-        
-        // Crear mensaje formateado
-        const message = `*Mensaje desde Tu Barrio A Un Clik*\n\n` +
-                       `*Nombre:* ${encodeURIComponent(formData.nombre)}\n` +
-                       `*Tipo:* ${encodeURIComponent(formData.tipo.charAt(0).toUpperCase() + formData.tipo.slice(1))}\n` +
-                       `*Mensaje:* ${encodeURIComponent(formData.mensaje)}`;
-        
-        // Crear URL de WhatsApp
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
-        
-        console.log('Intentando abrir WhatsApp con URL:', whatsappUrl);
-        
-        // Intentar abrir WhatsApp
-        window.open(whatsappUrl, '_blank');
-        
-        // Cerrar modal
-        closeModalFn();
-        
-        // Mostrar mensaje de éxito (opcional)
-        setTimeout(() => {
-          alert('¡Mensaje enviado! Gracias por contactarnos.');
-        }, 300);
-      } catch (error) {
-        console.error('Error al enviar mensaje a WhatsApp:', error);
-        alert('Hubo un error al intentar enviar tu mensaje. Por favor, intenta nuevamente.');
-      }
-    }
-    
-    // Eventos
-    if (closeModal) {
-      closeModal.addEventListener('click', closeModalFn);
-    }
-    
-    // Cerrar al hacer clic fuera del contenido
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        closeModalFn();
-      }
-    });
-    
-    // Manejar envío del formulario
-    if (btnEnviar) {
-      btnEnviar.addEventListener('click', handleSubmit);
-    }
-    
-    // Manejar envío a WhatsApp
-    if (modalConfirmacionSend) {
-      modalConfirmacionSend.addEventListener('click', sendToWhatsApp);
-    }
-    
-    // Manejar botón "Editar"
-    const modalConfirmacionBack = document.getElementById('modalConfirmacionBack');
-    if (modalConfirmacionBack) {
-      modalConfirmacionBack.addEventListener('click', closeModalFn);
-    }
-    
-    // Manejar envío con Enter en el textarea (opcional)
-    const mensajeInput = document.getElementById('mensaje');
-    if (mensajeInput) {
-      mensajeInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && e.ctrlKey) {
-          e.preventDefault();
-          handleSubmit(e);
+        function showQuestionsPrompt() {
+            const category = document.getElementById('category').value;
+            const questionsPrompt = document.getElementById('questions-prompt');
+            if (category) {
+                questionsPrompt.style.display = 'block';
+            } else {
+                questionsPrompt.style.display = 'none';
+                document.getElementById('questions-section').classList.remove('show');
+            }
         }
-      });
-    }
-  });
+
+        function showQuestions(accept) {
+            const category = document.getElementById('category').value;
+            const questionsSection = document.getElementById('questions-section');
+            questionsSection.innerHTML = '';
+
+            if (!accept || !category) {
+                questionsSection.classList.remove('show');
+                return;
+            }
+
+            let questions = [];
+            if (category === 'Sugerencia') {
+                questions = [
+                    { id: 'q1', label: '¿Qué nueva funcionalidad te gustaría ver?', type: 'text' },
+                    { id: 'q2', label: '¿Qué rubro te interesa más?', type: 'select', options: ['Panadería', 'Farmacia', 'Kiosco', 'Barbería', 'Otro'] }
+                ];
+            } else if (category === 'Reclamo') {
+                questions = [
+                    { id: 'q1', label: '¿En qué rubro ocurrió el problema?', type: 'select', options: ['Panadería', 'Farmacia', 'Kiosco', 'Barbería', 'Otro'] },
+                    { id: 'q2', label: '¿Qué podemos mejorar?', type: 'text' }
+                ];
+            } else if (category === 'Consulta') {
+                questions = [
+                    { id: 'q1', label: '¿Sobre qué rubro es tu consulta?', type: 'select', options: ['Panadería', 'Farmacia', 'Kiosco', 'Barbería', 'Otro'] },
+                    { id: 'q2', label: '¿Necesitas ayuda con algo específico?', type: 'text' }
+                ];
+            }
+
+            questions.forEach(q => {
+                const div = document.createElement('div');
+                div.classList.add('question-option');
+                if (q.type === 'text') {
+                    div.innerHTML = `
+                        <label for="${q.id}">${q.label}</label>
+                        <input type="text" id="${q.id}" placeholder="Tu respuesta">
+                    `;
+                } else if (q.type === 'select') {
+                    let options = q.options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+                    div.innerHTML = `
+                        <label for="${q.id}">${q.label}</label>
+                        <select id="${q.id}">
+                            <option value="">Selecciona una opción</option>
+                            ${options}
+                        </select>
+                    `;
+                }
+                questionsSection.appendChild(div);
+            });
+
+            questionsSection.classList.add('show');
+        }
+
+        function submitForm() {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const category = document.getElementById('category').value;
+            const message = document.getElementById('message').value.trim();
+            const questionsSection = document.getElementById('questions-section');
+
+            if (!name || !email || !category || !message) {
+                alert('Por favor, completa todos los campos requeridos.');
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('Ingresa un correo electrónico válido.');
+                return;
+            }
+
+            const questions = [];
+            if (questionsSection.classList.contains('show')) {
+                const inputs = questionsSection.querySelectorAll('input, select');
+                inputs.forEach(input => {
+                    if (input.value) {
+                        const label = input.previousElementSibling.textContent;
+                        questions.push(`${label}: ${input.value}`);
+                    }
+                });
+            }
+
+            const formData = {
+                name,
+                email,
+                category,
+                message,
+                questions,
+                timestamp: new Date().toISOString()
+            };
+
+            // Guardar en localStorage
+            let feedback = JSON.parse(localStorage.getItem('feedback')) || [];
+            feedback.push(formData);
+            localStorage.setItem('feedback', JSON.stringify(feedback));
+
+            // Enviar a WhatsApp (cambiar por tu número real)
+            const whatsappMessage = encodeURIComponent(
+                `Nuevo mensaje de ${name}\n` +
+                `Correo: ${email}\n` +
+                `Categoría: ${category}\n` +
+                `Mensaje: ${message}\n` +
+                (questions.length ? `Respuestas:\n${questions.join('\n')}` : '')
+            );
+            const whatsappUrl = `https://wa.me/5491157194796?text=${whatsappMessage}`;
+            window.open(whatsappUrl, '_blank');
+
+            // Mostrar modal de éxito
+            document.getElementById('success-modal').classList.add('show');
+            document.getElementById('contact-form').reset();
+            document.getElementById('questions-prompt').style.display = 'none';
+            document.getElementById('questions-section').classList.remove('show');
+        }
+
+        function closeModal() {
+            document.getElementById('success-modal').classList.remove('show');
+        }
+
+        // Cerrar modal con tecla Esc
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    

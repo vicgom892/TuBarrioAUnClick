@@ -3,1169 +3,763 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comunidad de Ofertas - Comerciantes Locales</title>
-    <meta name="description" content="Plataforma para comerciantes locales para compartir ofertas y promociones">
+    <title>Comunidad Tu Barrio - Ofertas y Promociones</title>
+     <!-- Iconos y Manifest -->
     <link rel="icon" href="img/icon-abeja-sola.png" type="image/png" sizes="32x32" />
     <link rel="icon" href="img/icon-192x192.png" type="image/png" sizes="192x192" />
     <link rel="apple-touch-icon" href="img/icon-192x192.png" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="mask-icon" href="img/icon-abeja-sola.png" color="#e1306c">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4a90e2;
-            --primary-hover: #357abd;
-            --whatsapp-color: #25D366;
-            --whatsapp-hover: #1DA851;
-            --background-color: #f4f7fa;
-            --card-color: #ffffff;
-            --text-color: #333;
-            --light-text: #666;
-            --border-color: #ddd;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
+            --primary-color: #1e3a8a; /* Azul oscuro tecnológico */
+            --secondary-color: #10b981; /* Verde esmeralda */
+            --accent-color: #00d4ff; /* Neón para toque futurista */
+            --background-color: #0f172a; /* Fondo oscuro elegante */
+            --card-color: #1e293b; /* Tarjetas oscuras */
+            --text-color: #e2e8f0; /* Texto claro */
+            --light-text: #94a3b8; /* Texto secundario */
+            --border-color: #475569; /* Bordes */
+            --danger-color: #ef4444; /* Rojo para expirados */
         }
-        
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: var(--background-color);
-            margin: 0;
-            padding: 20px;
             color: var(--text-color);
             line-height: 1.6;
-        }
-        
-        header {
-            text-align: center;
-            padding: 25px;
-            background-color: var(--card-color);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            margin-bottom: 30px;
-            transition: transform 0.3s ease;
-        }
-        
-        header:hover {
-            transform: translateY(-2px);
-        }
-        
-        h1, h2, h3, h4 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-        
-        p {
-            margin-bottom: 15px;
-            color: var(--light-text);
-        }
-        
-        .form-section {
-            background-color: var(--card-color);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 40px;
-            transition: all 0.3s ease;
-        }
-        
-        .form-section:hover {
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 12px 15px;
-            margin: 12px 0;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-            font-family: inherit;
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
-        }
-        
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin: 5px 0;
-        }
-        
-        button:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
-        }
-        
-        button:active {
-            transform: translateY(0);
-        }
-        
-        .offer {
-            background-color: var(--card-color);
             padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            overflow-x: hidden;
+        }
+
+           /* Banner elegante con logo y efecto de brillo */
+        .banner {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-color);
+            text-align: center;
+            padding: 80px 20px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.2);
             position: relative;
             overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
         }
-        
-        .offer:hover {
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            transform: translateY(-3px);
+
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+            animation: shine 4s infinite;
         }
-        
-        .offer h3 {
-            margin: 0 0 15px;
+
+        @keyframes shine {
+            0% { transform: translateX(-50%) translateY(-50%) rotate(45deg); }
+            100% { transform: translateX(50%) translateY(50%) rotate(45deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }    
+
+        .banner img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .banner h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .banner p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Filtro por rubro */
+        .filter-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .filter-section select {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-color);
             color: var(--text-color);
-            font-size: 1.5rem;
-        }
-        
-        .offer p {
-            margin-bottom: 15px;
-            font-size: 1rem;
-        }
-        
-        .offer img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .offer img:hover {
-            transform: scale(1.02);
-        }
-        
-        .likes {
-            margin: 15px 0;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .like-btn {
-            background-color: #f8f9fa;
-            color: #6c757d;
-            border: 1px solid #dee2e6;
-            padding: 8px 16px;
-            border-radius: 20px;
+            font-size: 16px;
             cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .filter-section select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        /* Contenedor de tarjetas */
+        .offers-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Tarjeta dinámica elegante */
+        .offer-card {
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 212, 255, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            will-change: transform;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .offer-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            -loading: lazy;
+            cursor: pointer;
+        }
+
+        .offer-card h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .offer-card p {
+            margin-bottom: 10px;
+            color: var(--light-text);
+            font-size: 0.95rem;
+        }
+
+        .offer-card .rubro {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .offer-card .timer {
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 6px;
+            color: var(--danger-color);
+            text-align: center;
+        }
+
+        .offer-card .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .offer-card .btn {
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            transition: background-color 0.3s, transform 0.2s;
+            text-align: center;
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .offer-card .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .offer-card .web-btn {
+            background-color: var(--primary-color);
+        }
+
+        .offer-card .web-btn:hover {
+            background-color: #1e40af;
+        }
+
+        .offer-card .instagram-btn {
+            background-color: #E1306C;
+        }
+
+        .offer-card .instagram-btn:hover {
+            background-color: #C13584;
+        }
+
+        .offer-card .whatsapp-btn {
+            background-color: #25D366;
+        }
+
+        .offer-card .whatsapp-btn:hover {
+            background-color: #1DA851;
+        }
+
+        .offer-card .like-btn {
+            background-color: transparent;
+            color: var(--light-text);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            margin: 10px 0 0 0 ;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             gap: 5px;
-            transition: all 0.3s ease;
         }
-        
-        .like-btn:hover {
-            background-color: #e9ecef;
-            color: var(--primary-color);
-            border-color: var(--primary-color);
+
+        .offer-card .like-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--card-color);
         }
-        
-        .comments {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid var(--border-color);
+
+        .offer-card .like-btn.liked {
+            background-color: var(--accent-color);
+            color: var(--card-color);
+            animation: pulse 0.3s;
         }
-        
-        .comment {
-            background-color: #f8f9fa;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 8px;
-            position: relative;
-            border-left: 4px solid var(--primary-color);
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
-        
-        .comment-form {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px dashed var(--border-color);
-        }
-        
-        .whatsapp-btn {
-            background-color: var(--whatsapp-color);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 15px;
+
+        .offer-card .likes-count {
+            margin-left: 10px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color: var(--text-color);
         }
-        
-        .whatsapp-btn:hover {
-            background-color: var(--whatsapp-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
-        }
-        
-        .whatsapp-icon::before {
-            content: "📱";
-            font-size: 1.2em;
-        }
-        
-        .message {
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 8px;
-            font-weight: 600;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.5s ease;
-        }
-        
-        .message.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--light-text);
-        }
-        
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left: 4px solid var(--primary-color);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Auth Modal */
+
+        /* Modal para tarjeta completa */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-in-out;
+            overflow-y: auto;
+            padding: 20px;
         }
-        
-        .modal-content {
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal .modal-card {
             background-color: var(--card-color);
-            margin: 10% auto;
-            padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            width: 90%;
-            max-width: 500px;
-            animation: modalOpen 0.3s ease-out;
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.2);
+            padding: 20px;
+            max-width: 90%;
+            width: 500px;
+            position: relative;
+            border: 1px solid var(--border-color);
         }
-        
-        @keyframes modalOpen {
-            from {opacity: 0; transform: translateY(-50px);}
-            to {opacity: 1; transform: translateY(0);}
+
+        .modal .modal-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            -loading: lazy;
         }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
+
+        .modal .modal-card h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .modal .modal-card p {
+            margin-bottom: 10px;
+            color: var(--light-text);
+            font-size: 1rem;
+        }
+
+        .modal .modal-card .rubro {
             font-weight: bold;
-            cursor: pointer;
+            color: var(--secondary-color);
         }
-        
-        .close:hover {
+
+        .modal .modal-card .timer {
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 6px;
+            color: var(--danger-color);
+            text-align: center;
+        }
+
+        .modal .modal-card .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .modal .modal-card .btn {
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            transition: background-color 0.3s, transform 0.2s;
+            text-align: center;
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .modal .modal-card .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .modal .modal-card .web-btn {
+            background-color: var(--primary-color);
+        }
+
+        .modal .modal-card .web-btn:hover {
+            background-color: #1e40af;
+        }
+
+        .modal .modal-card .instagram-btn {
+            background-color: #E1306C;
+        }
+
+        .modal .modal-card .instagram-btn:hover {
+            background-color: #C13584;
+        }
+
+        .modal .modal-card .whatsapp-btn {
+            background-color: #25D366;
+        }
+
+        .modal .modal-card .whatsapp-btn:hover {
+            background-color: #1DA851;
+        }
+
+        .modal .modal-card .like-btn {
+            background-color: transparent;
+            color: var(--light-text);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin: 10px 0 0 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .modal .modal-card .like-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--card-color);
+        }
+
+        .modal .modal-card .like-btn.liked {
+            background-color: var(--accent-color);
+            color: var(--card-color);
+            animation: pulse 0.3s;
+        }
+
+        .modal .modal-card .likes-count {
+            margin-left: 10px;
+            font-weight: 600;
             color: var(--text-color);
         }
-        
-        .user-info {
+
+        .modal .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .modal .close-btn:hover {
+            background: #1e40af;
+        }
+
+        /* Botón de regreso con logo */
+        .back-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 1000;
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: var(--card-color);
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+
+        .back-btn img {
+            width: 24px;
+            height: 24px;
         }
-        
-        .logout-btn {
-            background-color: var(--danger-color);
-            margin-left: auto;
-        }
-        
-        .logout-btn:hover {
-            background-color: #c82333;
-        }
-        
-        .merchant-badge {
-            background-color: var(--success-color);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        .client-badge {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        /* Responsive design */
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            
-            header, .form-section, .offer {
-                border-radius: 8px;
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            button, .whatsapp-btn {
-                width: 100%;
-                margin: 10px 0;
-            }
-            
-            .modal-content {
-                margin: 5% auto;
-                padding: 20px;
-            }
-        }
-        
-        /* Botón de regreso a la app principal */
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 50%;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            z-index: 100;
-            transition: all 0.3s ease;
-        }
-        
+
         .back-btn:hover {
-            background-color: var(--primary-hover);
+            background-color: #1e40af;
             transform: scale(1.1);
         }
-        
-        /* Auth buttons */
-        .auth-buttons {
-            display: flex;
-            gap: 15px;
-            margin: 20px 0;
+
+        /* Loading spinner */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: var(--accent-color);
         }
-        
-        .auth-btn {
-            flex: 1;
-            padding: 15px;
-            font-size: 16px;
-            border-radius: 8px;
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--accent-color);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
         }
-        
-        .login-btn {
-            background-color: var(--primary-color);
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
-        
-        .register-btn {
-            background-color: var(--success-color);
-        }
-        
-        .login-btn:hover {
-            background-color: var(--primary-hover);
-        }
-        
-        .register-btn:hover {
-            background-color: #218838;
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .offers-container {
+                grid-template-columns: 1fr;
+            }
+
+            .banner {
+                padding: 50px 15px;
+            }
+
+            .banner h1 {
+                font-size: 2rem;
+            }
+
+            .offer-card {
+                box-shadow: 0 2px 8px rgba(0, 212, 255, 0.1);
+            }
+
+            .modal .modal-card {
+                max-width: 95%;
+                width: 100%;
+                padding: 15px;
+            }
+
+            .modal .modal-card img {
+                height: 200px;
+            }
+
+            .modal .modal-card h3 {
+                font-size: 1.5rem;
+            }
+
+            .modal .close-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Botón para regresar a la app principal -->
-    <a href="index.html" class="back-btn" title="Volver a la app principal">←</a>
-
-    <!-- User Info Bar (se muestra cuando está logueado) -->
-    <div id="user-info-bar" class="user-info" style="display: none;">
-        <div class="user-avatar" id="user-avatar">U</div>
-        <div>
-            <div id="user-name">Usuario</div>
-            <div id="user-type-badge"></div>
-        </div>
-        <button id="logout-btn" class="logout-btn">Cerrar Sesión</button>
+    <!-- Banner elegante con logo y nombre -->
+    <div class="banner">
+        <img src="../img/icon-192x192.png" alt="Tu Barrio a un Click">
+        <h1>Tu Barrio a un Click</h1>
+        <p>¡Explora las mejores ofertas y promociones en tu comunidad!</p>
     </div>
 
-    <header>
-        <h1>Comunidad de Ofertas</h1>
-        <p>¡Conéctate con comerciantes locales y descubre las mejores promociones!</p>
-        <p id="auth-required-message">Por favor, inicia sesión o regístrate para acceder a todas las funciones.</p>
-    </header>
-
-    <!-- Formulario para subir oferta (solo visible para comerciantes) -->
-    <section class="form-section" id="upload-form" style="display: none;">
-        <h2>Subir Nueva Oferta</h2>
-        <input type="text" id="offer-title" placeholder="Título de la oferta (e.g., Descuento 20% en pizzas)" required>
-        <textarea id="offer-desc" rows="4" placeholder="Descripción detallada de tu oferta" required></textarea>
-        <input type="text" id="whatsapp-number" placeholder="Número WhatsApp (e.g., 56912345678, sin +)">
-        <input type="file" id="offer-image" accept="image/*">
-        <button id="submit-btn">Subir Oferta</button>
-        <div id="upload-message" class="message"></div>
-    </section>
-
-    <!-- Lista de ofertas -->
-    <section id="offers-list">
-        <h2>Ofertas Actuales</h2>
-        <div class="loading">
-            <div class="spinner"></div>
-            <p>Cargando ofertas...</p>
-        </div>
-    </section>
-
-    <!-- Botones de autenticación -->
-    <div id="auth-buttons-container" style="text-align: center; margin: 30px 0;">
-        <div class="auth-buttons">
-            <button id="login-btn" class="auth-btn login-btn">Iniciar Sesión</button>
-            <button id="register-btn" class="auth-btn register-btn">Registrarse</button>
-        </div>
+    <!-- Filtro por rubro -->
+    <div class="filter-section">
+        <label for="rubro-filter">Filtrar por rubro:</label>
+        <select id="rubro-filter" onchange="filterOffers()">
+            <option value="">Todos</option>
+            <option value="Panadería">Panadería</option>
+            <option value="Farmacia">Farmacia</option>
+            <option value="Kiosco">Kiosco</option>
+            <option value="Barbería">Barbería</option>
+            <option value="Otro">Otro</option>
+        </select>
     </div>
 
-    <!-- Modal de Login -->
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="close-login">&times;</span>
-            <h2>Iniciar Sesión</h2>
-            <input type="email" id="login-email" placeholder="Correo electrónico" required>
-            <input type="password" id="login-password" placeholder="Contraseña" required>
-            <button id="login-submit" class="login-btn">Iniciar Sesión</button>
-            <p style="margin-top: 15px;">¿No tienes cuenta? <a href="#" id="switch-to-register">Regístrate aquí</a></p>
-        </div>
+    <!-- Contenedor de ofertas -->
+    <div class="offers-container" id="offers-container">
+        <div class="loading">Cargando ofertas...</div>
     </div>
 
-    <!-- Modal de Registro -->
-    <div id="register-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="close-register">&times;</span>
-            <h2>Crear Cuenta</h2>
-            <input type="text" id="register-name" placeholder="Nombre completo" required>
-            <input type="email" id="register-email" placeholder="Correo electrónico" required>
-            <input type="password" id="register-password" placeholder="Contraseña (mínimo 6 caracteres)" required>
-            <select id="register-type" required>
-                <option value="">Selecciona tu tipo de usuario</option>
-                <option value="merchant">Comerciante (quiero publicar ofertas)</option>
-                <option value="client">Cliente (quiero ver y comentar ofertas)</option>
-            </select>
-            <button id="register-submit" class="register-btn">Crear Cuenta</button>
-            <p style="margin-top: 15px;">¿Ya tienes cuenta? <a href="#" id="switch-to-login">Inicia sesión aquí</a></p>
-        </div>
+    <!-- Modal para tarjeta completa -->
+    <div class="modal" id="card-modal">
+        <div class="modal-card" id="modal-card-content"></div>
+        <button class="close-btn" onclick="closeModal()">✖</button>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <!-- Botón de regreso con logo -->
+    <a href="index.html" class="back-btn">
+        <img src="../img/icon-192x192.png" alt="Tu Barrio a un Click">
+        Regresar
+    </a>
 
+    <!-- Script para manejar JSON, cronómetro, likes y modal -->
     <script>
-        // Configuración de Firebase - ¡REEMPLAZA ESTOS VALORES CON LOS DE TU PROYECTO!
-        const firebaseConfig = {
-          apiKey: "AIzaSyCaVm7L3wq23eAcCb6Yqtc5dAg3846eK4k",
-          authDomain: "comunidad-tu-barrio-3cfa9.firebaseapp.com",
-          projectId: "comunidad-tu-barrio-3cfa9",
-          storageBucket: "comunidad-tu-barrio-3cfa9.firebasestorage.app",
-          messagingSenderId: "443673420403",
-          appId: "1:443673420403:web:768aa1a7b5c04babd90006"
-        };
+        let offers = []; // Array de ofertas
 
-        // Inicializar Firebase
-        let app, db, storage, auth;
-        try {
-            app = firebase.initializeApp(firebaseConfig);
-            db = firebase.firestore();
-            storage = firebase.storage();
-            auth = firebase.auth();
-            console.log("Firebase inicializado correctamente");
-        } catch (error) {
-            if (error.code === 'app/duplicate-app') {
-                app = firebase.app();
-                db = firebase.firestore();
-                storage = firebase.storage();
-                auth = firebase.auth();
-            } else {
-                console.error("Error al inicializar Firebase:", error);
-                showMessage("Error al conectar con la base de datos. Por favor, contacte al administrador.", "error");
-            }
-        }
-
-        // Referencias a las colecciones
-        const offersCollection = db.collection('offers');
-        const commentsCollection = db.collection('comments');
-        const usersCollection = db.collection('users');
-
-        // Variables globales
-        let currentUser = null;
-
-        // Inicializar la aplicación
-        document.addEventListener('DOMContentLoaded', function() {
-            // Configurar modales
-            setupModals();
-            
-            // Configurar autenticación
-            setupAuth();
-            
-            // Configurar eventos
-            setupEventListeners();
-            
-            // Verificar estado de autenticación
-            auth.onAuthStateChanged(user => {
-                if (user) {
-                    currentUser = user;
-                    loadUserData(user);
-                } else {
-                    currentUser = null;
-                    showAuthButtons();
-                    hideUploadForm();
-                }
-            });
-        });
-
-        // Configurar modales
-        function setupModals() {
-            // Login modal
-            const loginModal = document.getElementById('login-modal');
-            const registerModal = document.getElementById('register-modal');
-            
-            // Abrir modales
-            document.getElementById('login-btn').addEventListener('click', () => {
-                loginModal.style.display = 'block';
-            });
-            
-            document.getElementById('register-btn').addEventListener('click', () => {
-                registerModal.style.display = 'block';
-            });
-            
-            // Cerrar modales
-            document.getElementById('close-login').addEventListener('click', () => {
-                loginModal.style.display = 'none';
-            });
-            
-            document.getElementById('close-register').addEventListener('click', () => {
-                registerModal.style.display = 'none';
-            });
-            
-            // Cambiar entre modales
-            document.getElementById('switch-to-register').addEventListener('click', (e) => {
-                e.preventDefault();
-                loginModal.style.display = 'none';
-                registerModal.style.display = 'block';
-            });
-            
-            document.getElementById('switch-to-login').addEventListener('click', (e) => {
-                e.preventDefault();
-                registerModal.style.display = 'none';
-                loginModal.style.display = 'block';
-            });
-            
-            // Cerrar modal al hacer clic fuera
-            window.addEventListener('click', (event) => {
-                if (event.target === loginModal) {
-                    loginModal.style.display = 'none';
-                }
-                if (event.target === registerModal) {
-                    registerModal.style.display = 'none';
-                }
-            });
-        }
-
-        // Configurar autenticación
-        function setupAuth() {
-            // Login
-            document.getElementById('login-submit').addEventListener('click', async () => {
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                
-                if (!email || !password) {
-                    showMessage('Por favor, completa todos los campos', 'error');
-                    return;
-                }
-                
-                try {
-                    showMessage('Iniciando sesión...', 'info');
-                    await auth.signInWithEmailAndPassword(email, password);
-                    document.getElementById('login-modal').style.display = 'none';
-                    showMessage('¡Bienvenido de nuevo!', 'success');
-                } catch (error) {
-                    console.error('Error al iniciar sesión:', error);
-                    let errorMessage = 'Error al iniciar sesión. ';
-                    switch (error.code) {
-                        case 'auth/user-not-found':
-                            errorMessage += 'Usuario no encontrado.';
-                            break;
-                        case 'auth/wrong-password':
-                            errorMessage += 'Contraseña incorrecta.';
-                            break;
-                        case 'auth/invalid-email':
-                            errorMessage += 'Correo electrónico inválido.';
-                            break;
-                        default:
-                            errorMessage += 'Por favor, intenta nuevamente.';
-                    }
-                    showMessage(errorMessage, 'error');
-                }
-            });
-            
-            // Registro
-            document.getElementById('register-submit').addEventListener('click', async () => {
-                const name = document.getElementById('register-name').value;
-                const email = document.getElementById('register-email').value;
-                const password = document.getElementById('register-password').value;
-                const userType = document.getElementById('register-type').value;
-                
-                if (!name || !email || !password || !userType) {
-                    showMessage('Por favor, completa todos los campos', 'error');
-                    return;
-                }
-                
-                if (password.length < 6) {
-                    showMessage('La contraseña debe tener al menos 6 caracteres', 'error');
-                    return;
-                }
-                
-                try {
-                    showMessage('Creando cuenta...', 'info');
-                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                    const user = userCredential.user;
-                    
-                    // Guardar información adicional del usuario en Firestore
-                    await usersCollection.doc(user.uid).set({
-                        name: name,
-                        email: email,
-                        type: userType,
-                        created_at: firebase.firestore.FieldValue.serverTimestamp(),
-                        updated_at: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                    
-                    document.getElementById('register-modal').style.display = 'none';
-                    showMessage('¡Cuenta creada exitosamente! Bienvenido a la comunidad.', 'success');
-                } catch (error) {
-                    console.error('Error al crear cuenta:', error);
-                    let errorMessage = 'Error al crear cuenta. ';
-                    switch (error.code) {
-                        case 'auth/email-already-in-use':
-                            errorMessage += 'Este correo electrónico ya está en uso.';
-                            break;
-                        case 'auth/invalid-email':
-                            errorMessage += 'Correo electrónico inválido.';
-                            break;
-                        case 'auth/weak-password':
-                            errorMessage += 'La contraseña es demasiado débil.';
-                            break;
-                        default:
-                            errorMessage += 'Por favor, intenta nuevamente.';
-                    }
-                    showMessage(errorMessage, 'error');
-                }
-            });
-            
-            // Logout
-            document.getElementById('logout-btn').addEventListener('click', async () => {
-                try {
-                    await auth.signOut();
-                    showMessage('Has cerrado sesión correctamente', 'info');
-                } catch (error) {
-                    console.error('Error al cerrar sesión:', error);
-                    showMessage('Error al cerrar sesión', 'error');
-                }
-            });
-        }
-
-        // Configurar eventos
-        function setupEventListeners() {
-            // Configurar el botón de envío de oferta
-            document.getElementById('submit-btn').addEventListener('click', addOffer);
-        }
-
-        // Cargar datos del usuario
-        async function loadUserData(user) {
-            try {
-                const userDoc = await usersCollection.doc(user.uid).get();
-                if (userDoc.exists) {
-                    const userData = userDoc.data();
-                    
-                    // Mostrar información del usuario
-                    document.getElementById('user-info-bar').style.display = 'flex';
-                    document.getElementById('auth-buttons-container').style.display = 'none';
-                    document.getElementById('auth-required-message').style.display = 'none';
-                    
-                    // Configurar avatar
-                    const firstLetter = userData.name.charAt(0).toUpperCase();
-                    document.getElementById('user-avatar').textContent = firstLetter;
-                    document.getElementById('user-name').textContent = userData.name;
-                    
-                    // Configurar badge de tipo de usuario
-                    const typeBadge = document.getElementById('user-type-badge');
-                    if (userData.type === 'merchant') {
-                        typeBadge.textContent = 'Comerciante';
-                        typeBadge.className = 'merchant-badge';
-                        // Mostrar formulario de subida de ofertas
-                        document.getElementById('upload-form').style.display = 'block';
-                    } else {
-                        typeBadge.textContent = 'Cliente';
-                        typeBadge.className = 'client-badge';
-                        // Ocultar formulario de subida de ofertas
-                        document.getElementById('upload-form').style.display = 'none';
-                    }
-                    
-                    // Cargar ofertas
-                    loadOffers();
-                }
-            } catch (error) {
-                console.error('Error al cargar datos del usuario:', error);
-                showMessage('Error al cargar tu información. Por favor, inicia sesión nuevamente.', 'error');
-                auth.signOut();
-            }
-        }
-
-        // Mostrar botones de autenticación
-        function showAuthButtons() {
-            document.getElementById('user-info-bar').style.display = 'none';
-            document.getElementById('auth-buttons-container').style.display = 'block';
-            document.getElementById('auth-required-message').style.display = 'block';
-            document.getElementById('upload-form').style.display = 'none';
-            document.getElementById('offers-list').innerHTML = '<h2>Ofertas Actuales</h2><p class="loading">Por favor, inicia sesión para ver las ofertas disponibles.</p>';
-        }
-
-        // Ocultar formulario de subida
-        function hideUploadForm() {
-            document.getElementById('upload-form').style.display = 'none';
-        }
-
-        // Mostrar mensaje temporal
-        function showMessage(message, type) {
-            const messageElement = document.getElementById('upload-message') || 
-                document.createElement('div');
-            if (!document.getElementById('upload-message')) {
-                messageElement.id = 'upload-message';
-                messageElement.className = 'message';
-                document.body.appendChild(messageElement);
-            }
-            
-            messageElement.textContent = message;
-            messageElement.className = `message ${type} show`;
-            
-            setTimeout(() => {
-                messageElement.classList.remove('show');
-                setTimeout(() => {
-                    messageElement.textContent = '';
-                    messageElement.className = 'message';
-                }, 500);
-            }, 3000);
-        }
-
-        
-        // Función para subir oferta (solo para comerciantes)
-        async function addOffer() {
-            if (!currentUser) {
-                showMessage('Por favor, inicia sesión para subir una oferta', 'error');
-                return;
-            }
-            
-            // Verificar que el usuario es comerciante
-            try {
-                const userDoc = await usersCollection.doc(currentUser.uid).get();
-                if (!userDoc.exists || userDoc.data().type !== 'merchant') {
-                    showMessage('Solo los comerciantes pueden subir ofertas', 'error');
-                    return;
-                }
-            } catch (error) {
-                console.error('Error al verificar tipo de usuario:', error);
-                showMessage('Error al verificar tu perfil. Por favor, intenta nuevamente.', 'error');
-                return;
-            }
-            
-            const title = document.getElementById('offer-title').value.trim();
-            const desc = document.getElementById('offer-desc').value.trim();
-            const whatsapp = document.getElementById('whatsapp-number').value.trim();
-            const imageFile = document.getElementById('offer-image').files[0];
-            
-            if (!title || !desc) {
-                showMessage('Por favor, completa el título y la descripción', 'error');
-                return;
-            }
-            
-            try {
-                // Mostrar mensaje de carga
-                document.getElementById('submit-btn').disabled = true;
-                showMessage('Subiendo oferta...', 'info');
-                
-                let imageUrl = '';
-                
-                // Si hay imagen, subirla a Firebase Storage
-                if (imageFile) {
-                    const storageRef = storage.ref();
-                    const imageRef = storageRef.child(`offers/${Date.now()}_${imageFile.name}`);
-                    await imageRef.put(imageFile);
-                    imageUrl = await imageRef.getDownloadURL();
-                }
-                
-                // Obtener datos del usuario
-                const userDoc = await usersCollection.doc(currentUser.uid).get();
-                const userData = userDoc.data();
-                
-                // Crear nueva oferta en Firestore
-                const newOffer = {
-                    title,
-                    description: desc,
-                    whatsapp_number: whatsapp,
-                    image_path: imageUrl,
-                    likes: 0,
-                    merchant_id: currentUser.uid,
-                    merchant_name: userData.name,
-                    created_at: firebase.firestore.FieldValue.serverTimestamp(),
-                    updated_at: firebase.firestore.FieldValue.serverTimestamp()
-                };
-                
-                // Guardar en Firestore
-                const docRef = await offersCollection.add(newOffer);
-                
-                showMessage('¡Oferta subida exitosamente!', 'success');
-                
-                // Limpiar formulario
-                document.getElementById('offer-title').value = '';
-                document.getElementById('offer-desc').value = '';
-                document.getElementById('whatsapp-number').value = '';
-                document.getElementById('offer-image').value = '';
-                document.getElementById('submit-btn').disabled = false;
-                
-                // Recargar ofertas
-                loadOffers();
-                
-            } catch (error) {
-                console.error('Error al subir la oferta:', error);
-                showMessage('Error al subir la oferta. Por favor, intenta nuevamente.', 'error');
-                document.getElementById('submit-btn').disabled = false;
-            }
-        }
-        
-        // Cargar y mostrar ofertas
+        // Cargar ofertas iniciales desde JSON o localStorage
         async function loadOffers() {
-            if (!currentUser) return;
-            
             try {
-                const offersList = document.getElementById('offers-list');
-                offersList.innerHTML = '<h2>Ofertas Actuales</h2>';
-                
-                // Obtener ofertas de Firestore ordenadas por fecha (más recientes primero)
-                const snapshot = await offersCollection
-                    .orderBy('created_at', 'desc')
-                    .get();
-                
-                if (snapshot.empty) {
-                    offersList.innerHTML += '<p class="loading">No hay ofertas disponibles. ¡Los comerciantes pronto publicarán promociones!</p>';
-                    return;
-                }
-                
-                // Mostrar cada oferta
-                for (const doc of snapshot.docs) {
-                    const offer = doc.data();
-                    const offerId = doc.id;
-                    
-                    // Obtener datos del comerciante
-                    let merchantName = offer.merchant_name || 'Comerciante';
-                    try {
-                        if (offer.merchant_id) {
-                            const merchantDoc = await usersCollection.doc(offer.merchant_id).get();
-                            if (merchantDoc.exists) {
-                                merchantName = merchantDoc.data().name;
-                            }
-                        }
-                    } catch (error) {
-                        console.error('Error al obtener datos del comerciante:', error);
-                    }
-                    
-                    const offerDiv = document.createElement('div');
-                    offerDiv.classList.add('offer');
-                    offerDiv.id = `offer-${offerId}`;
-                    offerDiv.innerHTML = `
-                        <h3>${offer.title}</h3>
-                        <p><strong>Publicado por:</strong> ${merchantName}</p>
-                        <p>${offer.description}</p>
-                        ${offer.image_path ? `<img src="${offer.image_path}" alt="Imagen de oferta" loading="lazy">` : ''}
-                        <div class="likes">
-                            <span>👍</span>
-                            <span id="likes-count-${offerId}">${offer.likes || 0}</span>
-                            <button class="like-btn" data-offer-id="${offerId}">Me gusta</button>
-                        </div>
-                        ${offer.whatsapp_number ? `<a href="https://wa.me/${offer.whatsapp_number}" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
-                            <span class="whatsapp-icon"></span> Contactar por WhatsApp
-                        </a>` : ''}
-                        <div class="comments" id="comments-${offerId}">
-                            <h4>Comentarios:</h4>
-                            <div id="comments-container-${offerId}"></div>
-                        </div>
-                        <div class="comment-form">
-                            <textarea id="comment-${offerId}" placeholder="Escribe un comentario..."></textarea>
-                            <button class="add-comment-btn" data-offer-id="${offerId}">Enviar Comentario</button>
-                        </div>
-                    `;
-                    offersList.appendChild(offerDiv);
-                    
-                    // Configurar eventos para like y comentarios
-                    setupOfferEvents(offerId);
-                    
-                    // Cargar comentarios para esta oferta
-                    loadComments(offerId);
-                }
-                
+                const container = document.getElementById('offers-container');
+                container.innerHTML = '<div class="loading">Cargando ofertas...</div>';
+
+                const response = await fetch('../datos/seccion-ofertas.json');
+                if (!response.ok) throw new Error('Error al cargar ofertas.json');
+                offers = await response.json();
+
+                const storedOffers = JSON.parse(localStorage.getItem('offers')) || [];
+                offers = [...offers, ...storedOffers];
+
+                renderOffers();
             } catch (error) {
                 console.error('Error al cargar ofertas:', error);
-                showMessage('Error al cargar las ofertas. Por favor, intenta nuevamente.', 'error');
+                document.getElementById('offers-container').innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error al cargar las ofertas. Verifica el archivo ofertas.json.</p>';
             }
         }
-        
-        // Configurar eventos para una oferta específica
-        function setupOfferEvents(offerId) {
-            // Evento para dar like
-            const likeBtn = document.querySelector(`.like-btn[data-offer-id="${offerId}"]`);
-            if (likeBtn) {
-                likeBtn.addEventListener('click', () => {
-                    if (!currentUser) {
-                        showMessage('Por favor, inicia sesión para dar like', 'error');
-                        return;
-                    }
-                    addLike(offerId);
-                });
+
+        // Renderizar tarjetas, filtradas si aplica
+        function renderOffers(filterRubro = '') {
+            const container = document.getElementById('offers-container');
+            container.innerHTML = '';
+
+            const filteredOffers = filterRubro ? offers.filter(offer => offer.rubro === filterRubro) : offers;
+
+            if (filteredOffers.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--light-text);">No hay ofertas disponibles para este rubro.</p>';
+                return;
             }
-            
-            // Evento para agregar comentario
-            const commentBtn = document.querySelector(`.add-comment-btn[data-offer-id="${offerId}"]`);
-            if (commentBtn) {
-                commentBtn.addEventListener('click', () => {
-                    if (!currentUser) {
-                        showMessage('Por favor, inicia sesión para comentar', 'error');
-                        return;
-                    }
-                    addComment(offerId);
-                });
-            }
-        }
-        
-        // Función para agregar like
-        async function addLike(offerId) {
-            try {
-                const offerRef = offersCollection.doc(offerId);
-                
-                // Actualizar el contador de likes
-                await offerRef.update({
-                    likes: firebase.firestore.FieldValue.increment(1),
-                    updated_at: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                // Actualizar visualmente
-                const likesElement = document.getElementById(`likes-count-${offerId}`);
-                if (likesElement) {
-                    const currentLikes = parseInt(likesElement.textContent) || 0;
-                    likesElement.textContent = currentLikes + 1;
+
+            filteredOffers.forEach((offer, index) => {
+                const card = document.createElement('div');
+                card.classList.add('offer-card');
+                card.innerHTML = `
+                    ${offer.image ? `<img src="${offer.image}" alt="${offer.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x200?text=Imagen+No+Disponible'" onclick="openModal(${index})">` : ''}
+                    <h3>${offer.title}</h3>
+                    <p>${offer.description}</p>
+                    <p class="rubro">Rubro: ${offer.rubro}</p>
+                    ${offer.start_date && offer.end_date ? `<p class="timer" id="timer-${index}">Tiempo restante: Calculando...</p>` : ''}
+                    <div class="buttons">
+                        ${offer.web_url ? `<a href="${offer.web_url}" class="btn web-btn" target="_blank">Visitar Web</a>` : ''}
+                        ${offer.instagram_url ? `<a href="${offer.instagram_url}" class="btn instagram-btn" target="_blank">Instagram</a>` : ''}
+                        ${offer.whatsapp ? `<a href="https://wa.me/${offer.whatsapp}" class="btn whatsapp-btn" target="_blank">WhatsApp</a>` : ''}
+                    </div>
+                    <button class="like-btn ${offer.liked ? 'liked' : ''}" onclick="likeOffer(${index})">⭐ Me gusta</button>
+                    <span class="likes-count" id="likes-${index}">${offer.likes || 0}</span>
+                `;
+                container.appendChild(card);
+
+                if (offer.start_date && offer.end_date) {
+                    startTimer(index, offer.start_date, offer.end_date);
                 }
-                
-                showMessage('¡Gracias por tu like!', 'success');
-                
-            } catch (error) {
-                console.error('Error al agregar like:', error);
-                showMessage('Error al agregar like. Por favor, intenta nuevamente.', 'error');
-            }
+            });
         }
-        
-        // Función para agregar comentario
-        async function addComment(offerId) {
-            if (!currentUser) {
-                showMessage('Por favor, inicia sesión para comentar', 'error');
-                return;
-            }
-            
-            const commentText = document.getElementById(`comment-${offerId}`).value.trim();
-            if (!commentText) {
-                showMessage('Por favor, escribe un comentario', 'error');
-                return;
-            }
-            
-            try {
-                // Obtener nombre del usuario
-                const userDoc = await usersCollection.doc(currentUser.uid).get();
-                const userName = userDoc.exists ? userDoc.data().name : 'Usuario';
-                const userType = userDoc.exists ? userDoc.data().type : 'client';
-                
-                // Crear nuevo comentario en Firestore
-                const newComment = {
-                    offer_id: offerId,
-                    user_id: currentUser.uid,
-                    user_name: userName,
-                    user_type: userType,
-                    text: commentText,
-                    created_at: firebase.firestore.FieldValue.serverTimestamp()
-                };
-                
-                await commentsCollection.add(newComment);
-                
-                document.getElementById(`comment-${offerId}`).value = '';
-                
-                // Recargar comentarios para esta oferta
-                loadComments(offerId);
-                showMessage('Comentario agregado exitosamente', 'success');
-                
-            } catch (error) {
-                console.error('Error al agregar comentario:', error);
-                showMessage('Error al agregar comentario', 'error');
-            }
+
+        // Filtrar ofertas
+        function filterOffers() {
+            const filterRubro = document.getElementById('rubro-filter').value;
+            renderOffers(filterRubro);
         }
-        
-        // Cargar comentarios
-        async function loadComments(offerId) {
-            try {
-                const commentsContainer = document.getElementById(`comments-container-${offerId}`);
-                if (!commentsContainer) return;
-                
-                // Limpiar comentarios existentes
-                commentsContainer.innerHTML = '';
-                
-                // Obtener comentarios para esta oferta
-                const snapshot = await commentsCollection
-                    .where('offer_id', '==', offerId)
-                    .orderBy('created_at', 'asc')
-                    .get();
-                
-                if (snapshot.empty) {
-                    commentsContainer.innerHTML = '<p class="light-text">Sé el primero en comentar esta oferta.</p>';
+
+        // Función para likes
+        function likeOffer(index) {
+            offers[index].likes = (offers[index].likes || 0) + 1;
+            offers[index].liked = true;
+            localStorage.setItem('offers', JSON.stringify(offers));
+            renderOffers(document.getElementById('rubro-filter').value);
+        }
+
+        // Función para cronómetro optimizada
+        function startTimer(index, startDate, endDate) {
+            const timerElement = document.getElementById(`timer-${index}`);
+            const modalTimerElement = document.getElementById(`modal-timer-${index}`);
+            if (!timerElement && !modalTimerElement) return;
+
+            const updateTimer = () => {
+                const now = new Date().getTime();
+                const start = new Date(startDate).getTime();
+                const end = new Date(endDate).getTime();
+
+                if (isNaN(start) || isNaN(end)) {
+                    if (timerElement) timerElement.textContent = 'Fechas inválidas';
+                    if (modalTimerElement) modalTimerElement.textContent = 'Fechas inválidas';
+                    if (timerElement) timerElement.style.color = 'var(--danger-color)';
+                    if (modalTimerElement) modalTimerElement.style.color = 'var(--danger-color)';
                     return;
                 }
-                
-                // Mostrar cada comentario
-                for (const doc of snapshot.docs) {
-                    const comment = doc.data();
-                    const commentDiv = document.createElement('div');
-                    commentDiv.classList.add('comment');
-                    
-                    // Formatear fecha
-                    let dateStr = 'Recientemente';
-                    if (comment.created_at && comment.created_at.toDate) {
-                        const date = comment.created_at.toDate();
-                        dateStr = date.toLocaleDateString('es-ES', { 
-                            day: 'numeric', 
-                            month: 'short', 
-                            hour: '2-digit', 
-                            minute: '2-digit' 
-                        });
+
+                if (now < start) {
+                    const distance = start - now;
+                    const text = `Inicia en: ${formatTime(distance)}`;
+                    const color = 'var(--primary-color)';
+                    if (timerElement) {
+                        timerElement.textContent = text;
+                        timerElement.style.color = color;
                     }
-                    
-                    // Badge de tipo de usuario
-                    let userTypeBadge = '';
-                    if (comment.user_type === 'merchant') {
-                        userTypeBadge = '<span class="merchant-badge" style="font-size: 10px; margin-left: 5px;">Comerciante</span>';
-                    } else {
-                        userTypeBadge = '<span class="client-badge" style="font-size: 10px; margin-left: 5px;">Cliente</span>';
+                    if (modalTimerElement) {
+                        modalTimerElement.textContent = text;
+                        modalTimerElement.style.color = color;
                     }
-                    
-                    commentDiv.innerHTML = `
-                        <p><strong>${comment.user_name}</strong>${userTypeBadge}</p>
-                        <p>${comment.text}</p>
-                        <small>${dateStr}</small>
-                    `;
-                    commentsContainer.appendChild(commentDiv);
+                } else if (now < end) {
+                    const distance = end - now;
+                    const text = `Tiempo restante: ${formatTime(distance)}`;
+                    const color = 'var(--secondary-color)';
+                    if (timerElement) {
+                        timerElement.textContent = text;
+                        timerElement.style.color = color;
+                    }
+                    if (modalTimerElement) {
+                        modalTimerElement.textContent = text;
+                        modalTimerElement.style.color = color;
+                    }
+                } else {
+                    const text = 'Oferta expirada';
+                    const color = 'var(--danger-color)';
+                    if (timerElement) {
+                        timerElement.textContent = text;
+                        timerElement.style.color = color;
+                    }
+                    if (modalTimerElement) {
+                        modalTimerElement.textContent = text;
+                        modalTimerElement.style.color = color;
+                    }
                 }
-                
-            } catch (error) {
-                console.error('Error al cargar comentarios:', error);
+
+                if (now < end) {
+                    requestAnimationFrame(updateTimer);
+                }
+            };
+
+            function formatTime(distance) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+
+            updateTimer();
+        }
+
+        // Funciones para el modal
+        function openModal(index) {
+            const offer = offers[index];
+            const modal = document.getElementById('card-modal');
+            const modalContent = document.getElementById('modal-card-content');
+            modalContent.innerHTML = `
+                ${offer.image ? `<img src="${offer.image}" alt="${offer.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x200?text=Imagen+No+Disponible'">` : ''}
+                <h3>${offer.title}</h3>
+                <p>${offer.description}</p>
+                <p class="rubro">Rubro: ${offer.rubro}</p>
+                ${offer.start_date && offer.end_date ? `<p class="timer" id="modal-timer-${index}">Tiempo restante: Calculando...</p>` : ''}
+                <div class="buttons">
+                    ${offer.web_url ? `<a href="${offer.web_url}" class="btn web-btn" target="_blank">Visitar Web</a>` : ''}
+                    ${offer.instagram_url ? `<a href="${offer.instagram_url}" class="btn instagram-btn" target="_blank">Instagram</a>` : ''}
+                    ${offer.whatsapp ? `<a href="https://wa.me/${offer.whatsapp}" class="btn whatsapp-btn" target="_blank">WhatsApp</a>` : ''}
+                </div>
+                <button class="like-btn ${offer.liked ? 'liked' : ''}" onclick="likeOffer(${index}); closeModal(); renderOffers(document.getElementById('rubro-filter').value)">⭐ Me gusta</button>
+                <span class="likes-count" id="modal-likes-${index}">${offer.likes || 0}</span>
+            `;
+            modal.classList.add('show');
+
+            // Iniciar cronómetro en el modal si aplica
+            if (offer.start_date && offer.end_date) {
+                startTimer(index, offer.start_date, offer.end_date);
+            }
+
+            // Cerrar con tecla Esc
+            document.addEventListener('keydown', closeOnEsc);
+            // Cerrar al hacer clic fuera de la tarjeta
+            modal.addEventListener('click', closeOnClickOutside);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('card-modal');
+            modal.classList.remove('show');
+            document.removeEventListener('keydown', closeOnEsc);
+            modal.removeEventListener('click', closeOnClickOutside);
+        }
+
+        function closeOnEsc(e) {
+            if (e.key === 'Escape') {
+                closeModal();
             }
         }
+
+        function closeOnClickOutside(e) {
+            if (e.target === document.getElementById('card-modal')) {
+                closeModal();
+            }
+        }
+
+        // Cargar ofertas al iniciar
+        loadOffers();
     </script>
 </body>
 </html>

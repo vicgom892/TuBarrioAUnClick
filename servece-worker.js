@@ -1,36 +1,33 @@
-// sw.js
-const CACHE_VERSION = 'v18'; // Incrementado para forzar limpieza
+// service-worker.js - Versión corregida para el problema de carga inicial
+const CACHE_VERSION = 'v17'; // Incrementado para forzar limpieza
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const ASSETS_CACHE = `assets-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 
-// Límites de caché (aumentado dynamic para soportar más páginas)
+// Límites de caché
 const CACHE_LIMITS = {
   assets: 200,
-  dynamic: 100, // Aumentado para páginas de negocios
-  api: 50
+  dynamic: 50,
+  api: 30
 };
 
 // === ARCHIVOS ESENCIALES (se precargan en install) ===
 const PRECACHED_URLS = [
   '/',
   '/index.html',
-  '/comunidad.html',
-  '/inscripcion.html',
-  '/offline.html',
   '/manifest.json',
   '/css/styles.css',
   '/css/negocios.css',
-  '/js/main.js',
   '/js/splash.js',
   '/js/chat.js',
-  '/js/testimonials.js'
+  '/js/testimonials.js',
+  '/offline.html'
 ];
 
-// Imágenes críticas (completado con todas las imágenes mencionadas)
+// Imágenes críticas
 const PRECACHED_IMAGES = [
-  '/img/icono-192x192.png',
+  '/img/icon-192x192.png',
   '/img/icon-logo.png',
   '/img/icon-abeja-sola.png',
   '/img/banner-1.jpeg',
@@ -38,7 +35,6 @@ const PRECACHED_IMAGES = [
   '/img/banner.png',
   '/img/mapa.jpeg',
   '/img/contacto.jpeg'
-  // Nota: Agrega aquí otras imágenes críticas de /img/ si son esenciales para offline
 ];
 
 // Páginas de negocios
@@ -58,15 +54,13 @@ const NEGOCIOS_PAGES = [
   '/negocios/fiambreria.html'
 ];
 
-// Imágenes de negocios (agrega aquí imágenes específicas de /img/ usadas en /negocios/*.html)
+// Imágenes de negocios
 const NEGOCIOS_IMAGES = [
-  // Ejemplo: '/img/negocios/panaderia.jpg',
-  // Agrega las imágenes específicas de cada página de negocios si las conoces
+  
 ];
 
-// Archivos JSON (completado con promociones.json y otros mencionados)
+// TODOS tus archivos JSON (¡importante!)
 const API_ENDPOINTS = [
-  '/data/promociones.json',
   '/data/panaderias.json',
   '/data/verdulerias.json',
   '/data/fiambrerias.json',
@@ -75,9 +69,7 @@ const API_ENDPOINTS = [
   '/data/kioscos.json',
   '/data/barberias.json',
   '/data/pastas.json',
-  '/data/tiendas.json',
-  '/datos/comercios.json'
-  // Nota: Agrega aquí otros .json de /data/ y /datos/ si son esenciales
+  '/data/tiendas.json'
 ];
 
 // Todos los archivos para precache
@@ -146,14 +138,15 @@ self.addEventListener('activate', (event) => {
       ]);
 
       // Tomar control inmediato
-      await clients.claim();
+      clients.claim();
 
       console.log(`[SW] Activado: ${CACHE_VERSION}`);
-
+      
       // Notificar al cliente que el SW está activo
-      const clientsList = await clients.matchAll({ type: 'window' });
-      clientsList.forEach(client => {
-        client.postMessage({ type: 'SW_ACTIVATED' });
+      clients.matchAll({ type: 'window' }).then(clients => {
+        clients.forEach(client => {
+          client.postMessage({ type: 'SW_ACTIVATED' });
+        });
       });
     })()
   );
@@ -192,7 +185,7 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
-// === MESSAGE: Comunicación con la app ===
+// === MESSAGE: Comunicación con la app (SKIP_WAITING) ===
 self.addEventListener('message', (event) => {
   if (event.data?.type === 'SKIP_WAITING') {
     self.skipWaiting();
@@ -208,13 +201,13 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// === PUSH NOTIFICATIONS ===
+// === PUSH NOTIFICATIONS (opcional) ===
 self.addEventListener('push', (event) => {
   const data = event.data?.json() || {};
   const options = {
     body: data.body || 'Tienes una nueva actualización',
-    icon: '/img/icono-192x192.png',
-    badge: '/img/icono-192x192.png',
+    icon: '/img/icon-192x192.png',
+    badge: '/img/icon-192x192.png',
     data: { 
       url: data.url || '/' 
     },
@@ -248,17 +241,15 @@ self.addEventListener('notificationclick', (event) => {
 
 // Precache con manejo de errores y fallback para JSONs
 async function precacheResources(cache, resources) {
+  // No uses Promise.all → falla todo si uno falla
   for (const resource of resources) {
     try {
-      const response = await fetch(resource, { cache: 'no-cache' });
+      const response = await fetch(resource);
       if (response.ok) {
         if (resource.endsWith('.json')) {
           const text = await response.text();
           JSON.parse(text); // Validar JSON
-          await cache.put(resource, new Response(text, { 
-            status: response.status,
-            headers: response.headers
-          }));
+          await cache.put(resource, new Response(text, response));
         } else {
           await cache.put(resource, response.clone());
         }
@@ -266,10 +257,10 @@ async function precacheResources(cache, resources) {
       }
     } catch (error) {
       console.warn(`[SW] ❌ No se pudo precachear: ${resource}`, error);
+      // No detener la instalación
     }
   }
 }
-
 // Detectar tipo de recurso
 function isStaticAsset(path) {
   return /\.(html|css|js|xml|woff2?|ttf|eot)$/i.test(path);
@@ -279,8 +270,9 @@ function isImage(path) {
   return /\.(png|jpe?g|gif|webp|avif|svg)$/i.test(path);
 }
 
+// ✅ Detecta .json con o sin query string
 function isApiRequest(path) {
-  return /\.json($|\?)/i.test(path);
+  return /\.json($|\?)/.test(path);
 }
 
 function isNegocioPage(path) {
@@ -306,7 +298,24 @@ async function cacheFirst(request, cacheName) {
   }
 }
 
-// Estrategia: Network First (APIs)
+// Función auxiliar: fetch con reintentos
+async function fetchWithRetry(url, retries = 3, delay = 1000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) return response;
+      console.warn(`[SW] Intento ${i + 1} fallido para ${url}, status: ${response.status}`);
+    } catch (error) {
+      console.error(`[SW] Error en intento ${i + 1} para ${url}:`, error);
+    }
+    if (i < retries - 1) await new Promise(resolve => setTimeout(resolve, delay));
+  }
+  throw new Error(`[SW] No se pudo cargar ${url} después de ${retries} intentos`);
+}
+
+// Estrategia: Network First (APIs) con fallback seguro y reintentos
+// Estrategia: Network First con invalidación por contenido
+// Estrategia: Network First con validación de contenido
 async function networkFirst(request, cacheName) {
   try {
     const response = await fetch(request.url, { 
@@ -318,17 +327,16 @@ async function networkFirst(request, cacheName) {
       const cache = await caches.open(cacheName);
       const cached = await cache.match(request);
 
+      // Validar contenido antes de comparar
       const newBodyText = await response.clone().text();
       let cachedBodyText = '';
       if (cached) {
         cachedBodyText = await cached.text();
       }
 
+      // Solo actualizar si el contenido cambió o no había caché
       if (!cached || cachedBodyText !== newBodyText) {
-        await cache.put(request, new Response(newBodyText, {
-          status: response.status,
-          headers: response.headers
-        }));
+        await cache.put(request, new Response(newBodyText, response));
         console.log(`[SW] ✅ Actualizado: ${request.url}`);
       } else {
         console.log(`[SW] ✅ Servido desde red (sin cambios): ${request.url}`);
@@ -345,22 +353,31 @@ async function networkFirst(request, cacheName) {
   if (cached) {
     try {
       const body = await cached.text();
-      JSON.parse(body); // Validar JSON
-      console.log(`[SW] ⚠️ Sirviendo desde caché: ${request.url}`);
-      return cached;
+      const json = JSON.parse(body);
+      if (Array.isArray(json) && json.length > 0) {
+        console.log(`[SW] ⚠️ Sirviendo desde caché (válido): ${request.url}`);
+        return new Response(body, cached);
+      } else {
+        console.warn(`[SW] Caché vacío o inválido para: ${request.url}`);
+      }
     } catch (e) {
       console.warn(`[SW] JSON inválido en caché: ${request.url}`);
     }
   }
 
-  // Fallback para navegaciones HTML
-  const isHtmlRequest = request.destination === 'document';
-  if (isHtmlRequest) {
-    const fallback = await caches.match('/offline.html');
-    if (fallback) return fallback;
+  // Último recurso: intentar sin caché
+  try {
+    const freshResponse = await fetch(request.url, { cache: 'no-cache' });
+    if (freshResponse.ok) {
+      const cache = await caches.open(cacheName);
+      await cache.put(request, freshResponse.clone());
+      return freshResponse;
+    }
+  } catch (e) {
+    console.error(`[SW] Falló incluso sin caché: ${request.url}`, e);
   }
 
-  // Último recurso para JSON: array vacío
+  // Final fallback: array vacío
   return new Response(JSON.stringify([]), {
     status: 503,
     headers: { 'Content-Type': 'application/json' }
@@ -373,16 +390,11 @@ async function staleWhileRevalidate(request, cacheName) {
   const cached = await caches.match(request);
 
   const networkFetch = fetch(request).then(async (res) => {
-    if (res.ok) {
-      await cache.put(request, res.clone());
-    }
+    if (res.ok) await cache.put(request, res.clone());
     return res;
-  }).catch(async () => {
-    const fallback = await caches.match('/offline.html');
-    return fallback || new Response('Offline', { status: 503 });
-  });
+  }).catch(() => null);
 
-  return cached || networkFetch;
+  return cached || (await networkFetch) || (await caches.match('/offline.html'));
 }
 
 // Limitar tamaño de caché (FIFO)

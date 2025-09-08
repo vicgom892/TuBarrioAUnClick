@@ -457,9 +457,9 @@ section h2 {
   justify-content: center;
   padding: 6px 2px;
   margin: 10px !important;
-  box-shadow: 0px 9px 56px 17px rgba(12, 2, 2, 0.54);
--webkit-box-shadow: 0px 9px 56px 17px rgba(10, 3, 3, 0.54);
--moz-box-shadow: 0px 9px 56px 17px rgba(14, 13, 13, 0.54);
+  box-shadow: 0px 9px 56px 17px rgba(253, 250, 250, 0.993);
+-webkit-box-shadow: 0px 9px 56px 17px rgb(219, 217, 217);
+-moz-box-shadow: 0px 9px 56px 17px rgb(170, 167, 167);
   position: relative;
   overflow: hidden;
   background: #f8f9fa;
@@ -475,8 +475,8 @@ section h2 {
   height: 100%;
   background: radial-gradient(circle, transparent 60%, rgba(0, 0, 0, 0.459) 150%);
   background-image: 
-            linear-gradient(rgba(230, 230, 230, 0.137) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(228, 226, 225, 0.205) 1px, transparent 1px);
+            linear-gradient(rgba(230, 230, 230, 0.938) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(228, 226, 225, 0.938) 1px, transparent 1px);
         background-size: 40px 40px;
   z-index: 0;
 }
@@ -490,14 +490,14 @@ section h2 {
   /*background: linear-gradient(135deg, #f5e6d3 0%, #e8c9a8 50%, #fdfcfc 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 #panaderias::before {
   /*background-color: rgba(248, 245, 245, 0.863); /* Textura más visible en fondos claros */
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Verdulerías - Verdes naturales suaves */
@@ -505,7 +505,7 @@ section h2 {
   /*background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #f9faf9 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Fiambrerías - Rosados suaves (queso, fiambre) */
@@ -513,7 +513,7 @@ section h2 {
   /*background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #f9faf9 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Kioscos - Azul claro energético pero suave */
@@ -521,7 +521,7 @@ section h2 {
   /*background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #f9faf9 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Mascotas - Tons amarillos cálidos y amigables */
@@ -529,7 +529,7 @@ section h2 {
  /* background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 50%, #f9faf9 100%);*/
  background: #f8f9fa;
  border-radius:15px;
- border: 2px solid #333;
+ border: 2px solid #fffdfd;
 }
 
 /* Ropa - Morado suave, elegante */
@@ -537,7 +537,7 @@ section h2 {
   /*background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 50%, #f9faf9 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Carnicerías - Rojo tierra suave, no intenso */
@@ -545,7 +545,7 @@ section h2 {
   /*background: linear-gradient(135deg, #efebe9 0%, #d7ccc8 50%, #f9faf9 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
   /* No usamos rojo fuerte, sino tonos tierra cálidos */
 }
 
@@ -554,7 +554,7 @@ section h2 {
   /*background: linear-gradient(135deg, #424242 0%, #616161 50%, #f9faf9 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Ferreterías - Azul acero */
@@ -562,7 +562,7 @@ section h2 {
   /*background: linear-gradient(135deg, #cfd8dc 0%, #b0bec5 50%, #f9faf9 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Pastas - Verde oliva suave */
@@ -570,7 +570,7 @@ section h2 {
  /* background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 50%, #f9faf9 100%);*/
  background: #f8f9fa;
  border-radius:15px;
- border: 2px solid #333;
+ border: 2px solid #fffdfd;
 }
 
 /* Veterinarias - Azul suave, de confianza */
@@ -578,7 +578,7 @@ section h2 {
 /*  background: linear-gradient(135deg, #e8f4f8 0%, #c7e9f1 50%, #f9faf9 100%);*/
 background: #f8f9fa;
 border-radius:15px;
-border: 2px solid #333;
+border: 2px solid #fffdfd;
 }
 
 /* Farmacias - Azul claro limpio */
@@ -586,7 +586,7 @@ border: 2px solid #333;
   /*background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #f9faf9 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Cafeterías - Marrón café suave */
@@ -594,7 +594,7 @@ border: 2px solid #333;
   /*background: linear-gradient(135deg, #efebe9 0%, #d7ccc8 50%, #f9faf9 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Talleres - Gris industrial */
@@ -602,7 +602,7 @@ border: 2px solid #333;
   /*background: linear-gradient(135deg, #616161 0%, #757575 50%, #f9faf9 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Librerías - Verde oscuro intelectual */
@@ -610,7 +610,7 @@ border: 2px solid #333;
   /*background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #f9faf9 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Florerías - Rosa claro floral */
@@ -618,7 +618,7 @@ border: 2px solid #333;
   /*background: linear-gradient(135deg, #f8bbd0 0%, #f48fb1 50%, #f9faf9 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Mates - Verde mate natural */
@@ -626,7 +626,7 @@ border: 2px solid #333;
   /*background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c8 50%, #a5d6a5 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 
 /* Profesiones - Azul profesional */
@@ -634,7 +634,7 @@ border: 2px solid #333;
   /*background: linear-gradient(135deg, #1e88e5 0%, #42a5f5 50%, #64b5f6 100%);*/
   background: #f8f9fa;
   border-radius:15px;
-  border: 2px solid #333;
+  border: 2px solid #fffdfd;
 }
 .parallax .row {
   margin: 0;
