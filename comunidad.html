@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comunidad Tu Barrio - Ofertas y Promociones</title>
      <!-- Iconos y Manifest -->
-    <link rel="icon" href="../img/icon-abeja-sola.png" type="image/png" sizes="32x32" />
-    <link rel="icon" href="../img/icon-192x192.png" type="image/png" sizes="192x192" />
-    <link rel="apple-touch-icon" href="../img/icon-192x192.png" />
+    <link rel="icon" href="img/icon-abeja-sola.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="img/icon-192x192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="img/icon-192x192.png" />
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -525,7 +525,7 @@
 <body>
     <!-- Banner elegante con logo y nombre -->
     <div class="banner">
-        <img src="../img/icon-192x192.png" alt="Tu Barrio a un Click">
+        <img src="img/icon-192x192.png" alt="Tu Barrio a un Click">
         <h1>Tu Barrio a un Click</h1>
         <p>¡Explora las mejores ofertas y promociones en tu comunidad!</p>
     </div>
@@ -555,8 +555,8 @@
     </div>
 
     <!-- Botón de regreso con logo -->
-    <a href="../index.html" class="back-btn">
-        <img src="../img/icon-192x192.png" alt="Tu Barrio a un Click">
+    <a href="index.html" class="back-btn">
+        <img src="img/icon-192x192.png" alt="Tu Barrio a un Click">
         Regresar
     </a>
 
@@ -570,7 +570,7 @@
                 const container = document.getElementById('offers-container');
                 container.innerHTML = '<div class="loading">Cargando ofertas...</div>';
 
-                const response = await fetch('../datos/seccion-ofertas.json');
+                const response = await fetch('datos/seccion-ofertas.json');
                 if (!response.ok) throw new Error('Error al cargar ofertas.json');
                 offers = await response.json();
 
