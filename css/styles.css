@@ -3738,3 +3738,180 @@ margin: 5px !important;
       flex-direction: column;
     }
   }
+
+  /* === TARJETA DE DETALLES DEL NEGOCIO === */
+.business-details-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  border: 1px solid #e2e8f0;
+  font-family: 'Inter', sans-serif;
+}
+
+.business-header {
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.business-header .business-icon {
+  font-size: 2rem;
+  background: #fff4eb;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e65100;
+}
+
+.business-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #1a202c;
+  font-weight: 600;
+}
+
+.business-category {
+  font-size: 0.85rem;
+  color: #ff6a3c;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: #fff4eb;
+  padding: 2px 8px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.business-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.business-info-item i {
+  color: #ff6a3c;
+  font-size: 1.1rem;
+  min-width: 24px;
+  margin-top: 4px;
+}
+
+.business-info-item div strong {
+  font-size: 0.95rem;
+  color: #2d3748;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.business-info-item div p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.business-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.action-btn i {
+  font-size: 1.1rem;
+}
+
+.action-btn span {
+  flex: 1;
+}
+
+/* Botones */
+.map-btn {
+  background: #ebf4ff;
+  color: #2c5282;
+  border: 1px solid #bee3f8;
+}
+
+.map-btn:hover {
+  background: #c3dafe;
+  transform: translateY(-2px);
+}
+
+.wsp-btn {
+  background: #e6ffed;
+  color: #276749;
+  border: 1px solid #c6f6d5;
+}
+
+.wsp-btn:hover {
+  background: #9ae6b4;
+  transform: translateY(-2px);
+}
+
+.call-btn {
+  background: #fed7d7;
+  color: #9b2c2c;
+  border: 1px solid #feb2b2;
+}
+
+.call-btn:hover {
+  background: #fc8181;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .action-btn {
+    justify-content: center;
+    text-align: center;
+  }
+  .action-btn span {
+    flex: none;
+  }
+}
+
+/* === ESTILOS PARA EL MAPA EN EL CHAT (Leaflet) === */
+.custom-icon {
+  background: white;
+  border: 2px solid #128C7E;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.leaflet-container {
+  background: #f1f8ff;
+  border-radius: 12px;
+}
+
+/* === ASEGURAR QUE LOS MENSAJES NO ROMPAN DISEÑO === */
+.message-content .business-details-card,
+.message-content #chat-map {
+  margin: 10px 0;
+}
