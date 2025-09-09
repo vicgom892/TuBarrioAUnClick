@@ -109,7 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const chatBody = document.getElementById('chatBody');
   const messageInput = document.getElementById('messageInput');
   const sendBtn = document.getElementById('sendBtn');
-  const micBtn = document.getElementById('micBtn'); // Botón de micrófono
 
   // === FORMATO DE MENSAJES ===
   function formatMessageLinks(message) {
@@ -157,16 +156,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <small>Asistente Virtual</small>
       `;
       messageDiv.appendChild(aiDiv);
-
-      // Habla la respuesta después de mostrarla
-      setTimeout(() => {
-        const cleanText = text
-          .replace(/<[^>]*>/g, '') // Quitar HTML
-          .replace(/\*[^*]*\*/g, '') // Quitar negritas Markdown
-          .replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '') // Quitar algunos emojis
-          .trim();
-        speakText(cleanText);
-      }, 1000);
     }
     
     messageDiv.appendChild(contentDiv);
@@ -675,67 +664,6 @@ document.addEventListener('DOMContentLoaded', function() {
       confirmModal.style.display = 'none';
     }
   });
-
-  // === RECONOCIMIENTO DE VOZ (MICRÓFONO) ===
-  let recognition;
-  if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
-    recognition.lang = 'es-AR';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript.trim();
-      messageInput.value = transcript;
-      handleSendMessage();
-    };
-
-    recognition.onerror = (event) => {
-      if (event.error === 'not-allowed') {
-        addMessage('Permiso de micrófono denegado. Activalo en la configuración del navegador.', 'bot');
-      } else {
-        console.error('Error en reconocimiento de voz:', event.error);
-      }
-    };
-
-    recognition.onend = () => {
-      micBtn?.classList.remove('recording');
-    };
-
-    micBtn?.addEventListener('click', () => {
-      if (micBtn.classList.contains('recording')) {
-        recognition.stop();
-        micBtn.classList.remove('recording');
-      } else {
-        recognition.start();
-        micBtn.classList.add('recording');
-        addMessage('Escuchando...', 'bot');
-      }
-    });
-  } else {
-    console.warn('Tu navegador no soporta reconocimiento de voz.');
-    if (micBtn) micBtn.remove();
-  }
-
-  // === SÍNTESIS DE VOZ (EL CHATBOT HABLA) ===
-  function speakText(text) {
-    if (!window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'es-AR';
-    utterance.rate = 0.9;
-    utterance.pitch = 1;
-
-    const voices = window.speechSynthesis.getVoices();
-    const femaleVoice = voices.find(v => v.lang === 'es-AR' && v.name.includes('Google'));
-    if (femaleVoice) {
-      utterance.voice = femaleVoice;
-    }
-
-    window.speechSynthesis.speak(utterance);
-  }
 
   // === MENSAJE DE BIENVENIDA ===
   function showWelcomeMessage() {
