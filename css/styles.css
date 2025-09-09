@@ -1107,7 +1107,7 @@ border: 2px solid #fffdfd;
   }
 
   .offer-card {
-    width: 120px;
+    width: 100%;
   }
 
   .offer-image img {
