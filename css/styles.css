@@ -296,6 +296,23 @@
 }
 
 /* Secciones de Comercios */
+.load-more-container {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto !important;
+}
+
+.load-more-container .btn {
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
+}
+
+.load-more-container .btn:hover {
+  transform: scale(1.02);
+}
+
 section {
   padding: 60px 0;
   scroll-margin-top: 100px;
@@ -328,7 +345,7 @@ section h2 {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  height: 168px;
+  /*height: 168px;*/
 }
 
 .card-title {
@@ -451,7 +468,7 @@ section h2 {
 
 /* Secciones (sin parallax) */
 .parallax {
-  min-height: 100vh;
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -473,12 +490,12 @@ section h2 {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, transparent 60%, rgba(0, 0, 0, 0.459) 150%);
+  /*background: radial-gradient(circle, transparent 60%, rgba(0, 0, 0, 0.459) 150%);
   background-image: 
             linear-gradient(rgba(230, 230, 230, 0.938) 1px, transparent 1px),
             linear-gradient(90deg, rgba(228, 226, 225, 0.938) 1px, transparent 1px);
-        background-size: 40px 40px;
-  z-index: 0;
+        background-size: 40px 40px;*/
+  z-index: -1;
 }
 .parallax .container {
   padding: 20px;
@@ -771,9 +788,9 @@ border: 2px solid #fffdfd;
 /* Botón Volver Arriba */
 .back-to-top {
   position: fixed;
-  bottom: 7px;
-  left: 20px;
-  background: linear-gradient(135deg, #1e40af, var(--primary-dark));
+  bottom: 17px;
+  left: 10px;
+  background: linear-gradient(135deg, #1e40af, var(--primary-dark)) !important;
   color: white;
   border: none;
   border-radius: 50%;
@@ -1401,9 +1418,9 @@ border: 2px solid #fffdfd;
 .floating-btn {
     position: fixed;
     bottom: 10px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
     background: linear-gradient(90deg, var(--secondary), var(--accent));
     border-radius: 50%;
     display: flex;
@@ -2085,7 +2102,7 @@ border: 2px solid #fffdfd;
       background: #fff;
       border: 1px solid #ddd;
       border-radius: 12px;
-      padding: 15px;
+      /*padding: 15px;*/
       margin: 10px 0;
       font-size: 16px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -2424,7 +2441,7 @@ border: 2px solid #fffdfd;
     overflow: hidden;
     border-radius: 8px;
 }
-.btn-primary {
+.back-to-top .btn-primary {
     background-color: #0d6efd;
     border-color: #0d6efd;
     transition: all 0.3s ease;
@@ -3947,3 +3964,339 @@ margin: 5px !important;
   70% { box-shadow: 0 0 0 10px rgba(230, 81, 0, 0); }
   100% { box-shadow: 0 0 0 0 rgba(230, 81, 0, 0); }
 }
+.voice-btn {
+  background: #128C7E;
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  transition: all 0.3s ease;
+}
+
+.voice-btn:hover {
+  background: #075e54;
+  transform: scale(1.05);
+}
+
+.voice-btn.muted {
+  background: #6c757d;
+}
+
+.voice-btn.muted i {
+  color: white;
+}
+
+
+/* Tarjetas simplificadas para móvil */
+.card.card-small {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  height: 100%;
+}
+
+.card.card-small:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.card-img-top {
+  height: 150px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 8px;
+}
+
+.card-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1a202c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsive: 3 por fila en móvil, 4 en PC */
+@media (max-width: 767.98px) {
+  .col-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-md-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+.w-100 {
+    width: 100% !important;
+    object-fit: cover;
+}
+ /* Estilos para la barra de rubros - versión completamente responsive */
+        .rubros-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            backdrop-filter: blur(10px);
+            padding: 15px 10px 15px;
+            box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            border-top: 1px solid rgba(100, 200, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+        }
+
+        .rubros-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Contenedor de los botones - permite scroll horizontal suave */
+        .rubros-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            padding: 0 5px;
+            min-width: 80%;
+            width: 80%;
+            position: relative;
+            overflow: auto;
+             scrollbar-width: none;
+            margin: auto;
+        }
+
+        /* Estilo de los botones - completamente responsive */
+        .rubro-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 55px;
+            height: 55px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 16px;
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #e0e0e0;
+            font-size: 10px;
+            text-align: center;
+            padding: 8px 5px;
+            position: relative;
+            overflow: hidden;
+            flex: 0 0 auto;
+        }
+
+        /* Efecto hover para desktop */
+        .rubro-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 229, 255, 0.3);
+            border-color: rgba(0, 229, 255, 0.6);
+            color: #ffffff;
+        }
+
+        /* Estado activo */
+        .rubro-btn.active {
+            background: rgba(0, 229, 255, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 229, 255, 0.4);
+            border: 2px solid #00e5ff;
+            color: #00e5ff;
+        }
+
+        /* Iconos */
+        .rubro-btn i {
+            font-size: 22px;
+            margin-bottom: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .rubro-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        /* Estado para negocios abiertos */
+        .rubro-btn.open {
+            background: rgba(105, 240, 174, 0.15);
+            border-color: #69f0ae;
+            color: #69f0ae;
+        }
+
+        /* Indicador de negocios abiertos */
+        .open-indicator {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #69f0ae, #00c853);
+            border-radius: 50%;
+            box-shadow: 0 0 10px #69f0ae;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                box-shadow: 0 0 10px #69f0ae, 0 0 20px rgba(105, 240, 174, 0.5);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 15px #69f0ae, 0 0 25px rgba(105, 240, 174, 0.8);
+                transform: scale(1.1);
+            }
+        }
+
+        /* Efecto neón para la barra */
+        .rubros-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00e5ff, #00e5ff, transparent);
+            animation: neonPulse 3s infinite;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Estilos para pantallas medianas (tablets) */
+        @media (min-width: 768px) {
+            .rubros-bar {
+                padding: 9px 8px 12px;
+            }
+            
+            .rubro-btn {
+                min-width: 55px;
+                height: 55px;
+                font-size: 8px;
+                border-radius: 8px;
+            }
+            
+            .rubro-btn i {
+                font-size: 22px;
+                margin-bottom: 5px;
+            }
+        }
+
+        /* Estilos para pantallas grandes (desktop) */
+        @media (min-width: 1024px) {
+            .rubros-bar {
+                padding: 10px 10px 15px;
+            }
+            
+            .rubro-btn {
+             min-width: 55px;
+             height: 55px;
+             font-size: 8px;
+             border-radius: 5px;
+         }
+            
+            .rubro-btn i {
+                font-size: 28px;
+                margin-bottom: 6px;
+            }
+            
+            /* En desktop, reducir el espacio entre botones */
+            .rubros-container {
+                gap: 15px;
+            }
+        }
+
+        /* Estilos para pantallas muy pequeñas */
+        @media (max-width: 375px) {
+            .rubros-bar {
+                padding: 12px 5px 15px;
+            }
+            
+            .rubro-btn {
+                min-width: 55px;
+                height: 55px;
+                font-size: 9px;
+                border-radius: 14px;
+                padding: 6px 4px;
+            }
+            
+            .rubro-btn i {
+                font-size: 18px;
+                margin-bottom: 3px;
+            }
+            
+            .open-indicator {
+                width: 8px;
+                height: 8px;
+            }
+        }
+
+        /* Animación de entrada */
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .rubros-bar {
+            animation: slideUp 0.6s ease-out forwards;
+        }
+
+        /* Efecto glow sutil */
+        .glow-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border-radius: 16px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.2), transparent);
+        }
+
+        .rubro-btn:hover .glow-effect {
+            opacity: 0.4;
+        }
+
+        /* Estilo para el botón de inicio (destacado) */
+        .rubro-btn.home {
+            background: linear-gradient(135deg, rgba(79, 195, 247, 0.2), rgba(30, 41, 59, 0.7));
+        }
+
+        /* Estilo para el botón de mapa */
+        .rubro-btn.map {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(30, 41, 59, 0.7));
+        }
+
+        /* Estilo para el botón de contacto */
+        .rubro-btn.contact {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(30, 41, 59, 0.7));
+        }

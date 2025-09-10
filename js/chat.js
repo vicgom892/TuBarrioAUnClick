@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
   let negociosData = [];
   let ofertasData = [];
 
+  // Control de voz
+  let voiceEnabled = true; // Por defecto, el audio está activado
+
   // Función para normalizar texto (sin tildes, mayúsculas, espacios extra)
   function normalizeString(str) {
     return str
@@ -110,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const messageInput = document.getElementById('messageInput');
   const sendBtn = document.getElementById('sendBtn');
   const micBtn = document.getElementById('micBtn'); // Botón de micrófono
+  const voiceToggleBtn = document.getElementById('voiceToggleBtn'); // Botón de audio ON/OFF
 
   // === FORMATO DE MENSAJES ===
   function formatMessageLinks(message) {
@@ -160,12 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Habla la respuesta después de mostrarla
       setTimeout(() => {
-        const cleanText = text
-          .replace(/<[^>]*>/g, '') // Quitar HTML
-          .replace(/\*[^*]*\*/g, '') // Quitar negritas Markdown
-          .replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '') // Quitar algunos emojis
-          .trim();
-        speakText(cleanText);
+        speakText(text);
       }, 1000);
     }
     
@@ -676,6 +675,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // === CONTROL DE VOZ (ON/OFF) ===
+  if (voiceToggleBtn) {
+    function updateVoiceButton() {
+      voiceToggleBtn.innerHTML = voiceEnabled 
+        ? '<i class="fas fa-volume-up"></i>' 
+        : '<i class="fas fa-volume-mute"></i>';
+      voiceToggleBtn.classList.toggle('muted', !voiceEnabled);
+    }
+
+    voiceToggleBtn.addEventListener('click', () => {
+      voiceEnabled = !voiceEnabled;
+      updateVoiceButton();
+      
+      if (voiceEnabled) {
+        addMessage('✅ Voz activada. Escucharás las respuestas.', 'bot');
+      } else {
+        addMessage('🔇 Voz desactivada. Puedes volver a activarla con el botón.', 'bot');
+      }
+    });
+
+    updateVoiceButton(); // Inicializar estado visual
+  }
+
   // === RECONOCIMIENTO DE VOZ (MICRÓFONO) ===
   let recognition;
   if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
@@ -716,22 +738,37 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     console.warn('Tu navegador no soporta reconocimiento de voz.');
     if (micBtn) micBtn.remove();
+    if (voiceToggleBtn) voiceToggleBtn.remove();
   }
 
   // === SÍNTESIS DE VOZ (EL CHATBOT HABLA) ===
   function speakText(text) {
-    if (!window.speechSynthesis) return;
+    if (!window.speechSynthesis || !voiceEnabled) return;
     window.speechSynthesis.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(text);
+    // Limpieza profunda del texto para que suene natural
+    let cleanText = text
+      .replace(/<[^>]*>/g, '')                    // Quitar etiquetas HTML
+      .replace(/\*[^*]*\*/g, '')                  // Quitar negritas Markdown
+      .replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '') // Quitar emojis complejos
+      .replace(/[.,;:!?()"\[\]{}'’“”‘’]/g, '')    // Quitar signos de puntuación
+      .replace(/[-–—_]/g, ' ')                    // Reemplazar guiones por espacios
+      .replace(/\s+/g, ' ')                       // Reducir múltiples espacios
+      .trim();
+
+    if (!cleanText) return;
+
+    const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = 'es-AR';
-    utterance.rate = 0.9;
+    utterance.rate = 0.95;
     utterance.pitch = 1;
 
     const voices = window.speechSynthesis.getVoices();
-    const femaleVoice = voices.find(v => v.lang === 'es-AR' && v.name.includes('Google'));
-    if (femaleVoice) {
-      utterance.voice = femaleVoice;
+    const preferredVoice = voices.find(v => 
+      v.lang === 'es-AR' && (v.name.includes('Google') || v.name.includes('Sara'))
+    );
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
     }
 
     window.speechSynthesis.speak(utterance);

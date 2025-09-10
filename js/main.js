@@ -1,4 +1,4 @@
-// main.js - Versión optimizada para Lighthouse (sin perder funcionalidad)
+// main.js - Versión corregida para que el botón "Cargar más" funcione en todas las secciones
 document.addEventListener('DOMContentLoaded', function() {
   // --- CONSTANTES GLOBALES ---
   const CACHE_KEY = 'businesses_cache_v4';
@@ -6,9 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const MAX_ACCURACY = 15;
   const MAX_ATTEMPTS = 10;
   const MAX_TIMEOUT = 30000;
-
   // --- VARIABLES GLOBALES ---
-  let deferredPrompt= null;
+  let deferredPrompt = null;
   window.businesses = [];
   window.map = null;
   window.userMarker = null;
@@ -24,142 +23,128 @@ document.addEventListener('DOMContentLoaded', function() {
   let businessIndex = null;
 
   // Capturar el evento beforeinstallprompt
-window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevenir que el banner de instalación aparezca automáticamente
-  e.preventDefault();
-  // Guardar el evento para usarlo después
-  deferredPrompt = e;
-  console.log('✅ Evento beforeinstallprompt capturado. PWA listo para instalarse.');
-
-  // Mostrar los botones de instalación (escritorio y móvil)
-  const installButtonDesktop = document.getElementById('botonInstalar');
-  const installButtonMobile = document.getElementById('botonInstalarMobile');
-
-  if (installButtonDesktop) {
-    installButtonDesktop.style.display = 'inline-block';
-    installButtonDesktop.textContent = 'Instalar App';
-    installButtonDesktop.disabled = false;
-  }
-
-  if (installButtonMobile) {
-    installButtonMobile.style.display = 'inline-block';
-    installButtonMobile.textContent = 'Instalar App';
-    installButtonMobile.disabled = false;
-  }
-});
-// === SUSTITUIR ALERT POR TOAST SUAVE ===
-function mostrarToast(mensaje, tipo = 'info') {
-  // Evitar múltiples toasts
-  if (document.getElementById('toastConsumidor')) {
-    return;
-  }
-
-  const toast = document.createElement('div');
-  toast.id = 'toastConsumidor';
-  toast.className = `
-    fixed top-6 left-1/2 transform -translate-x-1/2
-    bg-gradient-to-r from-blue-500 to-blue-700 text-white
-    px-6 py-3 rounded-full shadow-lg
-    text-sm font-medium z-50
-    opacity-0 translate-y-[-20px]
-    transition-all duration-300
-    flex items-center gap-2
-    max-w-xs
-  `;
-  toast.innerHTML = `
-    <i class="fas fa-user-check"></i>
-    <span>${mensaje}</span>
-  `;
-
-  document.body.appendChild(toast);
-
-  // Mostrar
-  setTimeout(() => {
-    toast.classList.remove('opacity-0', 'translate-y-[-20px]');
-    toast.classList.add('opacity-100', 'translate-y-0');
-  }, 100);
-
-  // Ocultar
-  setTimeout(() => {
-    toast.classList.remove('opacity-100', 'translate-y-0');
-    toast.classList.add('opacity-0', 'translate-y-[-20px]');
-    setTimeout(() => {
-      if (toast.parentNode) {
-        toast.parentNode.removeChild(toast);
-      }
-    }, 300);
-  }, 3000);
-}
-
-// === Cuando el usuario elige "Consumidor" ===
-document.getElementById('btnSoyConsumidor')?.addEventListener('click', () => {
-  // Cierra el modal de selección (ajusta el ID si es diferente)
-  const modalSeleccion = bootstrap.Modal.getInstance(document.getElementById('modalSeleccion'));
-  if (modalSeleccion) {
-    modalSeleccion.hide();
-  }
-
-  // Muestra el toast en lugar del alert
-  mostrarToast('¡Bienvenido! Explora los comercios de Castelar.');
-
-  // Abre el modal de notificaciones con un pequeño delay
-  setTimeout(() => {
-    const btnNotificacion = document.getElementById('btnNotificacion');
-    if (btnNotificacion) {
-      btnNotificacion.click();
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevenir que el banner de instalación aparezca automáticamente
+    e.preventDefault();
+    // Guardar el evento para usarlo después
+    deferredPrompt = e;
+    console.log('✅ Evento beforeinstallprompt capturado. PWA listo para instalarse.');
+    // Mostrar los botones de instalación (escritorio y móvil)
+    const installButtonDesktop = document.getElementById('botonInstalar');
+    const installButtonMobile = document.getElementById('botonInstalarMobile');
+    if (installButtonDesktop) {
+      installButtonDesktop.style.display = 'inline-block';
+      installButtonDesktop.textContent = 'Instalar App';
+      installButtonDesktop.disabled = false;
     }
-  }, 500); // Pequeño delay para asegurar que todo se cierre bien
-});
-
-// Función para instalar la app
-function installApp() {
-  if (!deferredPrompt) {
-    console.warn('❌ No hay evento deferredPrompt. La PWA no se puede instalar ahora.');
-    return;
-  }
-
-  // Mostrar el cuadro de diálogo de instalación del navegador
-  deferredPrompt.prompt();
-
-  // Esperar la elección del usuario
-  deferredPrompt.userChoice.then((choiceResult) => {
-    if (choiceResult.outcome === 'accepted') {
-      console.log('✅ El usuario aceptó instalar la app');
-      // Ocultar el botón porque ya no se puede usar de nuevo
-      const installButtonDesktop = document.getElementById('botonInstalar');
-      const installButtonMobile = document.getElementById('botonInstalarMobile');
-
-      if (installButtonDesktop) installButtonDesktop.style.display = 'none';
-      if (installButtonMobile) installButtonMobile.style.display = 'none';
-
-      // Limpiar el evento
-      deferredPrompt = null;
-    } else {
-      console.log('❌ El usuario rechazó la instalación');
+    if (installButtonMobile) {
+      installButtonMobile.style.display = 'inline-block';
+      installButtonMobile.textContent = 'Instalar App';
+      installButtonMobile.disabled = false;
     }
   });
-}
 
-// Asignar eventos a los botones de instalación
-document.addEventListener('DOMContentLoaded', () => {
-  const installButtonDesktop = document.getElementById('botonInstalar');
-  const installButtonMobile = document.getElementById('botonInstalarMobile');
-
-  if (installButtonDesktop) {
-    installButtonDesktop.addEventListener('click', installApp);
+  // === SUSTITUIR ALERT POR TOAST SUAVE ===
+  function mostrarToast(mensaje, tipo = 'info') {
+    // Evitar múltiples toasts
+    if (document.getElementById('toastConsumidor')) {
+      return;
+    }
+    const toast = document.createElement('div');
+    toast.id = 'toastConsumidor';
+    toast.className = `
+      fixed top-6 left-1/2 transform -translate-x-1/2
+      bg-gradient-to-r from-blue-500 to-blue-700 text-white
+      px-6 py-3 rounded-full shadow-lg
+      text-sm font-medium z-50
+      opacity-0 translate-y-[-20px]
+      transition-all duration-300
+      flex items-center gap-2
+      max-w-xs
+    `;
+    toast.innerHTML = `
+      <i class="fas fa-user-check"></i>
+      <span>${mensaje}</span>
+    `;
+    document.body.appendChild(toast);
+    // Mostrar
+    setTimeout(() => {
+      toast.classList.remove('opacity-0', 'translate-y-[-20px]');
+      toast.classList.add('opacity-100', 'translate-y-0');
+    }, 100);
+    // Ocultar
+    setTimeout(() => {
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', 'translate-y-[-20px]');
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.parentNode.removeChild(toast);
+        }
+      }, 300);
+    }, 3000);
   }
 
-  if (installButtonMobile) {
-    installButtonMobile.addEventListener('click', installApp);
+  // === Cuando el usuario elige "Consumidor" ===
+  document.getElementById('btnSoyConsumidor')?.addEventListener('click', () => {
+    // Cierra el modal de selección (ajusta el ID si es diferente)
+    const modalSeleccion = bootstrap.Modal.getInstance(document.getElementById('modalSeleccion'));
+    if (modalSeleccion) {
+      modalSeleccion.hide();
+    }
+    // Muestra el toast en lugar del alert
+    mostrarToast('¡Bienvenido! Explora los comercios de Castelar.');
+    // Abre el modal de notificaciones con un pequeño delay
+    setTimeout(() => {
+      const btnNotificacion = document.getElementById('btnNotificacion');
+      if (btnNotificacion) {
+        btnNotificacion.click();
+      }
+    }, 500); // Pequeño delay para asegurar que todo se cierre bien
+  });
+
+  // Función para instalar la app
+  function installApp() {
+    if (!deferredPrompt) {
+      console.warn('❌ No hay evento deferredPrompt. La PWA no se puede instalar ahora.');
+      return;
+    }
+    // Mostrar el cuadro de diálogo de instalación del navegador
+    deferredPrompt.prompt();
+    // Esperar la elección del usuario
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('✅ El usuario aceptó instalar la app');
+        // Ocultar el botón porque ya no se puede usar de nuevo
+        const installButtonDesktop = document.getElementById('botonInstalar');
+        const installButtonMobile = document.getElementById('botonInstalarMobile');
+        if (installButtonDesktop) installButtonDesktop.style.display = 'none';
+        if (installButtonMobile) installButtonMobile.style.display = 'none';
+        // Limpiar el evento
+        deferredPrompt = null;
+      } else {
+        console.log('❌ El usuario rechazó la instalación');
+      }
+    });
   }
 
-  // Opcional: Si el navegador no soporta PWA, ocultar los botones
-  if (!window.matchMedia('(display-mode: standalone)').matches) {
-    // Estamos en navegador, no en app instalada
-    if (installButtonDesktop) installButtonDesktop.style.display = 'none';
-    if (installButtonMobile) installButtonMobile.style.display = 'none';
-  }
-});
+  // Asignar eventos a los botones de instalación
+  document.addEventListener('DOMContentLoaded', () => {
+    const installButtonDesktop = document.getElementById('botonInstalar');
+    const installButtonMobile = document.getElementById('botonInstalarMobile');
+    if (installButtonDesktop) {
+      installButtonDesktop.addEventListener('click', installApp);
+    }
+    if (installButtonMobile) {
+      installButtonMobile.addEventListener('click', installApp);
+    }
+    // Opcional: Si el navegador no soporta PWA, ocultar los botones
+    if (!window.matchMedia('(display-mode: standalone)').matches) {
+      // Estamos en navegador, no en app instalada
+      if (installButtonDesktop) installButtonDesktop.style.display = 'none';
+      if (installButtonMobile) installButtonMobile.style.display = 'none';
+    }
+  });
+
   // Función principal para verificar si un negocio está abierto
   function isBusinessOpen(hoursString) {
     if (!hoursString) return true;
@@ -192,7 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
       'mon': 1, 'tue': 2, 'wed': 3, 'thu': 4, 'fri': 5, 'sat': 6, 'sun': 0,
       'lun': 1, 'mar': 2, 'mie': 3, 'jue': 4, 'vie': 5, 'sab': 6, 'dom': 0
     };
-    
     const match = timeRange.toLowerCase().match(/(mon|tue|wed|thu|fri|sat|sun|lun|mar|mie|jue|vie|sab|dom)-(mon|tue|wed|thu|fri|sat|sun|lun|mar|mie|jue|vie|sab|dom)\s+(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})/);
     if (match) {
       const [, startDayStr, endDayStr, startStr, endStr] = match;
@@ -220,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return isDayInRange && currentTime >= start && currentTime <= end;
       }
     }
-    
     const dayMatch = timeRange.toLowerCase().match(/^(mon|tue|wed|thu|fri|sat|sun|lun|mar|mie|jue|vie|sab|dom)\b/);
     if (dayMatch) {
       const day = dayMatch[0];
@@ -245,7 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return currentTime >= start && currentTime <= end;
       }
     }
-    
     const timeOnlyMatch = timeRange.toLowerCase().match(/(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})/);
     if (timeOnlyMatch) {
       const [startStr, endStr] = [timeOnlyMatch[1], timeOnlyMatch[2]];
@@ -263,7 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return currentTime >= start && currentTime <= end;
       }
     }
-    
     console.warn(`Formato no reconocido: ${timeRange}`);
     return true;
   }
@@ -277,46 +258,45 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- CACHÉ PARA NEGOCIOS ---
- // --- CACHÉ PARA NEGOCIOS ---
-function loadBusinessesFromCache() {
-  const CACHE_EXPIRY = 24 * 60 * 60 * 1000;
-  try {
-    const cachedData = localStorage.getItem(CACHE_KEY);
-    // Opcional: limpiar caché si está corrupto
-    if (cachedData) {
-      try {
-        const parsed = JSON.parse(cachedData);
-        if (!parsed.data || !Array.isArray(parsed.data)) {
-          console.warn("Caché corrupto detectado. Limpiando...");
+  function loadBusinessesFromCache() {
+    const CACHE_EXPIRY = 24 * 60 * 60 * 1000;
+    try {
+      const cachedData = localStorage.getItem(CACHE_KEY);
+      // Opcional: limpiar caché si está corrupto
+      if (cachedData) {
+        try {
+          const parsed = JSON.parse(cachedData);
+          if (!parsed.data || !Array.isArray(parsed.data)) {
+            console.warn("Caché corrupto detectado. Limpiando...");
+            localStorage.removeItem(CACHE_KEY);
+            return false;
+          }
+        } catch (e) {
+          console.warn("Caché JSON inválido. Limpiando...");
           localStorage.removeItem(CACHE_KEY);
           return false;
         }
-      } catch (e) {
-        console.warn("Caché JSON inválido. Limpiando...");
-        localStorage.removeItem(CACHE_KEY);
-        return false;
       }
-    }
-    if (cachedData) {
-      const { data, timestamp } = JSON.parse(cachedData);
-      // ✅ Verificación segura: aseguramos que 'data' exista y sea un array
-      if (data && Array.isArray(data) && Date.now() - timestamp < CACHE_EXPIRY) {
-        console.log(`✅ Negocios cargados desde caché (${data.length} negocios)`);
-        window.businesses = data;
-        createBusinessIndex(data);
-        return true;
+      if (cachedData) {
+        const { data, timestamp } = JSON.parse(cachedData);
+        // ✅ Verificación segura: aseguramos que 'data' exista y sea un array
+        if (data && Array.isArray(data) && Date.now() - timestamp < CACHE_EXPIRY) {
+          console.log(`✅ Negocios cargados desde caché (${data.length} negocios)`);
+          window.businesses = data;
+          createBusinessIndex(data);
+          return true;
+        }
       }
+    } catch (error) {
+      console.error('Error al cargar desde caché:', error);
     }
-  } catch (error) {
-    console.error('Error al cargar desde caché:', error);
+    return false;
   }
-  return false;
-}
 
   function saveBusinessesToCache(businesses) {
     try {
       const cacheData = {
-         businesses,
+        businesses,
         timestamp: Date.now()
       };
       localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
@@ -346,15 +326,14 @@ function loadBusinessesFromCache() {
     mates: 'mates.json',
     florerias: 'florerias.json'
   };
-
   let loadedSections = 0;
   const totalSections = Object.keys(secciones).length;
 
   // Reutiliza la función de creación de tarjeta
   function crearTarjetaNegocio(negocio) {
     return `
-      <div class="col-6 col-md-3">
-        <div class="card card-small h-100 shadow-sm" data-aos="fade-up">
+      <div class="col-4 col-md-3">
+        <div class="card card-small h-100 shadow-sm business-card" data-aos="fade-up">
           <img 
             src="${negocio.imagen}" 
             alt="${negocio.nombre}" 
@@ -364,26 +343,8 @@ function loadBusinessesFromCache() {
             data-bs-target="#businessModal"
             data-business='${JSON.stringify(negocio).replace(/'/g, "&#x27;")}'
           />
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">${negocio.nombre}</h5>
-            <p class="card-text">
-              <i class="fas fa-clock text-muted me-1"></i>
-              <strong>Horario:</strong><br>
-              ${negocio.horario}
-            </p>
-            <p class="card-text">
-              <i class="fas fa-phone text-muted me-1"></i>
-              <strong>Tel:</strong> ${negocio.telefono}
-            </p>
-            <a href="https://wa.me/${negocio.whatsapp}?text=Hola%20desde%20BarrioClik" 
-               target="_blank" rel="noopener" 
-               class="btn btn-whatsapp mb-1" 
-               data-hours="${negocio.horarioData}">
-              <i class="fab fa-whatsapp me-1"></i> Contactar por WhatsApp
-            </a>
-            <a href="${negocio.pagina}" class="btn btn-gradient mt-auto">
-              <i class="${negocio.icono || 'fas fa-store'} me-1"></i> Ir A La Web
-            </a>
+          <div class="card-body text-center py-2">
+            <h5 class="card-title mb-0">${negocio.nombre}</h5>
           </div>
         </div>
       </div>
@@ -396,7 +357,6 @@ function loadBusinessesFromCache() {
     let contenedor = null;
     let intentos = 0;
     const maxIntentos = 20;
-    
     // Buscar el contenedor con reintentos (por si el DOM no está listo)
     while (!contenedor && intentos < maxIntentos) {
       contenedor = document.querySelector(`#${rubro} .row`);
@@ -405,23 +365,19 @@ function loadBusinessesFromCache() {
         intentos++;
       }
     }
-    
     if (!contenedor) {
       console.error(`❌ No se encontró el contenedor para ${rubro} después de ${maxIntentos * 100}ms`);
       loadedSections++;
       checkInitialization();
       return;
     }
-    
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const negocios = await response.json();
       
-      // Usar DocumentFragment para evitar reflows múltiples
-      const fragment = document.createDocumentFragment();
-      const cardsHTML = negocios.map(negocio => {
-        // Almacenar en el formato que espera el mapa
+      // Almacenar en el formato que espera el mapa
+      negocios.forEach(negocio => {
         window.businesses.push({
           name: negocio.nombre,
           category: rubro,
@@ -434,12 +390,204 @@ function loadBusinessesFromCache() {
           telefono: negocio.telefono,
           whatsapp: negocio.whatsapp
         });
-        return crearTarjetaNegocio(negocio);
-      }).join('');
+      });
+
+      // Obtener límite de tarjetas a mostrar inicialmente (6)
+      const limit = 6;
+      const initialNegocios = negocios.slice(0, limit);
+      
+      // Crear tarjetas iniciales
+      let cardsHTML = initialNegocios.map(negocio => crearTarjetaNegocio(negocio)).join('');
       
       // Forzar renderizado sincronizado
       requestAnimationFrame(() => {
         contenedor.innerHTML = cardsHTML;
+        
+        // Configurar botón "Cargar más" - CORRECCIÓN IMPORTANTE
+        // Buscar el botón usando el atributo data-category con el nombre del rubro en español
+        let loadMoreBtn = null;
+        
+        // Mapeo de rubros a nombres en español para el botón
+        const rubroToSpanish = {
+          'panaderias': 'Panadería',
+          'pastas': 'Pastas',
+          'verdulerias': 'Verdulería',
+          'fiambrerias': 'Fiambrería',
+          'kioscos': 'Kioscos',
+          'mascotas': 'Mascotas',
+          'barberias': 'Barbería',
+          'ferreterias': 'Ferretería',
+          'ropa': 'Ropa',
+          'veterinarias': 'Veterinaria',
+          'carnicerias': 'Carnicería',
+          'profesiones': 'Profesiones',
+          'farmacias': 'Farmacia',
+          'cafeterias': 'Cafetería',
+          'talleres': 'Talleres',
+          'librerias': 'Librerías',
+          'mates': 'Mates',
+          'florerias': 'Florería'
+        };
+        
+        // Buscar por data-category con el nombre en español
+        const spanishName = rubroToSpanish[rubro] || rubro.charAt(0).toUpperCase() + rubro.slice(1);
+        loadMoreBtn = document.querySelector(`[data-category="${spanishName}"]`);
+        
+        // Si no se encuentra, buscar por ID
+        if (!loadMoreBtn) {
+          loadMoreBtn = document.querySelector(`#loadMore${rubro.charAt(0).toUpperCase() + rubro.slice(1)}`);
+        }
+        
+        // Si aún no se encuentra, buscar cualquier botón en la sección
+        if (!loadMoreBtn) {
+          const section = document.getElementById(rubro);
+          if (section) {
+            loadMoreBtn = section.querySelector('.load-more-btn');
+          }
+        }
+        
+        if (loadMoreBtn) {
+          // Asegurar que el botón tenga estilos correctos
+          loadMoreBtn.style.cursor = 'pointer';
+          loadMoreBtn.classList.remove('disabled');
+          loadMoreBtn.style.display = 'inline-block';
+          
+          // Variables para manejar el estado de carga (usar dataset para almacenar estado)
+          loadMoreBtn.dataset.currentIndex = limit;
+          loadMoreBtn.dataset.isLoading = 'false';
+          
+          // Función para cargar más negocios
+          const loadMoreBusinesses = function() {
+            // Verificar si ya está cargando
+            if (loadMoreBtn.dataset.isLoading === 'true' || 
+                parseInt(loadMoreBtn.dataset.currentIndex) >= negocios.length) {
+              return;
+            }
+            
+            loadMoreBtn.dataset.isLoading = 'true';
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.innerHTML = `
+              <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+              Cargando...
+            `;
+            
+            // Simular carga asíncrona (opcional, para mejor UX)
+            setTimeout(() => {
+              const currentIndex = parseInt(loadMoreBtn.dataset.currentIndex);
+              const nextIndex = currentIndex + 6;
+              const nextBatch = negocios.slice(currentIndex, nextIndex);
+              
+              if (nextBatch.length > 0) {
+                const newCardsHTML = nextBatch.map(negocio => crearTarjetaNegocio(negocio)).join('');
+                contenedor.insertAdjacentHTML('beforeend', newCardsHTML);
+                loadMoreBtn.dataset.currentIndex = nextIndex;
+                
+                // Restaurar texto del botón
+                // Actualizar el texto del botón según el rubro
+                const buttonText = `Cargar más ${rubro.slice(0, -1)}${rubro.endsWith('s') ? 'as' : 's'}`;
+                loadMoreBtn.innerHTML = buttonText;
+                loadMoreBtn.disabled = false;
+                
+                // Ocultar botón si no hay más negocios
+                if (nextIndex >= negocios.length) {
+                  loadMoreBtn.style.display = 'none';
+                }
+              }
+              
+              loadMoreBtn.dataset.isLoading = 'false';
+            }, 300);
+          };
+          
+          // Asignar evento click al botón
+          loadMoreBtn.addEventListener('click', loadMoreBusinesses);
+          
+          // Agregar efecto hover mediante JavaScript (por si falla el CSS)
+          loadMoreBtn.addEventListener('mouseenter', function() {
+            this.style.backgroundColor = '#0d6efd';
+            this.style.color = 'white';
+          });
+          
+          loadMoreBtn.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = '';
+            this.style.color = '';
+          });
+          
+          // Ocultar botón inicialmente si no hay más negocios
+          if (negocios.length <= limit) {
+            loadMoreBtn.style.display = 'none';
+          }
+        } else {
+          console.warn(`❌ No se encontró botón de carga para ${rubro}`);
+          // Crear un botón dinámicamente si no existe
+          const section = document.getElementById(rubro);
+          if (section) {
+            const buttonContainer = section.querySelector('.text-center.mt-4');
+            if (buttonContainer) {
+              const newButton = document.createElement('button');
+              newButton.className = 'btn btn-outline-primary load-more-btn z-10';
+              newButton.setAttribute('data-category', spanishName);
+              newButton.innerHTML = `Cargar más ${rubro.slice(0, -1)}${rubro.endsWith('s') ? 'as' : 's'}`;
+              buttonContainer.appendChild(newButton);
+              
+              // Configurar el nuevo botón
+              newButton.style.cursor = 'pointer';
+              newButton.dataset.currentIndex = limit;
+              newButton.dataset.isLoading = 'false';
+              
+              // Función para cargar más negocios
+              const loadMoreBusinesses = function() {
+                if (newButton.dataset.isLoading === 'true' || 
+                    parseInt(newButton.dataset.currentIndex) >= negocios.length) {
+                  return;
+                }
+                
+                newButton.dataset.isLoading = 'true';
+                newButton.disabled = true;
+                newButton.innerHTML = `
+                  <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                  Cargando...
+                `;
+                
+                setTimeout(() => {
+                  const currentIndex = parseInt(newButton.dataset.currentIndex);
+                  const nextIndex = currentIndex + 6;
+                  const nextBatch = negocios.slice(currentIndex, nextIndex);
+                  
+                  if (nextBatch.length > 0) {
+                    const newCardsHTML = nextBatch.map(negocio => crearTarjetaNegocio(negocio)).join('');
+                    contenedor.insertAdjacentHTML('beforeend', newCardsHTML);
+                    newButton.dataset.currentIndex = nextIndex;
+                    
+                    const buttonText = `Cargar más ${rubro.slice(0, -1)}${rubro.endsWith('s') ? 'as' : 's'}`;
+                    newButton.innerHTML = buttonText;
+                    newButton.disabled = false;
+                    
+                    if (nextIndex >= negocios.length) {
+                      newButton.style.display = 'none';
+                    }
+                  }
+                  
+                  newButton.dataset.isLoading = 'false';
+                }, 300);
+              };
+              
+              newButton.addEventListener('click', loadMoreBusinesses);
+              newButton.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#0d6efd';
+                this.style.color = 'white';
+              });
+              
+              newButton.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '';
+                this.style.color = '';
+              });
+              
+              if (negocios.length <= limit) {
+                newButton.style.display = 'none';
+              }
+            }
+          }
+        }
         
         // Forzar reflow si es necesario
         if (contenedor.children.length === 0) {
@@ -452,7 +600,6 @@ function loadBusinessesFromCache() {
         
         // Forzamos un reflow para que Lighthouse lo detecte
         contenedor.offsetHeight;
-        
         loadedSections++;
         checkInitialization();
       });
@@ -677,58 +824,52 @@ function loadBusinessesFromCache() {
       });
     }
    // --- Service Worker + Modal de Actualización ---
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js")
-    .then(registration => {
-      console.log("SW registrado con éxito:", registration);
-
-      // Escuchar si hay un nuevo SW disponible
-      registration.onupdatefound = () => {
-        const newWorker = registration.installing;
-        newWorker.onstatechange = () => {
-          if (newWorker.state === 'installed') {
-            if (navigator.serviceWorker.controller) {
-              // Mostrar modal de actualización
-              showUpdateModal();
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js")
+      .then(registration => {
+        console.log("SW registrado con éxito:", registration);
+        // Escuchar si hay un nuevo SW disponible
+        registration.onupdatefound = () => {
+          const newWorker = registration.installing;
+          newWorker.onstatechange = () => {
+            if (newWorker.state === 'installed') {
+              if (navigator.serviceWorker.controller) {
+                // Mostrar modal de actualización
+                showUpdateModal();
+              }
             }
-          }
+          };
         };
-      };
-    })
-    .catch(err => {
-      console.error("SW registration failed:", err);
-    });
-}
-
-// Función para mostrar el modal
-function showUpdateModal() {
-  const modal = document.getElementById('update-modal');
-  const nowBtn = document.getElementById('update-now');
-  const laterBtn = document.getElementById('update-later');
-
-  // Mostrar modal
-  modal.classList.add('active');
-
-  // Botón: Actualizar ahora
-  nowBtn.onclick = () => {
-    modal.classList.remove('active');
-    setTimeout(() => {
-      window.location.reload();
-    }, 300);
-  };
-
-  // Botón: Más tarde
-  laterBtn.onclick = () => {
-    modal.classList.remove('active');
-  };
-
-  // Cerrar al hacer clic fuera (en el fondo oscuro)
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
+      })
+      .catch(err => {
+        console.error("SW registration failed:", err);
+      });
+  }
+  // Función para mostrar el modal
+  function showUpdateModal() {
+    const modal = document.getElementById('update-modal');
+    const nowBtn = document.getElementById('update-now');
+    const laterBtn = document.getElementById('update-later');
+    // Mostrar modal
+    modal.classList.add('active');
+    // Botón: Actualizar ahora
+    nowBtn.onclick = () => {
       modal.classList.remove('active');
-    }
-  });
-}
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
+    };
+    // Botón: Más tarde
+    laterBtn.onclick = () => {
+      modal.classList.remove('active');
+    };
+    // Cerrar al hacer clic fuera (en el fondo oscuro)
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+  }
     // Refrescar animaciones AOS
     if (typeof AOS !== 'undefined') {
       AOS.refresh();
@@ -1324,7 +1465,6 @@ function showUpdateModal() {
     });
   }
 
-  
   // --- INICIALIZACIÓN FINAL ---
   if (loadBusinessesFromCache() && window.businesses.length > 0) {
     console.log("✅ Negocios cargados desde caché");
@@ -1337,7 +1477,6 @@ function showUpdateModal() {
       cargarSeccion(rubro);
     });
   }
-
   // Ejecutar cuando cambia el tamaño de la ventana
   window.addEventListener('resize', () => {
     setTimeout(ensureMapIsVisible, 100);
@@ -1347,7 +1486,6 @@ function showUpdateModal() {
   document.addEventListener('shown.bs.modal', ensureMapIsVisible);
   // Corregir el problema de aria-hidden
   fixAriaHiddenIssue();
-
   // --- EXPORTAR FUNCIONES GLOBALES ---
   window.setupLocationButton = setupLocationButton;
   window.updateBusinessList = updateBusinessList;
