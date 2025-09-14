@@ -47,18 +47,33 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // === NUEVA LÓGICA DE BÚSQUEDA INTELIGENTE ===
-  function findCategoryByQuery(query) {
-    const normalizedQuery = normalizeString(query);
-    for (const [category, keywords] of Object.entries(categoryKeywords)) {
-      for (const keyword of keywords) {
-        const normalizedKeyword = normalizeString(keyword);
-        if (normalizedQuery.includes(normalizedKeyword)) {
-          return category;
-        }
+  //function findCategoryByQuery(query) {
+  //  const normalizedQuery = normalizeString(query);
+  //  for (const [category, keywords] of Object.entries(categoryKeywords)) {
+  //    for (const keyword of keywords) {
+  //      const normalizedKeyword = normalizeString(keyword);
+  //      if (normalizedQuery.includes(normalizedKeyword)) {
+  //        return category;
+  //      }
+  //    }
+  //  }
+  //  return null;
+  //}
+
+  // === NUEVA LÓGICA DE BÚSQUEDA INTELIGENTE (BIDIRECCIONAL - FUNCIONA PARA TODOS LOS RUBROS) ===
+function findCategoryByQuery(query) {
+  const normalizedQuery = normalizeString(query);
+  for (const [category, keywords] of Object.entries(categoryKeywords)) {
+    for (const keyword of keywords) {
+      const normalizedKeyword = normalizeString(keyword);
+      // ✅ BÚSQUEDA BIDIRECCIONAL: Detecta tanto "panaderia" en "panaderías" como viceversa
+      if (normalizedQuery.includes(normalizedKeyword) || normalizedKeyword.includes(normalizedQuery)) {
+        return category;
       }
     }
-    return null;
   }
+  return null;
+}
 
   // === CARGA DE NEGOCIOS ===
   async function cargarNegocios() {

@@ -1,4 +1,4 @@
-// chat.js - Asistente Virtual para "Tu Barrio A Un Clik" (Versión Premium - Con Notificaciones, Compartir y Voz Personalizada)
+// chat.js - Asistente Virtual para "Tu Barrio A Un Clik" (Versión Final Corregida y Robusta)
 document.addEventListener('DOMContentLoaded', function() {
   // Datos de comercios y ofertas
   let negociosData = [];
@@ -11,11 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // Historial de aprendizaje
   let learningHistory = [];
 
-  // Almacenar nombre del usuario (si lo proporciona)
-  let userName = localStorage.getItem('usuarioNombre') || null;
-
   // === CATEGORÍAS CON SINÓNIMOS AMPLIADOS Y EXACTOS ===
-  const categoryKeywords = {
+   const categoryKeywords = {
     'Panadería': ['panadería', 'panaderias', 'pan', 'panes', 'pastel', 'torta', 'bizcocho', 'medialuna', 'factura', 'molino', 'horno'],
     'Fábrica de Pastas': ['fábrica de pastas', 'fabrica de pastas', 'pasta', 'ravioles', 'ñoquis', 'tallarines', 'macarrones', 'canelones'],
     'Verdulería': ['verdulería', 'verdulerias', 'verdura', 'fruta', 'hortaliza', 'mercado', 'frutería', 'fruterias'],
@@ -32,7 +29,11 @@ document.addEventListener('DOMContentLoaded', function() {
     'Librería': ['librería', 'librerias', 'libro', 'cuaderno', 'escritura', 'papel', 'lapicera', 'bolígrafo', 'boligrafo', 'regla', 'goma'],
     'Mates': ['mate', 'yerba', 'termo', 'bombilla', 'mate cocido', 'maté', 'cebador', 'agua caliente'],
     'Florería': ['florería', 'florerias', 'flor', 'rosa', 'ramo', 'flores', 'regalo', 'cumpleaños', 'aniversario', 'bouquet'],
-    'Carnicería': ['carnicería', 'carnicerias', 'carne', 'pollo', 'cerdo', 'vacuno', 'bife', 'churrasco', 'costilla', 'molleja', 'hígado']
+    'Carnicería': ['carnicería', 'carnicerias', 'carne', 'pollo', 'cerdo', 'vacuno', 'bife', 'churrasco', 'costilla', 'molleja', 'hígado'],
+    'Granjas': ['granja', 'granjas', 'agricultura', 'campo', 'productor', 'hortalizas', 'cultivo', 'ganadería', 'animal', 'pollitos', 'huevos', 'leche', 'queso artesanal', 'productos frescos'],
+    'Muebles': ['mueble', 'muebles', 'silla', 'mesa', 'sofá', 'armario', 'cómoda', 'cama', 'estante', 'mobiliario', 'decoración', 'hogar', 'juego de sala', 'comedor', 'living'],
+    'Uñas': ['uñas', 'esmaltado', 'manicura', 'pedicura', 'uñas acrílicas', 'uñas gel', 'salón de uñas', 'nail', 'bellas artes', 'decoración de uñas', 'extensión de uñas'],
+    'Comidas': ['comida', 'comidas', 'restaurante', 'comedor', 'comida rápida', 'delivery', 'almuerzo', 'cena', 'menú', 'plato', 'cocina', 'gastronomía', 'picada', 'asado', 'parrilla', 'comida casera', 'comida argentina']
   };
 
   // Función para normalizar texto (sin tildes, mayúsculas, espacios extra)
@@ -46,18 +47,33 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // === NUEVA LÓGICA DE BÚSQUEDA INTELIGENTE ===
-  function findCategoryByQuery(query) {
-    const normalizedQuery = normalizeString(query);
-    for (const [category, keywords] of Object.entries(categoryKeywords)) {
-      for (const keyword of keywords) {
-        const normalizedKeyword = normalizeString(keyword);
-        if (normalizedQuery.includes(normalizedKeyword)) {
-          return category;
-        }
+  //function findCategoryByQuery(query) {
+  //  const normalizedQuery = normalizeString(query);
+  //  for (const [category, keywords] of Object.entries(categoryKeywords)) {
+  //    for (const keyword of keywords) {
+  //      const normalizedKeyword = normalizeString(keyword);
+  //      if (normalizedQuery.includes(normalizedKeyword)) {
+  //        return category;
+  //      }
+  //    }
+  //  }
+  //  return null;
+  //}
+
+  // === NUEVA LÓGICA DE BÚSQUEDA INTELIGENTE (BIDIRECCIONAL - FUNCIONA PARA TODOS LOS RUBROS) ===
+function findCategoryByQuery(query) {
+  const normalizedQuery = normalizeString(query);
+  for (const [category, keywords] of Object.entries(categoryKeywords)) {
+    for (const keyword of keywords) {
+      const normalizedKeyword = normalizeString(keyword);
+      // ✅ BÚSQUEDA BIDIRECCIONAL: Detecta tanto "panaderia" en "panaderías" como viceversa
+      if (normalizedQuery.includes(normalizedKeyword) || normalizedKeyword.includes(normalizedQuery)) {
+        return category;
       }
     }
-    return null;
   }
+  return null;
+}
 
   // === CARGA DE NEGOCIOS ===
   async function cargarNegocios() {
@@ -162,9 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const sendBtn = document.getElementById('sendBtn');
   const micBtn = document.getElementById('micBtn');
   const voiceToggleBtn = document.getElementById('voiceToggleBtn');
-
-  // === CONTENEDOR PARA BOTÓN DE COMPARTIR ===
-  let shareButton = null;
 
   // === FORMATO DE MENSAJES ===
   function formatMessageLinks(message) {
@@ -275,15 +288,17 @@ document.addEventListener('DOMContentLoaded', function() {
       'Librería': '📚',
       'Mates': '🧋',
       'Florería': '🌹',
-      'Carnicería': '🥩'
+      'Carnicería': '🥩',
+      'Granjas': '🌾',
+      'Muebles': '🪑',
+      'Uñas': '💅',
+      'Comidas': '🍽️'
     };
-    
     for (const [key, icon] of Object.entries(icons)) {
       if (normalizeString(category).includes(normalizeString(key))) {
         return icon;
       }
     }
-    
     return '🏪';
   }
 
@@ -658,46 +673,74 @@ document.addEventListener('DOMContentLoaded', function() {
     learningHistory.push({ query: query, timestamp: Date.now() });
 
     // === 1. DETECTAR CATEGORÍA EXACTA ===
-    const categoryFound = findCategoryByQuery(query);
-    if (categoryFound) {
-      const normalizedCategory = normalizeString(categoryFound);
-      
-      // ✅ USAMOS .INCLUDES() PARA MAYOR ROBUSTEZ
-      const openMatches = negociosData.filter(n => 
-        normalizeString(n.category).includes(normalizedCategory) && isBusinessOpen(n.hours)
-      );
-      
-      const totalMatches = negociosData.filter(n => 
-        normalizeString(n.category).includes(normalizedCategory)
-      ).length;
+   // === 1. DETECTAR CATEGORÍA EXACTA ===
+const categoryFound = findCategoryByQuery(query);
+if (categoryFound) {
+  const normalizedCategory = normalizeString(categoryFound);
 
-      if (openMatches.length > 0) {
-        addMessage(`✅ Encontré ${openMatches.length} ${categoryFound.toLowerCase()}${openMatches.length !== 1 ? 's' : ''} **abiertas ahora**`, 'bot');
-        openMatches.forEach((negocio, index) => {
-          const card = createBusinessCard(negocio, index);
-          chatBody.appendChild(card);
-        });
-        return `Hay un total de ${totalMatches} ${categoryFound.toLowerCase()}s en la zona, pero solo ${openMatches.length} están abiertas en este momento.`;
-      } else {
-        // 👇 NUEVO MENSAJE CLARO Y ÚTIL — ¡ESTE ES EL CAMBIO CLAVE!
-        if (totalMatches > 0) {
-          const primera = negociosData.find(n => normalizeString(n.category).includes(normalizedCategory));
-          const nextOpening = getNextOpeningTime(primera.hours);
-          
-          let respuesta = `🕒 En este momento, **todas las ${totalMatches} ${categoryFound.toLowerCase()}s** de la zona están **cerradas**.\n\n`;
-          
-          if (nextOpening) {
-            respuesta += `Pero te aviso por WhatsApp cuando abra. Solo dime: "*Sí, avísame*" y te envío una notificación cuando esté abierto.`;
-          } else {
-            respuesta += `Su próximo horario de apertura es según sus horarios habituales.`;
-          }
-          
-          return respuesta;
-        } else {
-          return `❌ No encontré ninguna ${categoryFound.toLowerCase()} registrada en nuestra base de datos. ¿Quizás te referís a otra zona o nombre diferente?`;
-        }
-      }
-    }
+  // ✅ NUEVO: Detectar si la pregunta es sobre "horario de apertura" de la categoría
+  const asksForOpeningHours = /abre|abren|hora|horario|cuándo abre|a qué hora/i.test(query);
+  const isSpecificQuestionAboutOpening = asksForOpeningHours && !/cerrad|cierro/i.test(query); // No es sobre cierre
+
+  // Buscar todos los negocios de esa categoría
+  const allMatches = negociosData.filter(n =>
+    normalizeString(n.category).includes(normalizedCategory)
+  );
+
+  if (allMatches.length === 0) {
+    return `❌ No encontré ninguna ${categoryFound.toLowerCase()} registrada en nuestra base de datos. ¿Quizás te referís a otra zona o nombre diferente?`;
+  }
+
+  // ✅ SI PREGUNTÓ POR HORARIOS → MOSTRAR TODOS LOS HORARIOS DE LA CATEGORÍA
+  if (isSpecificQuestionAboutOpening) {
+    addMessage(`Aquí tenés los horarios de apertura de las ${categoryFound.toLowerCase()}s de la zona:`, 'bot');
+
+    allMatches.forEach((negocio, index) => {
+      const hoursFormatted = negocio.hours
+        .replace(/Mon/g, 'Lunes')
+        .replace(/Tue/g, 'Martes')
+        .replace(/Wed/g, 'Miércoles')
+        .replace(/Thu/g, 'Jueves')
+        .replace(/Fri/g, 'Viernes')
+        .replace(/Sat/g, 'Sábado')
+        .replace(/Sun/g, 'Domingo');
+
+      const isOpenNow = isBusinessOpen(negocio.hours);
+      const statusIcon = isOpenNow ? '🟢' : '🔴';
+      const statusText = isOpenNow ? 'Abierto ahora' : 'Cerrado';
+
+      const item = document.createElement('div');
+      item.className = 'business-item';
+      item.innerHTML = `
+        <div style="padding: 10px; background: #f8f9fa; margin: 4px 0; border-radius: 8px;">
+          <strong>${negocio.name}</strong><br>
+          <small style="color: #666;">${hoursFormatted}</small><br>
+          <small style="color: ${isOpenNow ? '#10B981' : '#EF4444'}; font-weight: 600;">${statusIcon} ${statusText}</small>
+        </div>
+      `;
+      chatBody.appendChild(item);
+    });
+
+    const openCount = allMatches.filter(n => isBusinessOpen(n.hours)).length;
+    return `Mostré ${allMatches.length} ${categoryFound.toLowerCase()}s. ${openCount} están abiertas ahora.`;
+  }
+
+  // ✅ SI NO PREGUNTÓ POR HORARIOS → COMPORTAMIENTO ORIGINAL
+  const openMatches = allMatches.filter(n => isBusinessOpen(n.hours));
+
+  if (openMatches.length > 0) {
+    addMessage(`✅ Encontré ${openMatches.length} ${categoryFound.toLowerCase()}${openMatches.length !== 1 ? 's' : ''} **abiertas ahora**`, 'bot');
+    openMatches.forEach((negocio, index) => {
+      const card = createBusinessCard(negocio, index);
+      chatBody.appendChild(card);
+    });
+    return `Hay un total de ${allMatches.length} ${categoryFound.toLowerCase()}s en la zona, pero solo ${openMatches.length} están abiertas en este momento.`;
+  } else {
+    // 👇 ESTE MENSAJE YA NO ES EL ÚNICO QUE SE MUESTRA — SOLO APARECE SI NO PREGUNTÓ POR HORARIOS
+    return `🕒 En este momento, **todas las ${allMatches.length} ${categoryFound.toLowerCase()}s** de la zona están **cerradas**.
+¿Querés saber cuándo abre alguna? Preguntá: "*¿Cuándo abre la ${categoryFound.toLowerCase()} más cercana?*"`;
+  }
+}
 
     // === 2. BÚSQUEDA POR NOMBRE DE NEGOCIO ===
     const negocioMatch = negociosData.find(n => 
@@ -736,11 +779,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const despedida = /chau|adios|gracias|grac|dale|genial|perfecto|ok|vale/i.test(query);
 
     if (saludo) {
-      if (userName) {
-        return `¡Hola ${userName}! 👋 Soy tu asistente virtual de *Tu Barrio A Un Clik*. Puedo ayudarte con:\n• Panaderías\n• Farmacias\n• Ferreterías\n• Horarios\n• Ofertas\n\nSolo dime: *'¿Qué panaderías hay abiertas?'* o *'¿A qué hora cierra la farmacia?'*`;
-      } else {
-        return "¡Hola! 👋 Soy tu asistente virtual de *Tu Barrio A Un Clik*. Puedo ayudarte con:\n• Panaderías\n• Farmacias\n• Ferreterías\n• Horarios\n• Ofertas\n\nSolo dime: *'¿Qué panaderías hay abiertas?'* o *'¿A qué hora cierra la farmacia?'*";
-      }
+      return "¡Hola! 👋 Soy tu asistente virtual de *Tu Barrio A Un Clik*. Puedo ayudarte con:\n• Panaderías\n• Farmacias\n• Ferreterías\n• Horarios\n• Ofertas\n\nSolo dime: *'¿Qué panaderías hay abiertas?'* o *'¿A qué hora cierra la farmacia?'*";
     }
 
     if (despedida) {
@@ -805,59 +844,8 @@ document.addEventListener('DOMContentLoaded', function() {
       return `En este momento, hay **${openCount} comercios abiertos** de un total de ${total} registrados.\n¿Querés ver cuáles son? Preguntá: "*¿Qué comercios están abiertos?*" o "*¿Qué panaderías hay abiertas?*".`;
     }
 
-    // === 6. CASO ESPECIAL: "SÍ, AVÍSAME" (NOTIFICACIÓN POR WHATSAPP) ===
-    if (/sí, avísame|si, avísame|sí, avisame|si, avisame|sí|si|ok|dale|avísame|avisame|notificame|notificáme/i.test(query)) {
-      const lastQuery = learningHistory[learningHistory.length - 1]?.query;
-      const lastCategory = findCategoryByQuery(lastQuery);
-      
-      if (lastCategory) {
-        const negocio = negociosData.find(n => normalizeString(n.category).includes(normalizeString(lastCategory)));
-        if (negocio) {
-          const nextOpening = getNextOpeningTime(negocio.hours);
-          if (nextOpening && nextOpening.next !== 'ahora') {
-            const mensajeWhatsApp = `*Notificación de Apertura*\n\nHola, soy ${userName || 'un vecino'} de Tu Barrio A Un Clik.\n\nQuiero ser notificado cuando abra: *${negocio.name}* (${negocio.category})\n\nHora estimada de apertura: ${nextOpening.openTime}\n\n📍 ${negocio.address}`;
-            
-            const encodedMsg = encodeURIComponent(mensajeWhatsApp);
-            const whatsappUrl = `https://wa.me/5491157194796?text=${encodedMsg}`;
-            
-            addMessage("✅ ¡Perfecto! Te he enviado una notificación por WhatsApp. Recibirás un mensaje cuando abra.", 'bot');
-            window.open(whatsappUrl, '_blank');
-            return "";
-          } else {
-            return "Ya está abierto ahora mismo 😊 ¡No necesitas notificación!";
-          }
-        }
-      }
-      return "No entendí qué querés que te avise. Preguntá primero por un comercio, como: *'¿Cuándo abre la farmacia?'* y luego decí *'Sí, avísame'*.";
-    }
-
-    // === 7. CASO ESPECIAL: "COMPARTIR" ===
-    if (/compartir|compartilo|compartí|link|compartir chat|compartir esta info/i.test(query)) {
-      const shareUrl = `${window.location.origin}${window.location.pathname}?chat=inicio`;
-      const mensaje = `¡Hola! Te recomiendo este asistente virtual de mi barrio: ${shareUrl}\n\nEncuentra comercios, horarios y ofertas con solo escribir.`;
-      const encodedMsg = encodeURIComponent(mensaje);
-      const whatsappShareUrl = `https://wa.me/5491157194796?text=${encodedMsg}`;
-      
-      const buttonHTML = `
-        <div style="margin: 15px 0; padding: 12px; background: #f0f7ff; border-radius: 12px; border: 1px solid #cce5ff; display: flex; align-items: center; gap: 10px;">
-          <i class="fas fa-share-alt" style="color: #1877f2; font-size: 1.3rem;"></i>
-          <div style="flex-grow: 1;">
-            <strong style="color: #1877f2; font-size: 0.95rem;">Compartí este chat</strong>
-            <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #4a5568;">Haz clic aquí para compartir por WhatsApp</p>
-          </div>
-          <button onclick="window.open('${whatsappShareUrl}', '_blank')" style="background: #1877f2; color: white; border: none; border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 0.85rem;">Compartir</button>
-        </div>
-      `;
-      
-      const shareDiv = document.createElement('div');
-      shareDiv.innerHTML = buttonHTML;
-      chatBody.appendChild(shareDiv);
-      
-      return "Aquí tenés un botón para compartir este chat con tus vecinos por WhatsApp.";
-    }
-
-    // === 8. CASO FINAL: NO ENTENDIDO ===
-    return "No entendí del todo 😅\n\nProbá con frases como:\n- *¿Qué panaderías hay abiertas?*\n- *¿A qué hora cierra la farmacia?*\n- *¿Cuándo vuelve a abrir la panadería?*\n- *¿Dónde queda la ferretería?*\n\n👉 También probá decir: *'Sí, avísame'* después de preguntar por un horario.";
+    // === 6. CASO FINAL: NO ENTENDIDO ===
+    return "No entendí del todo 😅\n\nProbá con frases como:\n- *¿Qué panaderías hay abiertas?*\n- *¿A qué hora cierra la farmacia?*\n- *¿Cuándo vuelve a abrir la panadería?*\n- *¿Dónde queda la ferretería?*";
   }
 
   // === ENVÍO DE MENSAJES ===
@@ -1064,11 +1052,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // === MENSAJE DE BIENVENIDA ===
   function showWelcomeMessage() {
-    if (userName) {
-      addMessage("¡Hola ${userName}! Soy tu asistente virtual de *Tu Barrio A Un Clik*. Puedo ayudarte a encontrar comercios, horarios, ubicaciones o formas de pago.\n\nPrueba preguntar:\n• *¿Qué panaderías hay abiertas?*\n• *¿A qué hora cierra la farmacia?*\n• *¿Cuándo vuelve a abrir la panadería?*\n• *¿Hay ofertas hoy?*", 'bot');
-    } else {
-      addMessage("¡Hola! Soy tu asistente virtual de *Tu Barrio A Un Clik*. Puedo ayudarte a encontrar comercios, horarios, ubicaciones o formas de pago.\n\nPrueba preguntar:\n• *¿Qué panaderías hay abiertas?*\n• *¿A qué hora cierra la farmacia?*\n• *¿Cuándo vuelve a abrir la panadería?*\n• *¿Hay ofertas hoy?*", 'bot');
-    }
+    addMessage("¡Hola! Soy tu asistente virtual de *Tu Barrio A Un Clik*. Puedo ayudarte a encontrar comercios, horarios, ubicaciones o formas de pago.\n\nPrueba preguntar:\n• *¿Qué panaderías hay abiertas?*\n• *¿A qué hora cierra la farmacia?*\n• *¿Cuándo vuelve a abrir la panadería?*\n• *¿Hay ofertas hoy?*", 'bot');
   }
 
   // === INICIALIZACIÓN ===
@@ -1102,15 +1086,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (closeChat) closeChat.addEventListener('click', () => chatContainer.classList.remove('active'));
 
-    // Solicitar nombre del usuario al inicio (solo si no lo tenemos)
-    if (!userName) {
-      const nombre = prompt("¡Hola! Antes de empezar, ¿podrías decirme tu nombre? (opcional)\n\n(Ej: Juan, María, etc.)", "");
-      if (nombre && nombre.trim()) {
-        userName = nombre.trim();
-        localStorage.setItem('usuarioNombre', userName);
-      }
-    }
-
     setTimeout(showWelcomeMessage, 500);
   }
 
@@ -1126,5 +1101,4 @@ document.addEventListener('DOMContentLoaded', function() {
   window.chatbotInitAttempts = 0;
   window.sendQuickReply = sendQuickReply;
   setTimeout(initChatbot, 500);
-
 });

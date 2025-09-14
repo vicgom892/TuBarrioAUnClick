@@ -1781,6 +1781,514 @@ body {
     </button>
   </div>
 </section>
+
+<!-- === SECCIÓN COMPLETA: EMPRENDEDORES DEL BARRIO === -->
+<section style="
+  background: #f8f9fa;
+  padding: 60px 20px;
+  margin: 80px auto;
+  max-width: 1200px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+">
+
+  <!-- BANNER PRINCIPAL -->
+  <h2 style="
+    color: #333;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  ">
+    🌟 Conocé a los emprendedores de tu barrio
+  </h2>
+
+  <!-- CAROUSEL DE EMPRENDEDORES -->
+  <div id="emprendedoresCarousel" style="
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    overflow: hidden;
+    height: 240px;
+  ">
+    <!-- Contenedor deslizable -->
+    <div id="carouselInner" style="
+      display: flex;
+      transition: transform 0.8s ease-in-out;
+      height: 100%;
+    "></div>
+
+    <!-- Indicadores numéricos -->
+    <div id="carouselIndicators" style="
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 15px;
+    "></div>
+
+    <!-- Flechas de navegación -->
+    <button onclick="navigateCarousel(-1)" style="
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 10;
+    ">‹</button>
+    
+    <button onclick="navigateCarousel(1)" style="
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 10;
+    ">›</button>
+  </div>
+
+  <!-- LLAMADO A LA ACCIÓN + FORMULARIO -->
+  <div style="
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 20px;
+    border-radius: 16px;
+    margin-top: 50px;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  ">
+   <h3 style="font-size: 1.8rem; margin-bottom: 20px; font-weight: 700;">
+        ¿Sos emprendedor o tenés un emprendimiento?
+      </h3>
+      <div style="display: flex; justify-content: center; align-items: center; margin: 15px 0;">
+        <span style="font-size: 2rem;">🔄</span>
+      </div>
+      <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.95; line-height: 1.6;">
+        ¡Regístrate y hacete conocer en nuestra app!  
+        <strong>Dependiendo tu emprendimiento No te cobramos nada — porque tu apoyo es nuestro mejor pago.</strong><br>
+        Al registrarte, ayudás a que otros conozcan tu negocio… y vos también ayudás a que más vecinos conozcan <strong>Tu Barrio A Un Clik</strong>.<br>
+        Es un círculo: <em>yo te muestro, vos me mostrás.</em>
+      </p>
+    <button onclick="openRegistrationModal()" style="
+      background: white;
+      color: #ff6a3c;
+      border: none;
+      padding: 16px 40px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      font-family: inherit;
+      letter-spacing: 0.5px;
+    ">
+      🚀 ¡Quiero Registrarme Gratis!
+    </button>
+  </div>
+
+</section>
+
+<style>
+  .emprendedor-card {
+    min-width: 280px;
+    margin: 0 10px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .emprendedor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  .emprendedor-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .emprendedor-card h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.3;
+    padding: 0 10px;
+  }
+
+  .btn-whatsapp {
+    margin-top: 10px;
+    background: #25D366;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s;
+  }
+
+  .btn-whatsapp:hover {
+    background: #1d9d5b;
+    transform: scale(1.05);
+  }
+
+  /* Estilo de indicadores */
+  .indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .indicator.active {
+    background: #ff6a3c;
+    transform: scale(1.2);
+  }
+</style>
+
+<script>
+  // Variables globales para el carousel
+  let emprendedores = [];
+  let currentIndex = 0;
+  let intervalId = null;
+  let isPaused = false;
+
+  // Cargar emprendedores desde JSON
+  async function loadEmprendedores() {
+    try {
+      const response = await fetch('data/emprendedores.json');
+      if (!response.ok) throw new Error('Error al cargar emprendedores.json');
+      emprendedores = await response.json();
+
+      const carouselInner = document.getElementById('carouselInner');
+      const indicatorsContainer = document.getElementById('carouselIndicators');
+
+      // Limpiar antes de cargar
+      carouselInner.innerHTML = '';
+      indicatorsContainer.innerHTML = '';
+
+      // Crear tarjetas
+      emprendedores.forEach(emp => {
+        const card = document.createElement('div');
+        card.className = 'emprendedor-card';
+        card.innerHTML = `
+          <img src="${emp.image || 'https://via.placeholder.com/300x200?text=Emprendedor'}" alt="${emp.name}">
+          <h4>${emp.name}</h4>
+          <a href="https://wa.me/${emp.whatsapp}" target="_blank" class="btn-whatsapp">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </a>
+        `;
+        carouselInner.appendChild(card);
+      });
+
+      // Crear indicadores
+      emprendedores.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'indicator';
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        indicatorsContainer.appendChild(dot);
+      });
+
+      // Iniciar autoplay
+      startAutoSlide();
+
+      // Pausar al pasar el mouse
+      document.getElementById('emprendedoresCarousel').addEventListener('mouseenter', () => {
+        isPaused = true;
+        clearInterval(intervalId);
+      });
+      document.getElementById('emprendedoresCarousel').addEventListener('mouseleave', () => {
+        isPaused = false;
+        startAutoSlide();
+      });
+
+    } catch (error) {
+      console.error('Error cargando emprendedores:', error);
+      document.getElementById('emprendedoresCarousel').innerHTML = `
+        <p style="color: #666; margin: 20px; font-size: 1rem;">Cargando emprendedores... Intenta más tarde.</p>
+      `;
+    }
+  }
+
+  // Navegar a un slide específico
+  function goToSlide(index) {
+    currentIndex = index;
+    updateCarousel();
+    updateIndicators();
+  }
+
+  // Navegar siguiente/anterior
+  function navigateCarousel(direction) {
+    currentIndex = (currentIndex + direction + emprendedores.length) % emprendedores.length;
+    updateCarousel();
+    updateIndicators();
+  }
+
+  // Actualizar posición del carousel
+  function updateCarousel() {
+    const carouselInner = document.getElementById('carouselInner');
+    const cardWidth = 280 + 20; // ancho card + margen
+    carouselInner.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+  }
+
+  // Actualizar indicadores
+  function updateIndicators() {
+    const indicators = document.querySelectorAll('.indicator');
+    indicators.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentIndex);
+    });
+  }
+
+  // Iniciar autoplay
+  function startAutoSlide() {
+    if (intervalId) clearInterval(intervalId);
+    intervalId = setInterval(() => {
+      if (!isPaused) {
+        navigateCarousel(1);
+      }
+    }, 5000); // Cambia cada 5 segundos
+  }
+
+  // Abrir modal de registro (reutiliza tu lógica existente)
+  function openRegistrationModal() {
+    document.getElementById('registrationModal')?.classList.remove('hidden');
+    document.getElementById('registrationModal').style.display = 'flex';
+  }
+
+  // Iniciar todo al cargar la página
+  window.addEventListener('DOMContentLoaded', () => {
+    loadEmprendedores();
+  });
+</script>
+
+<!-- === MODAL DE REGISTRO DE EMPRENDEDOR — REUTILIZANDO TU LÓGICA === -->
+<div id="registrationModal" style="
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+">
+  <div style="
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 550px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    text-align: center;
+  ">
+    <h3 style="color: #ff6a3c; margin-bottom: 20px; font-size: 1.5rem;">📝 Registrate gratis para tu negocio</h3>
+    <p style="margin-bottom: 20px; color: #555; font-size: 1rem;">
+      Completa tus datos y te contactaremos para incluir tu negocio en <strong>Tu Barrio A Un Clik</strong>, sin costo alguno.<br>
+      <small style="color: #777;">*Tu información será verificada manualmente antes de publicarse.*</small>
+    </p>
+
+    <input type="text" id="nombreNegocio" placeholder="Nombre de tu negocio o emprendimiento" style="
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    ">
+
+    <select id="tipoNegocio" style="
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    ">
+      <option value="">Seleccioná tu rubro...</option>
+      <option value="Panadería">Panadería</option>
+      <option value="Ferretería">Ferretería</option>
+      <option value="Verdulería">Verdulería</option>
+      <option value="Fiambrería">Fiambrería</option>
+      <option value="Kiosco">Kiosco</option>
+      <option value="Farmacia">Farmacia</option>
+      <option value="Barbería">Barbería</option>
+      <option value="Mascotas">Mascotas</option>
+      <option value="Taller Mecánico">Taller Mecánico</option>
+      <option value="Servicios">Servicios (plomero, electricista, etc.)</option>
+      <option value="Ropa">Ropa / Moda</option>
+      <option value="Carnicería">Carnicería</option>
+      <option value="Granjas">Granja / Productor</option>
+      <option value="Uñas">Uñas / Estética</option>
+      <option value="Comidas">Restaurante / Comida rápida</option>
+      <option value="Otro">Otro (especificá)</option>
+    </select>
+
+    <input type="text" id="direccion" placeholder="Dirección exacta (calle y número)" style="
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    ">
+
+    <input type="text" id="telefono" placeholder="Teléfono o WhatsApp" style="
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    ">
+
+    <textarea id="descripcion" placeholder="Contanos un poco sobre tu negocio (qué vendés, qué hacés, por qué es especial...)" 
+      rows="4" style="
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    "></textarea>
+
+    <p style="font-size: 0.9rem; color: #777; margin: 20px 0;">
+      ✅ Tu negocio será visible en nuestra app para todos los vecinos.
+    </p>
+
+    <div style="display: flex; gap: 10px; justify-content: center;">
+      <button onclick="document.getElementById('registrationModal').style.display='none'" style="
+        padding: 10px 20px;
+        background: #ccc;
+        color: #333;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+      ">Cancelar</button>
+      <button onclick="enviarRegistroEmprendedor()" style="
+        padding: 10px 20px;
+        background: #ff6a3c;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+      ">Enviar Registro</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Función de envío de registro (igual que la que ya usás)
+  async function enviarRegistroEmprendedor() {
+    const nombre = document.getElementById('nombreNegocio').value.trim();
+    const tipo = document.getElementById('tipoNegocio').value;
+    const direccion = document.getElementById('direccion').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const descripcion = document.getElementById('descripcion').value.trim();
+
+    if (!nombre || !tipo || !direccion || !telefono || !descripcion) {
+      alert("Por favor, completá todos los campos.");
+      return;
+    }
+
+    // Validar tipo "Otro"
+    if (tipo === "Otro") {
+      const tipoPersonalizado = prompt("¿Cuál es tu rubro? (Ej: Floristería, Panadería artesanal, etc.)");
+      if (!tipoPersonalizado || tipoPersonalizado.trim() === "") {
+        alert("Debes especificar tu rubro.");
+        return;
+      }
+      tipo = tipoPersonalizado.trim();
+    }
+
+    // Datos del nuevo negocio (igual que los demás)
+    const nuevoNegocio = {
+      name: nombre,
+      category: tipo,
+      address: direccion,
+      telefono: telefono,
+      whatsapp: telefono.startsWith('+') ? telefono.substring(1) : telefono.replace(/[^\d]/g, ''),
+      hours: "Lunes a Viernes 8:00-18:00\nSábado 9:00-17:00\nDomingo Cerrado",
+      latitude: -34.6037,
+      longitude: -58.5342,
+      url: "",
+      imagen: "",
+      description: descripcion,
+      estado: "pendiente"
+    };
+
+    // Enviar a WhatsApp para revisión manual
+    const mensaje = `
+*REGISTRO DE EMPRENDEDOR — POR REVISAR*
+*Nombre:* ${nombre}
+*Rubro:* ${tipo}
+*Dirección:* ${direccion}
+*Teléfono:* ${telefono}
+*Descripción:* ${descripcion}
+*Estado:* Pendiente de aprobación
+*Enviado desde:* Tu Barrio A Un Clik - Página Principal
+    `.trim();
+
+    const whatsappUrl = `https://wa.me/5491157194796?text=${encodeURIComponent(mensaje)}`;
+    window.open(whatsappUrl, '_blank');
+
+    // Limpiar y cerrar
+    document.getElementById('registrationModal').style.display = 'none';
+    document.getElementById('nombreNegocio').value = '';
+    document.getElementById('tipoNegocio').value = '';
+    document.getElementById('direccion').value = '';
+    document.getElementById('telefono').value = '';
+    document.getElementById('descripcion').value = '';
+
+    alert("✅ ¡Gracias por registrarte! Nos pondremos en contacto pronto para aprobar tu negocio y publicarlo en nuestra app.");
+  }
+</script>
   
   <!-- Kioscos -->
   <section id="kioscos" class="parallax my-5">
@@ -2435,7 +2943,7 @@ body {
   <!-- Scripts principales -->
   <script src="js/main.js" defer></script>
   <script src="js/search-functionality.js"></script>
-  <script src="js/chat-1.js"></script>
+  <script src="js/chat-2.js"></script>
   <script src="js/form.js"></script>
   <script src="js/testimonials.js" defer></script>
   <script src="js/notificaciones.js" defer></script>
