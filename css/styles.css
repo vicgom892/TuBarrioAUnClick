@@ -4207,7 +4207,7 @@ margin: 5px !important;
         /* Estilos para pantallas grandes (desktop) */
         @media (min-width: 1024px) {
             .rubros-bar {
-                padding: 10px 10px 15px;
+                padding: 12px 10px 15px;
             }
             
             .rubro-btn {

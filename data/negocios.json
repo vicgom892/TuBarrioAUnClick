@@ -2,7 +2,7 @@
   {
     "name": "La Canasta de Juan",
     "image": "/img/panaderia.jpeg",
-    "category": "Panadería",
+    "category": "Panaderia",
     "url": "/negocios/panaderia.html",
     "hours": "Mon-Sat 06:00-20:00",
     "latitude": -34.6522,
@@ -13,7 +13,7 @@
   {
     "name": "El Abuelo",
     "image": "/img/panaderia-1.jpeg",
-    "category": "Panadería",
+    "category": "Panaderia",
     "url": "/negocios/basico-panaderia.html",
     "hours": "Mon-Sat 06:00-20:00",
     "latitude": -34.6492,
@@ -24,7 +24,7 @@
   {
     "name": "Medialunas Del Abuelo",
     "image": "/img/panaderia-3.jpeg",
-    "category": "Panadería",
+    "category": "Panaderia",
     "url": "/negocios/basico-panaderia-1.html",
     "hours": "Mon-Sat 06:00-20:00",
     "latitude": -34.6446,
@@ -35,7 +35,7 @@
   {
     "name": "El Molino",
     "image": "/img/panaderia-4.jpeg",
-    "category": "Panadería",
+    "category": "Panaderia",
     "url": "/negocios/panaderia-4.html",
     "hours": "Mon-Sat 08:00-20:00",
     "latitude": -34.6500,
@@ -46,7 +46,7 @@
   {
     "name": "Granier",
     "image": "/img/panaderia-5.jpeg",
-    "category": "Panadería",
+    "category": "Panaderia",
     "url": "/negocios/panaderia-5.html",
     "hours": "Mon-Sat 07:00-21:00",
     "latitude": -34.6480,
@@ -57,7 +57,7 @@
   {
     "name": "Pan Dulce",
     "image": "/img/panaderia-2.jpeg",
-    "category": "Panadería",
+    "category": "Panaderia",
     "url": "/negocios/panaderia-6.html",
     "hours": "Mon-Sat 07:00-20:00",
     "latitude": -34.6550,
@@ -68,7 +68,7 @@
   {
     "name": "Sabor a Pan",
     "image": "/img/panaderia-3.jpeg",
-    "category": "Panadería",
+    "category": "Panaderia",
     "url": "/negocios/panaderia-7.html",
     "hours": "Mon-Sat 06:30-20:30",
     "latitude": -34.6470,
@@ -79,7 +79,7 @@
   {
     "name": "La Espiga",
     "image": "/img/panaderia-4.jpeg",
-    "category": "Panadería",
+    "category": "Panaderia",
     "url": "/negocios/panaderia-8.html",
     "hours": "Mon-Sat 07:00-19:00",
     "latitude": -34.6510,
@@ -90,7 +90,7 @@
   {
     "name": "Pasta Fresca",
     "image": "/img/pastas-1.jpeg",
-    "category": "Fábrica de Pastas",
+    "category": "Fabrica de Pastas",
     "url": "/negocios/pastas.html",
     "hours": "Mon-Fri 09:00-19:00",
     "latitude": -34.6530,
@@ -101,7 +101,7 @@
   {
     "name": "La Nonna",
     "image": "/img/pastas-2.jpeg",
-    "category": "Fábrica de Pastas",
+    "category": "Fabrica de Pastas",
     "url": "/negocios/pastas-2.html",
     "hours": "Mon-Fri 09:00-18:00",
     "latitude": -34.6505,
@@ -112,7 +112,7 @@
   {
     "name": "Pastas Caseras",
     "image": "/img/pastas-3.jpeg",
-    "category": "Fábrica de Pastas",
+    "category": "Fabrica de Pastas",
     "url": "/negocios/pastas-3.html",
     "hours": "Mon-Fri 08:00-19:00",
     "latitude": -34.6540,
@@ -123,7 +123,7 @@
   {
     "name": "Sorrentinos del Sur",
     "image": "/img/pastas-4.jpeg",
-    "category": "Fábrica de Pastas",
+    "category": "Fabrica de Pastas",
     "url": "/negocios/pastas-4.html",
     "hours": "Mon-Fri 09:00-20:00",
     "latitude": -34.6495,
@@ -134,7 +134,7 @@
   {
     "name": "Ravioles El Tano",
     "image": "/img/pastas-1.jpeg",
-    "category": "Fábrica de Pastas",
+    "category": "Fabrica de Pastas",
     "url": "/negocios/pastas-5.html",
     "hours": "Mon-Fri 08:30-19:30",
     "latitude": -34.6525,
@@ -145,7 +145,7 @@
   {
     "name": "Pasta Rápida",
     "image": "/img/pastas-2.jpeg",
-    "category": "Fábrica de Pastas",
+    "category": "Fabrica de Pastas",
     "url": "/negocios/pastas-6.html",
     "hours": "Mon-Fri 09:00-18:30",
     "latitude": -34.6518,
@@ -156,7 +156,7 @@
   {
     "name": "Fideos Don Pepe",
     "image": "/img/pastas-3.jpeg",
-    "category": "Fábrica de Pastas",
+    "category": "Fabrica de Pastas",
     "url": "/negocios/pastas-7.html",
     "hours": "Mon-Fri 08:00-18:00",
     "latitude": -34.6535,
@@ -167,7 +167,7 @@
   {
     "name": "La Italiana",
     "image": "/img/pastas-4.jpeg",
-    "category": "Fábrica de Pastas",
+    "category": "Fabrica de Pastas",
     "url": "/negocios/pastas-8.html",
     "hours": "Mon-Fri 09:00-19:00",
     "latitude": -34.6508,
@@ -178,7 +178,7 @@
   {
     "name": "Frutas Frescas",
     "image": "/img/verduleria.jpeg",
-    "category": "Verdulería",
+    "category": "Verduleria",
     "url": "/negocios/verduleria.html",
     "hours": "Mon-Sat 08:00-18:00",
     "latitude": -34.6525,
@@ -189,7 +189,7 @@
   {
     "name": "El Huerto",
     "image": "/img/verduleria-2.jpeg",
-    "category": "Verdulería",
+    "category": "Verduleria",
     "url": "/negocios/verduleria-2.html",
     "hours": "Mon-Sat 08:00-19:00",
     "latitude": -34.6498,
@@ -200,7 +200,7 @@
   {
     "name": "Verde Natural",
     "image": "/img/verduleria-3.jpeg",
-    "category": "Verdulería",
+    "category": "Verduleria",
     "url": "/negocios/verduleria-3.html",
     "hours": "Mon-Sat 07:30-18:30",
     "latitude": -34.6545,
@@ -211,7 +211,7 @@
   {
     "name": "La Huerta",
     "image": "/img/verduleria-4.jpeg",
-    "category": "Verdulería",
+    "category": "Verduleria",
     "url": "/negocios/verduleria-4.html",
     "hours": "Mon-Sat 08:00-18:00",
     "latitude": -34.6512,
@@ -222,7 +222,7 @@
   {
     "name": "Frutiverde",
     "image": "/img/verduleria-1.jpeg",
-    "category": "Verdulería",
+    "category": "Verduleria",
     "url": "/negocios/verduleria-5.html",
     "hours": "Mon-Sat 08:30-19:00",
     "latitude": -34.6502,
@@ -233,7 +233,7 @@
   {
     "name": "El Campo",
     "image": "/img/verduleria-2.jpeg",
-    "category": "Verdulería",
+    "category": "Verduleria",
     "url": "/negocios/verduleria-6.html",
     "hours": "Mon-Sat 07:00-18:00",
     "latitude": -34.6538,
@@ -244,7 +244,7 @@
   {
     "name": "Verde Fresco",
     "image": "/img/verduleria-3.jpeg",
-    "category": "Verdulería",
+    "category": "Verduleria",
     "url": "/negocios/verduleria-7.html",
     "hours": "Mon-Sat 08:00-19:00",
     "latitude": -34.6520,
@@ -255,7 +255,7 @@
   {
     "name": "Frutas del Sol",
     "image": "/img/verduleria-4.jpeg",
-    "category": "Verdulería",
+    "category": "Verduleria",
     "url": "/negocios/verduleria-8.html",
     "hours": "Mon-Sat 08:00-18:30",
     "latitude": -34.6490,
@@ -266,7 +266,7 @@
   {
     "name": "Fiambrería El Sabor",
     "image": "/img/fiambreria.jpeg",
-    "category": "Fiambrería",
+    "category": "Fiambreria",
     "url": "/negocios/fiambreria.html",
     "hours": "Mon-Fri 08:00-20:00",
     "latitude": -34.6528,
@@ -277,7 +277,7 @@
   {
     "name": "Delicias del Campo",
     "image": "/img/fiambreria-2.jpeg",
-    "category": "Fiambrería",
+    "category": "Fiambreria",
     "url": "/negocios/fiambreria-2.html",
     "hours": "Mon-Fri 08:00-19:00",
     "latitude": -34.6500,
@@ -288,7 +288,7 @@
   {
     "name": "El Corte Fino",
     "image": "/img/fiambreria-3.jpeg",
-    "category": "Fiambrería",
+    "category": "Fiambreria",
     "url": "/negocios/fiambreria-3.html",
     "hours": "Mon-Fri 08:30-20:00",
     "latitude": -34.6532,
@@ -299,7 +299,7 @@
   {
     "name": "Sabor Artesanal",
     "image": "/img/fiambreria-4.jpeg",
-    "category": "Fiambrería",
+    "category": "Fiambreria",
     "url": "/negocios/fiambreria-4.html",
     "hours": "Mon-Fri 08:00-19:30",
     "latitude": -34.6515,
@@ -310,7 +310,7 @@
   {
     "name": "Fiambres La Tradición",
     "image": "/img/fiambreria-1.jpeg",
-    "category": "Fiambrería",
+    "category": "Fiambreria",
     "url": "/negocios/fiambreria-5.html",
     "hours": "Mon-Fri 08:00-20:00",
     "latitude": -34.6495,
@@ -321,7 +321,7 @@
   {
     "name": "El Gourmet",
     "image": "/img/fiambreria-2.jpeg",
-    "category": "Fiambrería",
+    "category": "Fiambreria",
     "url": "/negocios/fiambreria-6.html",
     "hours": "Mon-Fri 08:30-19:00",
     "latitude": -34.6522,
@@ -332,7 +332,7 @@
   {
     "name": "Sabores del Sur",
     "image": "/img/fiambreria-3.jpeg",
-    "category": "Fiambrería",
+    "category": "Fiambreria",
     "url": "/negocios/fiambreria-7.html",
     "hours": "Mon-Fri 08:00-20:00",
     "latitude": -34.6508,
@@ -343,7 +343,7 @@
   {
     "name": "Fiambres Don Juan",
     "image": "/img/fiambreria-4.jpeg",
-    "category": "Fiambrería",
+    "category": "Fiambreria",
     "url": "/negocios/fiambreria-8.html",
     "hours": "Mon-Fri 08:00-19:00",
     "latitude": -34.6538,
@@ -530,7 +530,7 @@
   {
     "name": "Corte Clásico",
     "image": "/img/barberia.jpeg",
-    "category": "Barbería",
+    "category": "Barberia",
     "url": "/negocios/barberia.html",
     "hours": "Tue-Sat 09:00-20:00",
     "latitude": -34.6533,
@@ -541,7 +541,7 @@
   {
     "name": "Barsovia",
     "image": "/img/barberia-2.jpeg",
-    "category": "Barbería",
+    "category": "Barberia",
     "url": "/negocios/barberia-2.html",
     "hours": "Mon-Fri 09:00-19:00",
     "latitude": -34.6505,
@@ -552,7 +552,7 @@
   {
     "name": "Estilo Urbano",
     "image": "/img/barberia-3.jpeg",
-    "category": "Barbería",
+    "category": "Barberia",
     "url": "/negocios/barberia-3.html",
     "hours": "Mon-Sat 09:00-17:00",
     "latitude": -34.6520,
@@ -563,7 +563,7 @@
   {
     "name": "Corte Moderno",
     "image": "/img/barberia-4.jpeg",
-    "category": "Barbería",
+    "category": "Barberia",
     "url": "/negocios/barberia-4.html",
     "hours": "Mon-Sat 10:00-18:00",
     "latitude": -34.6498,
@@ -574,7 +574,7 @@
   {
     "name": "La Navaja",
     "image": "/img/barberia-1.jpeg",
-    "category": "Barbería",
+    "category": "Barberia",
     "url": "/negocios/barberia-5.html",
     "hours": "Tue-Sat 09:00-19:00",
     "latitude": -34.6515,
@@ -585,7 +585,7 @@
   {
     "name": "Barber Shop",
     "image": "/img/barberia-2.jpeg",
-    "category": "Barbería",
+    "category": "Barberia",
     "url": "/negocios/barberia-6.html",
     "hours": "Mon-Sat 09:00-18:00",
     "latitude": -34.6538,
@@ -596,7 +596,7 @@
   {
     "name": "El Corte Perfecto",
     "image": "/img/barberia-3.jpeg",
-    "category": "Barbería",
+    "category": "Barberia",
     "url": "/negocios/barberia-7.html",
     "hours": "Tue-Sat 10:00-19:00",
     "latitude": -34.6502,
@@ -607,7 +607,7 @@
   {
     "name": "Estilo & Corte",
     "image": "/img/barberia-4.jpeg",
-    "category": "Barbería",
+    "category": "Barberia",
     "url": "/negocios/barberia-8.html",
     "hours": "Mon-Sat 09:00-18:00",
     "latitude": -34.6528,
@@ -618,7 +618,7 @@
   {
     "name": "Ferretería El Martillo",
     "image": "/img/ferreteria.jpeg",
-    "category": "Ferretería",
+    "category": "Ferreteria",
     "url": "/negocios/ferreteria.html",
     "hours": "Mon-Sat 08:00-20:00",
     "latitude": -34.6537,
@@ -629,7 +629,7 @@
   {
     "name": "Herramientas Ya",
     "image": "/img/ferreteria-2.jpeg",
-    "category": "Ferretería",
+    "category": "Ferreteria",
     "url": "/negocios/ferreteria-2.html",
     "hours": "Mon-Sat 08:00-17:00",
     "latitude": -34.6500,
@@ -640,7 +640,7 @@
   {
     "name": "El Tornillo",
     "image": "/img/ferreteria-3.jpeg",
-    "category": "Ferretería",
+    "category": "Ferreteria",
     "url": "/negocios/ferreteria-3.html",
     "hours": "Mon-Sat 08:00-18:00",
     "latitude": -34.6525,
@@ -651,7 +651,7 @@
   {
     "name": "Ferretools",
     "image": "/img/ferreteria-4.jpeg",
-    "category": "Ferretería",
+    "category": "Ferreteria",
     "url": "/negocios/ferreteria-4.html",
     "hours": "Mon-Sat 08:30-19:00",
     "latitude": -34.6495,
@@ -662,7 +662,7 @@
   {
     "name": "La Herramienta",
     "image": "/img/ferreteria-1.jpeg",
-    "category": "Ferretería",
+    "category": "Ferreteria",
     "url": "/negocios/ferreteria-5.html",
     "hours": "Mon-Sat 08:00-18:30",
     "latitude": -34.6518,
@@ -673,7 +673,7 @@
   {
     "name": "Ferretería Central",
     "image": "/img/ferreteria-2.jpeg",
-    "category": "Ferretería",
+    "category": "Ferreteria",
     "url": "/negocios/ferreteria-6.html",
     "hours": "Mon-Sat 08:00-19:00",
     "latitude": -34.6532,
@@ -684,7 +684,7 @@
   {
     "name": "Tools & More",
     "image": "/img/ferreteria-3.jpeg",
-    "category": "Ferretería",
+    "category": "Ferreteria",
     "url": "/negocios/ferreteria-7.html",
     "hours": "Mon-Sat 08:00-18:00",
     "latitude": -34.6508,
@@ -695,7 +695,7 @@
   {
     "name": "El Clavo",
     "image": "/img/ferreteria-4.jpeg",
-    "category": "Ferretería",
+    "category": "Ferreteria",
     "url": "/negocios/ferreteria-8.html",
     "hours": "Mon-Sat 08:30-19:00",
     "latitude": -34.6520,
@@ -883,7 +883,7 @@
   {
     "name": "Carnicería La Pampa",
     "image": "/img/carniceria.jpeg",
-    "category": "Carnicería",
+    "category": "Carniceria",
     "url": "/negocios/carniceria.html",
     "hours": "Mon-Sat 08:00-20:00",
     "latitude": -34.6532,
@@ -896,7 +896,7 @@
   {
     "name": "La Granja",
     "image": "/img/carniceria.jpeg",
-    "category": "Carnicería",
+    "category": "Carniceria",
     "url": "/negocios/carniceria.html",
     "hours": "Tue-Sun 09:00-19:00",
     "latitude": -34.6540,
@@ -909,7 +909,7 @@
   {
     "name": "Carnicería Central",
     "image": "/img/carniceria.jpeg",
-    "category": "Carnicería",
+    "category": "Carniceria",
     "url": "/negocios/carniceria.html",
     "hours": "Wed-Mon 08:00-20:00",
     "latitude": -34.6528,
@@ -922,7 +922,7 @@
   {
     "name": "La Tradicional",
     "image": "/img/carniceria.jpeg",
-    "category": "Carnicería",
+    "category": "Carniceria",
     "url": "/negocios/carniceria.html",
     "hours": "Thu-Wed 09:00-19:00",
     "latitude": -34.6535,
@@ -935,7 +935,7 @@
   {
     "name": "Carnicería del Barrio",
     "image": "/img/carniceria.jpeg",
-    "category": "Carnicería",
+    "category": "Carniceria",
     "url": "/negocios/carniceria.html",
     "hours": "Fri-Thu 08:00-20:00",
     "latitude": -34.6542,
@@ -948,7 +948,7 @@
   {
     "name": "La Carnicería",
     "image": "/img/carniceria.jpeg",
-    "category": "Carnicería",
+    "category": "Carniceria",
     "url": "/negocios/carniceria.html",
     "hours": "Sat-Fri 09:00-19:00",
     "latitude": -34.6525,
@@ -961,7 +961,7 @@
   {
     "name": "Carnicería Express",
     "image": "/img/carniceria.jpeg",
-    "category": "Carnicería",
+    "category": "Carniceria",
     "url": "/negocios/carniceria.html",
     "hours": "Sun-Sat 08:00-20:00",
     "latitude": -34.6538,
@@ -974,7 +974,7 @@
   {
     "name": "La Pampa II",
     "image": "/img/carniceria.jpeg",
-    "category": "Carnicería",
+    "category": "Carniceria",
     "url": "/negocios/carniceria.html",
     "hours": "Mon-Sun 09:00-19:00",
     "latitude": -34.6530,

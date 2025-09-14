@@ -324,7 +324,11 @@ document.addEventListener('DOMContentLoaded', function() {
     talleres: 'talleres.json',
     librerias: 'librerias.json',
     mates: 'mates.json',
-    florerias: 'florerias.json'
+    florerias: 'florerias.json',
+    comida: 'comidas.json',
+    granjas: 'granja.json',
+    muebles: 'muebles.json',
+    uñas: 'uñas.json'
   };
   let loadedSections = 0;
   const totalSections = Object.keys(secciones).length;
@@ -426,7 +430,11 @@ document.addEventListener('DOMContentLoaded', function() {
           'talleres': 'Talleres',
           'librerias': 'Librerías',
           'mates': 'Mates',
-          'florerias': 'Florería'
+          'florerias': 'Florería',
+          'comidas': 'Comida',
+          'granjas': 'Granjas',
+          'muebles': 'Muebles',
+          'uñas': 'Uñas'
         };
         
         // Buscar por data-category con el nombre en español
@@ -725,7 +733,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- PROMOCIONES ---
     const offerContainer = document.getElementById("offerContainer");
     if (offerContainer) {
-      fetch("data/promociones.json")
+      fetch("datos/promociones.json")
         .then(res => res.json())
         .then(promos => {
           offerContainer.innerHTML = '';
