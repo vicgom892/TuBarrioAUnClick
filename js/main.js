@@ -632,10 +632,37 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('modalAddress').textContent = negocio.direccion || 'No disponible';
     document.getElementById('modalHours').textContent = negocio.horario;
     document.getElementById('modalPhone').textContent = negocio.telefono;
-    document.getElementById('modalWhatsapp').href = `https://wa.me/${negocio.whatsapp}?text=Hola%20desde%20BarrioClik`;
-    document.getElementById('modalWebsite').href = negocio.pagina;
-    document.getElementById('modalMap').href = `https://maps.google.com/?daddr=${negocio.latitud},${negocio.longitud}`;
+    //document.getElementById('modalWhatsapp').href = `https://wa.me/${negocio.whatsapp}?text=Hola%20desde%20BarrioClik`;
+    //document.getElementById('modalWebsite').href = negocio.pagina;
+    //document.getElementById('modalMap').href = `https://maps.google.com/?daddr=${negocio.latitud},${negocio.longitud}`;
     // Actualizar el título del modal
+    const modalWhatsapp = document.getElementById('modalWhatsapp');
+modalWhatsapp.href = `https://wa.me/${negocio.whatsapp}?text=Hola%20desde%20BarrioClik`;
+modalWhatsapp.setAttribute('data-analytics', 'whatsapp');
+modalWhatsapp.setAttribute('data-negocio', negocio.nombre);
+
+const modalWebsite = document.getElementById('modalWebsite');
+modalWebsite.href = negocio.pagina;
+modalWebsite.setAttribute('data-analytics', 'web');
+modalWebsite.setAttribute('data-negocio', negocio.nombre);
+
+const modalMap = document.getElementById('modalMap');
+modalMap.href = `https://maps.google.com/?daddr=${negocio.latitud},${negocio.longitud}`;
+modalMap.setAttribute('data-analytics', 'ubicacion');
+modalMap.setAttribute('data-negocio', negocio.nombre);
+
+// Si tiene promo
+const modalPromo = document.getElementById('modalPromo');
+if (modalPromo && negocio.promo) {
+  modalPromo.style.display = 'inline-block';
+  modalPromo.setAttribute('data-analytics', 'promocion');
+  modalPromo.setAttribute('data-negocio', negocio.nombre);
+  modalPromo.setAttribute('data-promo', negocio.promo);
+  modalPromo.textContent = negocio.promo;
+} else if(modalPromo) {
+  modalPromo.style.display = 'none';
+}
+
     document.getElementById('businessModalLabel').textContent = negocio.nombre;
   });
 
@@ -1444,6 +1471,38 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   }
+
+  document.addEventListener("DOMContentLoaded", () => {
+  // Selecciona todos los elementos que tengan data-analytics
+  const trackableElements = document.querySelectorAll("[data-analytics]");
+
+  trackableElements.forEach(el => {
+    el.addEventListener("click", () => {
+      const tipo = el.dataset.analytics;        // whatsapp | ubicacion | promocion | otro
+      const negocio = el.dataset.negocio || "Sin nombre";
+      const promo = el.dataset.promo || "";
+      const extra = el.dataset.extra || "";     // por si en el futuro querés agregar algo más
+
+      // Nombre del evento en GA4
+      const eventName = `click_${tipo}`;
+
+      // Parámetros a enviar
+      const params = {
+        negocio: negocio,
+        promo: promo,
+        extra: extra
+      };
+
+      // Enviar a Google Analytics (si está disponible)
+      if (typeof gtag === "function") {
+        gtag("event", eventName, params);
+        console.log(`Evento enviado a GA4: ${eventName}`, params);
+      } else {
+        console.warn("gtag no está definido, revisa la integración de GA4.");
+      }
+    });
+  });
+});
 
   // Corrección definitiva para el problema de aria-hidden
   function fixAriaHiddenIssue() {
