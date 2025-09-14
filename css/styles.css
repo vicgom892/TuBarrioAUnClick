@@ -4003,6 +4003,7 @@ margin: 5px !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
   height: 100%;
+  padding:5px;
 }
 
 .card.card-small:hover {
