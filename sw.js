@@ -1,5 +1,5 @@
 // sw.js
-const CACHE_VERSION = 'v24'; // Incrementado para forzar limpieza
+const CACHE_VERSION = 'v25'; // Incrementado para forzar limpieza
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const ASSETS_CACHE = `assets-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
