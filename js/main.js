@@ -22,6 +22,72 @@ document.addEventListener('DOMContentLoaded', function() {
   let updateBusinessListDebounced;
   let businessIndex = null;
 
+  // --- Service Worker + Modal de Actualización (CORREGIDO) ---
+if ("serviceWorker" in navigator) {
+  // Eliminamos el listener de 'controllerchange' que recargaba automáticamente
+  // ¡Ahora solo confiamos en el modal!
+
+  navigator.serviceWorker.register("/sw.js")
+    .then(registration => {
+      console.log("SW registrado con éxito:", registration);
+
+      // Escuchar actualizaciones del SW
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        newWorker.addEventListener('statechange', () => {
+          // Mostrar modal SOLO cuando el nuevo SW está listo y hay uno activo
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            showUpdateModal(registration);
+          }
+        });
+      });
+    })
+    .catch(err => {
+      console.error("SW registration failed:", err);
+    });
+}
+
+// Función para mostrar el modal (MEJORADA)
+function showUpdateModal(registration) {
+  const modal = document.getElementById('update-modal');
+  const nowBtn = document.getElementById('update-now');
+  const laterBtn = document.getElementById('update-later');
+
+  // Mostrar modal
+  modal.classList.add('active');
+
+  // Botón: Actualizar ahora → Forzar activación del nuevo SW
+  nowBtn.onclick = () => {
+    modal.classList.remove('active');
+    // Enviar mensaje al SW para que salte la espera
+    if (registration && registration.waiting) {
+      registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+      // Recargar SOLO después de que el SW se active
+      // El SW enviará 'SW_ACTIVATED', pero NO lo recargamos automáticamente.
+      // En su lugar, recargamos aquí, después de cerrar el modal.
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    } else {
+      // Fallback: recargar
+      setTimeout(() => window.location.reload(), 300);
+    }
+  };
+
+  // Botón: Más tarde → Solo cerrar modal, nada más
+  laterBtn.onclick = () => {
+    modal.classList.remove('active');
+    console.log("Usuario pospuso la actualización.");
+  };
+
+  // Cerrar al hacer clic fuera
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+      console.log("Usuario cerró el modal haciendo clic fuera.");
+    }
+  });
+}
   // Capturar el evento beforeinstallprompt
   window.addEventListener('beforeinstallprompt', (e) => {
     // Prevenir que el banner de instalación aparezca automáticamente
@@ -858,53 +924,8 @@ if (modalPromo && negocio.promo) {
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
     }
-   // --- Service Worker + Modal de Actualización ---
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/sw.js")
-      .then(registration => {
-        console.log("SW registrado con éxito:", registration);
-        // Escuchar si hay un nuevo SW disponible
-        registration.onupdatefound = () => {
-          const newWorker = registration.installing;
-          newWorker.onstatechange = () => {
-            if (newWorker.state === 'installed') {
-              if (navigator.serviceWorker.controller) {
-                // Mostrar modal de actualización
-                showUpdateModal();
-              }
-            }
-          };
-        };
-      })
-      .catch(err => {
-        console.error("SW registration failed:", err);
-      });
-  }
-  // Función para mostrar el modal
-  function showUpdateModal() {
-    const modal = document.getElementById('update-modal');
-    const nowBtn = document.getElementById('update-now');
-    const laterBtn = document.getElementById('update-later');
-    // Mostrar modal
-    modal.classList.add('active');
-    // Botón: Actualizar ahora
-    nowBtn.onclick = () => {
-      modal.classList.remove('active');
-      setTimeout(() => {
-        window.location.reload();
-      }, 300);
-    };
-    // Botón: Más tarde
-    laterBtn.onclick = () => {
-      modal.classList.remove('active');
-    };
-    // Cerrar al hacer clic fuera (en el fondo oscuro)
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-      }
-    });
-  }
+  // --- Service Worker + Modal de Actualización (MEJORADO) ---
+
     // Refrescar animaciones AOS
     if (typeof AOS !== 'undefined') {
       AOS.refresh();

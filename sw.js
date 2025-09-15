@@ -1,14 +1,16 @@
-// sw.js
-const CACHE_VERSION = 'v25'; // Incrementado para forzar limpieza
+// sw.js — Service Worker para Tu Barrio A Un Click
+// Versión: v26 — ¡Recuerda incrementar esto en cada actualización!
+
+const CACHE_VERSION = 'v31'; // ⬅️ ¡CAMBIA ESTO EN CADA DEPLOY!
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const ASSETS_CACHE = `assets-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 
-// Límites de caché (aumentado dynamic para soportar más páginas)
+// Límites de caché
 const CACHE_LIMITS = {
   assets: 200,
-  dynamic: 100, // Aumentado para páginas de negocios
+  dynamic: 100,
   api: 50
 };
 
@@ -28,7 +30,7 @@ const PRECACHED_URLS = [
   '/js/testimonials.js'
 ];
 
-// Imágenes críticas (completado con todas las imágenes mencionadas)
+// Imágenes críticas
 const PRECACHED_IMAGES = [
   '/img/icono-192x192.png',
   '/img/icon-logo.png',
@@ -38,7 +40,6 @@ const PRECACHED_IMAGES = [
   '/img/banner.png',
   '/img/mapa.jpeg',
   '/img/contacto.jpeg'
-  // Nota: Agrega aquí otras imágenes críticas de /img/ si son esenciales para offline
 ];
 
 // Páginas de negocios
@@ -58,13 +59,12 @@ const NEGOCIOS_PAGES = [
   '/negocios/fiambreria.html'
 ];
 
-// Imágenes de negocios (agrega aquí imágenes específicas de /img/ usadas en /negocios/*.html)
+// Imágenes de negocios (agrega aquí si las tienes)
 const NEGOCIOS_IMAGES = [
-  // Ejemplo: '/img/negocios/panaderia.jpg',
-  // Agrega las imágenes específicas de cada página de negocios si las conoces
+  // Ej: '/img/negocios/panaderia.jpg'
 ];
 
-// Archivos JSON (completado con promociones.json y otros mencionados)
+// Archivos JSON
 const API_ENDPOINTS = [
   '/data/promociones.json',
   '/data/panaderias.json',
@@ -77,7 +77,6 @@ const API_ENDPOINTS = [
   '/data/pastas.json',
   '/data/tiendas.json',
   '/datos/comercios.json'
-  // Nota: Agrega aquí otros .json de /data/ y /datos/ si son esenciales
 ];
 
 // Todos los archivos para precache
@@ -91,8 +90,8 @@ const ALL_PRECACHED = [
 
 // === INSTALL: Precachea todo lo esencial ===
 self.addEventListener('install', (event) => {
-  console.log('[SW] Instalando nueva versión:', CACHE_VERSION);
-  self.skipWaiting(); // Activa inmediatamente
+  console.log(`[SW] Instalando nueva versión: ${CACHE_VERSION}`);
+  self.skipWaiting(); // Activa inmediatamente si es posible
 
   event.waitUntil(
     (async () => {
@@ -103,7 +102,7 @@ self.addEventListener('install', (event) => {
           caches.open(API_CACHE)
         ]);
 
-        // Precache en paralelo con logging
+        // Precache en paralelo
         const results = await Promise.allSettled([
           precacheResources(staticCache, PRECACHED_URLS),
           precacheResources(assetsCache, [...PRECACHED_IMAGES, ...NEGOCIOS_IMAGES]),
@@ -124,7 +123,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// === ACTIVATE: Limpia cachés viejos y limita tamaño ===
+// === ACTIVATE: Limpia cachés viejos y toma control ===
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
@@ -145,12 +144,12 @@ self.addEventListener('activate', (event) => {
         limitCacheSize(API_CACHE, CACHE_LIMITS.api)
       ]);
 
-      // Tomar control inmediato
+      // Tomar control inmediato de las pestañas abiertas
       await clients.claim();
 
-      console.log(`[SW] Activado: ${CACHE_VERSION}`);
+      console.log(`[SW] ✅ Activado: ${CACHE_VERSION}`);
 
-      // Notificar al cliente que el SW está activo
+      // Notificar a todas las ventanas abiertas que el SW está activo
       const clientsList = await clients.matchAll({ type: 'window' });
       clientsList.forEach(client => {
         client.postMessage({ type: 'SW_ACTIVATED' });
@@ -159,7 +158,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// === FETCH: Estrategia inteligente por tipo de recurso ===
+// === FETCH: Estrategia por tipo de recurso ===
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -170,32 +169,23 @@ self.addEventListener('fetch', (event) => {
 
   // Clasificar y manejar
   if (isStaticAsset(url.pathname)) {
-    event.respondWith(
-      cacheFirst(request, STATIC_CACHE)
-    );
+    event.respondWith(cacheFirst(request, STATIC_CACHE));
   } else if (isImage(url.pathname)) {
-    event.respondWith(
-      cacheFirst(request, ASSETS_CACHE)
-    );
+    event.respondWith(cacheFirst(request, ASSETS_CACHE));
   } else if (isApiRequest(url.pathname)) {
-    event.respondWith(
-      networkFirst(request, API_CACHE)
-    );
+    event.respondWith(networkFirst(request, API_CACHE));
   } else if (isNegocioPage(url.pathname)) {
-    event.respondWith(
-      staleWhileRevalidate(request, DYNAMIC_CACHE)
-    );
+    event.respondWith(staleWhileRevalidate(request, DYNAMIC_CACHE));
   } else {
-    event.respondWith(
-      staleWhileRevalidate(request, DYNAMIC_CACHE)
-    );
+    event.respondWith(staleWhileRevalidate(request, DYNAMIC_CACHE));
   }
 });
 
 // === MESSAGE: Comunicación con la app ===
 self.addEventListener('message', (event) => {
   if (event.data?.type === 'SKIP_WAITING') {
-    self.skipWaiting();
+    console.log('[SW] Mensaje recibido: SKIP_WAITING → Activando nuevo SW');
+    self.skipWaiting(); // ¡Esto fuerza la activación inmediata!
   } else if (event.data?.type === 'CLEAN_CACHE') {
     event.waitUntil(
       Promise.all([
@@ -246,7 +236,7 @@ self.addEventListener('notificationclick', (event) => {
 
 // === FUNCIONES DE APOYO ===
 
-// Precache con manejo de errores y fallback para JSONs
+// Precache con manejo de errores y validación de JSON
 async function precacheResources(cache, resources) {
   for (const resource of resources) {
     try {
