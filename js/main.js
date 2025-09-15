@@ -22,69 +22,83 @@ document.addEventListener('DOMContentLoaded', function() {
   let updateBusinessListDebounced;
   let businessIndex = null;
 
-  // --- Service Worker + Modal de Actualización (CORREGIDO) ---
+// --- Service Worker + Modal de Actualización (CORREGIDO PARA GITHUB PAGES) ---
+const APP_VERSION = 'v33'; // ⬅️ ¡DEBE COINCIDIR EXACTAMENTE CON CACHE_VERSION EN sw.js!
+
 if ("serviceWorker" in navigator) {
-  // Eliminamos el listener de 'controllerchange' que recargaba automáticamente
-  // ¡Ahora solo confiamos en el modal!
-
-  navigator.serviceWorker.register("/sw.js")
+  // Registrar el SW con la versión en el query string para romper la caché de GitHub Pages
+  navigator.serviceWorker.register(`/sw.js?v=${APP_VERSION}`)
     .then(registration => {
-      console.log("SW registrado con éxito:", registration);
+      console.log("✅ SW registrado con éxito:", registration);
 
-      // Escuchar actualizaciones del SW
+      // Escuchar cuando se instala un nuevo SW
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
+        if (!newWorker) return;
+
         newWorker.addEventListener('statechange', () => {
-          // Mostrar modal SOLO cuando el nuevo SW está listo y hay uno activo
+          // Mostrar modal SOLO cuando el nuevo SW está "installed" y hay uno activo ("controller")
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
             showUpdateModal(registration);
           }
         });
       });
+
+      // Escuchar mensajes del SW (por si quieres hacer algo cuando se activa)
+      navigator.serviceWorker.addEventListener('message', event => {
+        if (event.data?.type === 'SW_ACTIVATED') {
+          console.log('🆕 Nuevo SW activado completamente.');
+          // Opcional: Aquí podrías hacer algo, pero NO recargar automáticamente.
+          // Dejamos que el usuario decida recargar desde el modal.
+        }
+      });
     })
     .catch(err => {
-      console.error("SW registration failed:", err);
+      console.error("❌ Error al registrar el SW:", err);
     });
 }
 
-// Función para mostrar el modal (MEJORADA)
+// Función para mostrar el modal de actualización (MEJORADA)
 function showUpdateModal(registration) {
   const modal = document.getElementById('update-modal');
   const nowBtn = document.getElementById('update-now');
   const laterBtn = document.getElementById('update-later');
 
+  if (!modal || !nowBtn || !laterBtn) {
+    console.error('❌ No se encontraron elementos del modal de actualización.');
+    return;
+  }
+
   // Mostrar modal
   modal.classList.add('active');
 
-  // Botón: Actualizar ahora → Forzar activación del nuevo SW
+  // Botón: Actualizar ahora → Forzar activación del nuevo SW y recargar
   nowBtn.onclick = () => {
     modal.classList.remove('active');
-    // Enviar mensaje al SW para que salte la espera
     if (registration && registration.waiting) {
+      // Enviar mensaje al SW para que salte la espera
       registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-      // Recargar SOLO después de que el SW se active
-      // El SW enviará 'SW_ACTIVATED', pero NO lo recargamos automáticamente.
-      // En su lugar, recargamos aquí, después de cerrar el modal.
+      // Recargar la página después de un pequeño delay para asegurar la activación
       setTimeout(() => {
         window.location.reload();
-      }, 500);
+      }, 1000);
     } else {
-      // Fallback: recargar
-      setTimeout(() => window.location.reload(), 300);
+      // Fallback: recargar directamente
+      setTimeout(() => window.location.reload(), 500);
     }
   };
 
-  // Botón: Más tarde → Solo cerrar modal, nada más
+  // Botón: Más tarde → Solo cerrar modal
   laterBtn.onclick = () => {
     modal.classList.remove('active');
-    console.log("Usuario pospuso la actualización.");
+    console.log("🕒 Usuario pospuso la actualización.");
   };
 
-  // Cerrar al hacer clic fuera
+  // Cerrar modal al hacer clic fuera
   modal.addEventListener('click', (e) => {
     if (e.target === modal) {
       modal.classList.remove('active');
-      console.log("Usuario cerró el modal haciendo clic fuera.");
+      console.log("🕒 Usuario cerró el modal haciendo clic fuera.");
     }
   });
 }
