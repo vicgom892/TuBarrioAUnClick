@@ -4003,7 +4003,7 @@ margin: 5px !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
   height: 100%;
-  padding:5px;
+  padding:0px;
 }
 
 .card.card-small:hover {
@@ -4032,6 +4032,7 @@ margin: 5px !important;
 /* Responsive: 3 por fila en móvil, 4 en PC */
 @media (max-width: 767.98px) {
   .col-4 {
+    padding: 1px;
     flex: 0 0 33.333333%;
     max-width: 33.333333%;
   }
