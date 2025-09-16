@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let businessIndex = null;
 
 // --- Service Worker + Modal de Actualización (CORREGIDO PARA GITHUB PAGES) ---
-const APP_VERSION = 'v33'; // ⬅️ ¡DEBE COINCIDIR EXACTAMENTE CON CACHE_VERSION EN sw.js!
+const APP_VERSION = 'v34'; // ⬅️ ¡DEBE COINCIDIR EXACTAMENTE CON CACHE_VERSION EN sw.js!
 
 if ("serviceWorker" in navigator) {
   // Registrar el SW con la versión en el query string para romper la caché de GitHub Pages
