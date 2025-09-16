@@ -31,7 +31,7 @@ if ("serviceWorker" in navigator) {
     scope: './' // ¡IMPORTANTE! Solo controla este proyecto
   };
 
-navigator.serviceWorker.register(`/sw-v${APP_VERSION}.js`, swRegistrationOptions)
+navigator.serviceWorker.register(`/TuBarrioAUnClick/sw-v${APP_VERSION}.js`, swRegistrationOptions)
     .then(registration => {
       console.log("✅ SW registrado con éxito:", registration);
 
