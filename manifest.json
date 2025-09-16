@@ -1,11 +1,11 @@
 {
   "name": "Tu Barrio a un Clik",
   "short_name": "BarrioClik",
-  "description": "Plataforma de comercios y comunidad local en Castelar",
+  "description": "Plataforma de comercios y comunidad local en tu Localidad",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#e1306c",
-  "theme_color": "#e1306c",
+  "background_color": "#00000080",
+  "theme_color": "#00000080",
   "orientation": "portrait",
   "icons": [
     {
@@ -30,7 +30,7 @@
       "name": "Unirse a la Comunidad",
       "short_name": "Comunidad",
       "url": "/comunidad.html",
-      "icons": [{ "src": "img/icon-abeja-sola.png", "sizes": "192x192" }]
+      "icons": [{ "src": "img/icon-192x192.png", "sizes": "192x192" }]
     }
   ]
 }
