@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let businessIndex = null;
 
 // --- Service Worker + Modal de Actualización (CORREGIDO PARA GITHUB PAGES + SCOPE) ---
-const APP_VERSION = 'v34'; // ⬅️ Asegúrate de que coincida con sw.js
+const APP_VERSION = 'v35'; // ⬅️ Asegúrate de que coincida con sw.js
 
 if ("serviceWorker" in navigator) {
   // Opciones para limitar el scope del SW a este directorio
@@ -31,7 +31,7 @@ if ("serviceWorker" in navigator) {
     scope: './' // ¡IMPORTANTE! Solo controla este proyecto
   };
 
-  navigator.serviceWorker.register(`/sw.js?v=${APP_VERSION}`, swRegistrationOptions)
+navigator.serviceWorker.register(`/sw-v${APP_VERSION}.js`, swRegistrationOptions)
     .then(registration => {
       console.log("✅ SW registrado con éxito:", registration);
 
