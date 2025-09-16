@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let businessIndex = null;
 
 // --- Service Worker + Modal de Actualización (CORREGIDO PARA GITHUB PAGES + SCOPE) ---
-const APP_VERSION = 'v35'; // ⬅️ Asegúrate de que coincida con sw.js
+const APP_VERSION = '35'; // ⬅️ Asegúrate de que coincida con sw.js
 
 if ("serviceWorker" in navigator) {
   // Opciones para limitar el scope del SW a este directorio
