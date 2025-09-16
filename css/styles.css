@@ -3681,6 +3681,7 @@ margin: 5px !important;
   .update-modal.active .update-modal-content {
     transform: translateY(0);
     opacity: 1;
+    margin-bottom: 13px;
   }
 
   .update-icon {
