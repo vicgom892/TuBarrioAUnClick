@@ -22,33 +22,34 @@ document.addEventListener('DOMContentLoaded', function() {
   let updateBusinessListDebounced;
   let businessIndex = null;
 
-// --- Service Worker + Modal de Actualización (CORREGIDO PARA GITHUB PAGES + SCOPE) ---
-const APP_VERSION = '35'; // ⬅️ Asegúrate de que coincida con sw.js
+// --- Service Worker + Modal de Actualización (CORREGIDO PARA GITHUB PAGES) ---
+const APP_VERSION = 'v32'; // ⬅️ ¡DEBE COINCIDIR EXACTAMENTE CON CACHE_VERSION EN sw.js!
 
 if ("serviceWorker" in navigator) {
-  // Opciones para limitar el scope del SW a este directorio
-  const swRegistrationOptions = {
-    scope: './' // ¡IMPORTANTE! Solo controla este proyecto
-  };
-
-navigator.serviceWorker.register(`/sw-v${APP_VERSION}.js`, swRegistrationOptions)
+  // Registrar el SW con la versión en el query string para romper la caché de GitHub Pages
+  navigator.serviceWorker.register(`/sw.js?v=${APP_VERSION}`)
     .then(registration => {
       console.log("✅ SW registrado con éxito:", registration);
 
+      // Escuchar cuando se instala un nuevo SW
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         if (!newWorker) return;
 
         newWorker.addEventListener('statechange', () => {
+          // Mostrar modal SOLO cuando el nuevo SW está "installed" y hay uno activo ("controller")
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
             showUpdateModal(registration);
           }
         });
       });
 
+      // Escuchar mensajes del SW (por si quieres hacer algo cuando se activa)
       navigator.serviceWorker.addEventListener('message', event => {
         if (event.data?.type === 'SW_ACTIVATED') {
           console.log('🆕 Nuevo SW activado completamente.');
+          // Opcional: Aquí podrías hacer algo, pero NO recargar automáticamente.
+          // Dejamos que el usuario decida recargar desde el modal.
         }
       });
     })
