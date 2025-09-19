@@ -1,7 +1,7 @@
 // sw.js — Service Worker para Tu Barrio A Un Click
 // Versión: v26 — ¡Recuerda incrementar esto en cada actualización!
 
-const CACHE_VERSION = 'v34'; // ⬅️ ¡CAMBIA ESTO EN CADA DEPLOY!
+const CACHE_VERSION = 'v35'; // ⬅️ ¡CAMBIA ESTO EN CADA DEPLOY!
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const ASSETS_CACHE = `assets-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
