@@ -27,7 +27,8 @@
       "rubro": "Arquitecto",
       "direccion": "Calle 25 de Mayo 8282",
       "latitud": -34.6541,
-      "longitud": -58.6426
+      "longitud": -58.6426,
+      "mercadoPagoToken": "APP_USR-1234567890-abcdef123456-1234567890" 
     },
     {
       "id": "profesion-03",
