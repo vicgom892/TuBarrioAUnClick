@@ -1,17 +1,26 @@
 // sw.js — Service Worker para Tu Barrio A Un Click
-// Versión: v26 — ¡Recuerda incrementar esto en cada actualización!
+// Versión: v35 — ¡Recuerda incrementar esto en cada actualización!
 
 const CACHE_VERSION = 'v35'; // ⬅️ ¡CAMBIA ESTO EN CADA DEPLOY!
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const ASSETS_CACHE = `assets-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
+const BUSINESS_CACHE = `business-${CACHE_VERSION}`;
 
-// Límites de caché
+// Límites de caché optimizados para +200 comercios
 const CACHE_LIMITS = {
-  assets: 200,
-  dynamic: 100,
-  api: 50
+  assets: 500,           // Imágenes y assets
+  dynamic: 300,          // Páginas dinámicas
+  api: 200,              // Endpoints API
+  business: 300          // Páginas de negocios (para +200 comercios)
+};
+
+// Configuración de tiempo de vida para cachés
+const CACHE_TTL = {
+  api: 15 * 60 * 1000,   // 15 minutos para APIs
+  business: 24 * 60 * 60 * 1000, // 24 horas para páginas de negocios
+  dynamic: 60 * 60 * 1000 // 1 hora para contenido dinámico
 };
 
 // === ARCHIVOS ESENCIALES (se precargan en install) ===
@@ -42,28 +51,6 @@ const PRECACHED_IMAGES = [
   '/img/contacto.jpeg'
 ];
 
-// Páginas de negocios
-const NEGOCIOS_PAGES = [
-  '/negocios/barberia.html',
-  '/negocios/bacico-panaderia.html',
-  '/negocios/bacico-panaderia-1.html',
-  '/negocios/ferreteria.html',
-  '/negocios/kiosco.html',
-  '/negocios/pagos.html',
-  '/negocios/panaderia.html',
-  '/negocios/pastas.html',
-  '/negocios/tienda.html',
-  '/negocios/verduleria.html',
-  '/negocios/veterinaria.html',
-  '/negocios/veterinaria-1.html',
-  '/negocios/fiambreria.html'
-];
-
-// Imágenes de negocios (agrega aquí si las tienes)
-const NEGOCIOS_IMAGES = [
-  // Ej: '/img/negocios/panaderia.jpg'
-];
-
 // Archivos JSON
 const API_ENDPOINTS = [
   '/data/promociones.json',
@@ -83,10 +70,15 @@ const API_ENDPOINTS = [
 const ALL_PRECACHED = [
   ...PRECACHED_URLS,
   ...PRECACHED_IMAGES,
-  ...NEGOCIOS_PAGES,
-  ...NEGOCIOS_IMAGES,
   ...API_ENDPOINTS
 ];
+
+// Almacén para rastrear timestamps de caché
+const cacheTimestamps = {
+  api: {},
+  business: {},
+  dynamic: {}
+};
 
 // === INSTALL: Precachea todo lo esencial ===
 self.addEventListener('install', (event) => {
@@ -96,16 +88,17 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     (async () => {
       try {
-        const [staticCache, assetsCache, apiCache] = await Promise.all([
+        const [staticCache, assetsCache, apiCache, businessCache] = await Promise.all([
           caches.open(STATIC_CACHE),
           caches.open(ASSETS_CACHE),
-          caches.open(API_CACHE)
+          caches.open(API_CACHE),
+          caches.open(BUSINESS_CACHE)
         ]);
 
-        // Precache en paralelo
+        // Precache en paralelo con mejor manejo de errores
         const results = await Promise.allSettled([
           precacheResources(staticCache, PRECACHED_URLS),
-          precacheResources(assetsCache, [...PRECACHED_IMAGES, ...NEGOCIOS_IMAGES]),
+          precacheResources(assetsCache, PRECACHED_IMAGES),
           precacheResources(apiCache, API_ENDPOINTS)
         ]);
 
@@ -129,7 +122,7 @@ self.addEventListener('activate', (event) => {
     (async () => {
       // Limpiar cachés antiguos
       const cacheNames = await caches.keys();
-      const currentCaches = [STATIC_CACHE, ASSETS_CACHE, API_CACHE, DYNAMIC_CACHE];
+      const currentCaches = [STATIC_CACHE, ASSETS_CACHE, API_CACHE, DYNAMIC_CACHE, BUSINESS_CACHE];
 
       await Promise.all(
         cacheNames
@@ -141,7 +134,8 @@ self.addEventListener('activate', (event) => {
       await Promise.all([
         limitCacheSize(ASSETS_CACHE, CACHE_LIMITS.assets),
         limitCacheSize(DYNAMIC_CACHE, CACHE_LIMITS.dynamic),
-        limitCacheSize(API_CACHE, CACHE_LIMITS.api)
+        limitCacheSize(API_CACHE, CACHE_LIMITS.api),
+        limitCacheSize(BUSINESS_CACHE, CACHE_LIMITS.business)
       ]);
 
       // Tomar control inmediato de las pestañas abiertas
@@ -171,13 +165,13 @@ self.addEventListener('fetch', (event) => {
   if (isStaticAsset(url.pathname)) {
     event.respondWith(cacheFirst(request, STATIC_CACHE));
   } else if (isImage(url.pathname)) {
-    event.respondWith(cacheFirst(request, ASSETS_CACHE));
+    event.respondWith(cacheFirstWithCleanup(request, ASSETS_CACHE));
   } else if (isApiRequest(url.pathname)) {
-    event.respondWith(networkFirst(request, API_CACHE));
+    event.respondWith(networkFirstWithTTL(request, API_CACHE, CACHE_TTL.api));
   } else if (isNegocioPage(url.pathname)) {
-    event.respondWith(staleWhileRevalidate(request, DYNAMIC_CACHE));
+    event.respondWith(staleWhileRevalidateWithTTL(request, BUSINESS_CACHE, CACHE_TTL.business));
   } else {
-    event.respondWith(staleWhileRevalidate(request, DYNAMIC_CACHE));
+    event.respondWith(staleWhileRevalidateWithTTL(request, DYNAMIC_CACHE, CACHE_TTL.dynamic));
   }
 });
 
@@ -190,11 +184,15 @@ self.addEventListener('message', (event) => {
     event.waitUntil(
       Promise.all([
         limitCacheSize(DYNAMIC_CACHE, CACHE_LIMITS.dynamic),
-        limitCacheSize(ASSETS_CACHE, CACHE_LIMITS.assets)
+        limitCacheSize(ASSETS_CACHE, CACHE_LIMITS.assets),
+        limitCacheSize(BUSINESS_CACHE, CACHE_LIMITS.business)
       ])
     );
   } else if (event.data?.type === 'REFRESH_CONTENT') {
     event.waitUntil(refreshContent());
+  } else if (event.data?.type === 'CACHE_BUSINESS_PAGE') {
+    // Para cachear páginas de negocios específicas
+    event.waitUntil(cacheBusinessPage(event.data.url));
   }
 });
 
@@ -234,59 +232,93 @@ self.addEventListener('notificationclick', (event) => {
   );
 });
 
-// === FUNCIONES DE APOYO ===
+// === FUNCIONES DE APOYO MEJORADAS ===
 
 // Precache con manejo de errores y validación de JSON
 async function precacheResources(cache, resources) {
+  const successful = [];
+  const failed = [];
+
   for (const resource of resources) {
     try {
-      const response = await fetch(resource, { cache: 'no-cache' });
+      const response = await fetch(resource, { 
+        cache: 'no-cache',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
+      
       if (response.ok) {
+        let finalResponse = response;
+        
         if (resource.endsWith('.json')) {
           const text = await response.text();
-          JSON.parse(text); // Validar JSON
-          await cache.put(resource, new Response(text, { 
-            status: response.status,
-            headers: response.headers
-          }));
-        } else {
-          await cache.put(resource, response.clone());
+          try {
+            JSON.parse(text); // Validar JSON
+            finalResponse = new Response(text, { 
+              status: response.status,
+              headers: {
+                ...Object.fromEntries(response.headers.entries()),
+                'Content-Type': 'application/json'
+              }
+            });
+          } catch (jsonError) {
+            console.warn(`[SW] JSON inválido: ${resource}`, jsonError);
+            continue;
+          }
         }
-        console.log(`[SW] ✅ Precacheado: ${resource}`);
+        
+        await cache.put(resource, finalResponse.clone());
+        successful.push(resource);
+      } else {
+        failed.push({ resource, status: response.status });
       }
     } catch (error) {
-      console.warn(`[SW] ❌ No se pudo precachear: ${resource}`, error);
+      failed.push({ resource, error: error.message });
     }
   }
+
+  console.log(`[SW] ✅ Precacheados: ${successful.length}/${resources.length}`);
+  if (failed.length > 0) {
+    console.warn(`[SW] ❌ Fallaron: ${failed.length}`, failed);
+  }
+  
+  return { successful, failed };
 }
 
 // Detectar tipo de recurso
 function isStaticAsset(path) {
-  return /\.(html|css|js|xml|woff2?|ttf|eot)$/i.test(path);
+  return /\.(html|css|js|xml|woff2?|ttf|eot|json)$/i.test(path);
 }
 
 function isImage(path) {
-  return /\.(png|jpe?g|gif|webp|avif|svg)$/i.test(path);
+  return /\.(png|jpe?g|gif|webp|avif|svg|ico)$/i.test(path);
 }
 
 function isApiRequest(path) {
-  return /\.json($|\?)/i.test(path);
+  return /\.json($|\?)/i.test(path) || path.includes('/api/') || path.startsWith('/data/');
 }
 
 function isNegocioPage(path) {
-  return path.startsWith('/negocios/') && path.endsWith('.html');
+  return (path.startsWith('/negocios/') && path.endsWith('.html')) || 
+         (path.includes('negocio') && path.endsWith('.html'));
 }
 
 // Estrategia: Cache First (estáticos)
 async function cacheFirst(request, cacheName) {
   const cached = await caches.match(request);
-  if (cached) return cached;
+  if (cached) {
+    console.log(`[SW] 🗃️ Servido desde caché: ${request.url}`);
+    return cached;
+  }
 
   try {
     const response = await fetch(request);
     if (response.ok) {
       const cache = await caches.open(cacheName);
       await cache.put(request, response.clone());
+      console.log(`[SW] 🌐 Servido desde red y cacheado: ${request.url}`);
     }
     return response;
   } catch (error) {
@@ -296,50 +328,91 @@ async function cacheFirst(request, cacheName) {
   }
 }
 
-// Estrategia: Network First (APIs)
-async function networkFirst(request, cacheName) {
+// Cache First con limpieza automática para imágenes
+async function cacheFirstWithCleanup(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+  
+  if (cached) {
+    console.log(`[SW] 🖼️ Imagen desde caché: ${request.url}`);
+    return cached;
+  }
+
+  try {
+    const response = await fetch(request);
+    if (response.ok) {
+      // Verificar límite antes de guardar
+      const keys = await cache.keys();
+      if (keys.length >= CACHE_LIMITS.assets) {
+        // Eliminar las entradas más antiguas
+        const toDelete = keys.slice(0, Math.ceil(CACHE_LIMITS.assets * 0.1)); // Eliminar 10%
+        await Promise.all(toDelete.map(key => cache.delete(key)));
+      }
+      
+      await cache.put(request, response.clone());
+      console.log(`[SW] 🖼️ Imagen cacheada: ${request.url}`);
+    }
+    return response;
+  } catch (error) {
+    console.error('[SW] Error cacheando imagen:', error);
+    return response || new Response('Image not available', { status: 503 });
+  }
+}
+
+// Estrategia: Network First con TTL (APIs)
+async function networkFirstWithTTL(request, cacheName, ttl) {
   try {
     const response = await fetch(request.url, { 
       headers: request.headers,
-      mode: 'cors'
+      mode: 'cors',
+      cache: 'no-cache'
     });
 
     if (response.ok) {
       const cache = await caches.open(cacheName);
-      const cached = await cache.match(request);
-
-      const newBodyText = await response.clone().text();
-      let cachedBodyText = '';
-      if (cached) {
-        cachedBodyText = await cached.text();
-      }
-
-      if (!cached || cachedBodyText !== newBodyText) {
-        await cache.put(request, new Response(newBodyText, {
-          status: response.status,
-          headers: response.headers
-        }));
-        console.log(`[SW] ✅ Actualizado: ${request.url}`);
-      } else {
-        console.log(`[SW] ✅ Servido desde red (sin cambios): ${request.url}`);
-      }
-
-      return new Response(newBodyText, response);
+      
+      // Guardar con timestamp
+      const timestamp = Date.now();
+      const headers = new Headers(response.headers);
+      headers.set('x-cache-timestamp', timestamp.toString());
+      
+      const clonedResponse = response.clone();
+      const text = await clonedResponse.text();
+      
+      await cache.put(request, new Response(text, {
+        status: response.status,
+        headers: headers
+      }));
+      
+      // Actualizar timestamp
+      cacheTimestamps.api[request.url] = timestamp;
+      
+      console.log(`[SW] 🔄 API actualizada: ${request.url}`);
+      return new Response(text, response);
     }
   } catch (error) {
     console.error(`[SW] Network falló: ${request.url}`, error);
   }
 
-  // Fallback: caché
-  const cached = await caches.match(request);
+  // Fallback: caché con verificación de TTL
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+  
   if (cached) {
-    try {
-      const body = await cached.text();
-      JSON.parse(body); // Validar JSON
-      console.log(`[SW] ⚠️ Sirviendo desde caché: ${request.url}`);
-      return cached;
-    } catch (e) {
-      console.warn(`[SW] JSON inválido en caché: ${request.url}`);
+    const cachedTimestamp = parseInt(cached.headers.get('x-cache-timestamp') || '0');
+    const isFresh = (Date.now() - cachedTimestamp) < ttl;
+    
+    if (isFresh) {
+      try {
+        const body = await cached.text();
+        JSON.parse(body); // Validar JSON
+        console.log(`[SW] ⏳ Sirviendo API desde caché (vigente): ${request.url}`);
+        return new Response(body, cached);
+      } catch (e) {
+        console.warn(`[SW] JSON inválido en caché: ${request.url}`);
+      }
+    } else {
+      console.log(`[SW] 🗑️ Cache expirado para: ${request.url}`);
     }
   }
 
@@ -357,32 +430,94 @@ async function networkFirst(request, cacheName) {
   });
 }
 
-// Estrategia: Stale While Revalidate (dinámicos)
-async function staleWhileRevalidate(request, cacheName) {
+// Estrategia: Stale While Revalidate con TTL (para negocios y dinámicos)
+async function staleWhileRevalidateWithTTL(request, cacheName, ttl) {
   const cache = await caches.open(cacheName);
-  const cached = await caches.match(request);
+  const cached = await cache.match(request);
+  
+  // Verificar si el caché está vigente
+  let isFresh = false;
+  let cachedTimestamp = 0;
+  
+  if (cached) {
+    cachedTimestamp = parseInt(cached.headers.get('x-cache-timestamp') || '0');
+    isFresh = (Date.now() - cachedTimestamp) < ttl;
+    
+    if (isFresh) {
+      console.log(`[SW] 🗃️ Servido desde caché (vigente): ${request.url}`);
+    } else {
+      console.log(`[SW] 🔄 Caché expirado, actualizando: ${request.url}`);
+    }
+  }
 
+  // Iniciar fetch en segundo plano
   const networkFetch = fetch(request).then(async (res) => {
     if (res.ok) {
-      await cache.put(request, res.clone());
+      const headers = new Headers(res.headers);
+      headers.set('x-cache-timestamp', Date.now().toString());
+      
+      const clonedRes = res.clone();
+      const text = await clonedRes.text();
+      
+      await cache.put(request, new Response(text, {
+        status: res.status,
+        headers: headers
+      }));
+      
+      // Actualizar timestamp
+      if (cacheName === BUSINESS_CACHE) {
+        cacheTimestamps.business[request.url] = Date.now();
+      } else if (cacheName === DYNAMIC_CACHE) {
+        cacheTimestamps.dynamic[request.url] = Date.now();
+      }
+      
+      console.log(`[SW] 🌐 Actualizado: ${request.url}`);
+      return new Response(text, res);
     }
     return res;
-  }).catch(async () => {
+  }).catch(async (error) => {
+    console.error(`[SW] Error en red para: ${request.url}`, error);
+    if (cached && !isFresh) {
+      return cached;
+    }
     const fallback = await caches.match('/offline.html');
     return fallback || new Response('Offline', { status: 503 });
   });
 
-  return cached || networkFetch;
+  // Devolver caché si está vigente, o esperar la red si no
+  if (cached && isFresh) {
+    return cached;
+  }
+  
+  return networkFetch;
 }
 
-// Limitar tamaño de caché (FIFO)
+// Limitar tamaño de caché con política LRU mejorada
 async function limitCacheSize(cacheName, maxItems) {
   try {
     const cache = await caches.open(cacheName);
     const keys = await cache.keys();
+    
     if (keys.length > maxItems) {
-      const toDelete = keys.slice(0, keys.length - maxItems);
+      // Obtener timestamps para implementar LRU
+      const entriesWithTimestamps = await Promise.all(
+        keys.map(async (key) => {
+          const response = await cache.match(key);
+          const timestamp = response ? parseInt(response.headers.get('x-cache-timestamp') || '0') : 0;
+          return { key, timestamp };
+        })
+      );
+      
+      // Ordenar por timestamp (más viejo primero)
+      entriesWithTimestamps.sort((a, b) => a.timestamp - b.timestamp);
+      
+      // Eliminar los más viejos
+      const toDelete = entriesWithTimestamps
+        .slice(0, keys.length - maxItems)
+        .map(entry => entry.key);
+      
       await Promise.all(toDelete.map(key => cache.delete(key)));
+      console.log(`[SW] 🧹 Limpiado ${toDelete.length} entradas de ${cacheName}`);
     }
   } catch (error) {
     console.error(`[SW] Error limpiando ${cacheName}:`, error);
@@ -391,6 +526,8 @@ async function limitCacheSize(cacheName, maxItems) {
 
 // Refrescar contenido manualmente
 async function refreshContent() {
+  console.log('[SW] ♻️ Iniciando refresco de contenido');
+  
   const apiCache = await caches.open(API_CACHE);
   const staticCache = await caches.open(STATIC_CACHE);
 
@@ -399,10 +536,27 @@ async function refreshContent() {
     ...PRECACHED_URLS.filter(url => url.endsWith('.html') || url.endsWith('.css'))
   ].map(async (url) => {
     try {
-      const response = await fetch(url + '?t=' + Date.now());
+      const response = await fetch(url + '?t=' + Date.now(), {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
+      
       if (response.ok) {
         const cache = url.includes('.json') ? apiCache : staticCache;
-        await cache.put(url, response.clone());
+        const headers = new Headers(response.headers);
+        headers.set('x-cache-timestamp', Date.now().toString());
+        
+        const clonedResponse = response.clone();
+        const text = await clonedResponse.text();
+        
+        await cache.put(url, new Response(text, {
+          status: response.status,
+          headers: headers
+        }));
+        
+        console.log(`[SW] ♻️ Actualizado: ${url}`);
       }
     } catch (error) {
       console.warn(`[SW] No se pudo refrescar: ${url}`, error);
@@ -410,4 +564,77 @@ async function refreshContent() {
   });
 
   await Promise.all(refreshPromises);
+  console.log('[SW] ♻️ Refresco de contenido completado');
 }
+
+// Función específica para cachear páginas de negocios
+async function cacheBusinessPage(url) {
+  try {
+    const cache = await caches.open(BUSINESS_CACHE);
+    const response = await fetch(url);
+    
+    if (response.ok) {
+      const headers = new Headers(response.headers);
+      headers.set('x-cache-timestamp', Date.now().toString());
+      
+      const clonedResponse = response.clone();
+      const text = await clonedResponse.text();
+      
+      await cache.put(url, new Response(text, {
+        status: response.status,
+        headers: headers
+      }));
+      
+      cacheTimestamps.business[url] = Date.now();
+      console.log(`[SW] 🏪 Página de negocio cacheada: ${url}`);
+      return true;
+    }
+  } catch (error) {
+    console.error(`[SW] Error cacheando página de negocio: ${url}`, error);
+  }
+  return false;
+}
+
+// Función para pre-cachear múltiples negocios
+async function precacheBusinessPages(businessPages) {
+  console.log(`[SW] 🏪 Iniciando precache de ${businessPages.length} páginas de negocios`);
+  
+  const cache = await caches.open(BUSINESS_CACHE);
+  const results = {
+    success: 0,
+    failed: 0,
+    errors: []
+  };
+  
+  for (const page of businessPages) {
+    try {
+      const response = await fetch(page);
+      if (response.ok) {
+        const headers = new Headers(response.headers);
+        headers.set('x-cache-timestamp', Date.now().toString());
+        
+        const clonedResponse = response.clone();
+        const text = await clonedResponse.text();
+        
+        await cache.put(page, new Response(text, {
+          status: response.status,
+          headers: headers
+        }));
+        
+        cacheTimestamps.business[page] = Date.now();
+        results.success++;
+      } else {
+        results.failed++;
+        results.errors.push({ page, status: response.status });
+      }
+    } catch (error) {
+      results.failed++;
+      results.errors.push({ page, error: error.message });
+    }
+  }
+  
+  console.log(`[SW] 🏪 Precache completado: ${results.success} exitosos, ${results.failed} fallidos`);
+  return results;
+}
+
+console.log('[SW] 💼 Service Worker cargado y optimizado para +200 comercios');

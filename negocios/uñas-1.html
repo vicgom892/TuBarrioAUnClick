@@ -580,67 +580,88 @@
             }
         });
 
-        // Confirmar y redirigir a Mercado Pago
-        document.getElementById('confirmButton').addEventListener('click', function() {
-            const clientName = document.getElementById('clientName').value;
-            const phone = document.getElementById('phone').value;
-            const appointmentDate = document.getElementById('appointmentDate').value;
-            const appointmentTime = document.getElementById('appointmentTime').value;
-            const nailService = document.getElementById('nailService').value;
-            const notes = document.getElementById('notes').value;
-            
-            // Extraer precio del servicio
-            const priceMatch = nailService.match(/\$(\d+)/);
-            const price = priceMatch ? parseInt(priceMatch[1]) : 0;
-            
-            // Crear preferencia para Mercado Pago
-            const preference = {
-                items: [
-                    {
-                        title: nailService,
-                        quantity: 1,
-                        unit_price: price,
-                        currency_id: "ARS"
-                    }
-                ],
-                payer: {
-                    name: clientName.split(' ')[0] || '',
-                    surname: clientName.split(' ').slice(1).join(' ') || '',
-                    email: "cliente@ejemplo.com", // En producción, pedir email al cliente
-                    phone: {
-                        area_code: "11",
-                        number: phone.replace(/\D/g, '').slice(-8)
-                    }
-                },
-                back_urls: {
-                    success: "https://vicgom892.github.io/TuBarrioAUnClick/gracias.html",
-                    failure: "https://vicgom892.github.io/TuBarrioAUnClick/fallo.html",
-                    pending: "https://vicgom892.github.io/TuBarrioAUnClick/pendiente.html"
-                },
-                auto_return: "approved",
-                notification_url: "https://tu-webhook.com/webhook" // Opcional, para notificaciones
-            };
+        // ✅✅✅ CONFIRMAR Y REDIRIGIR A MERCADO PAGO (CORREGIDO)
+document.getElementById('confirmButton').addEventListener('click', async function() {
+    const clientName = document.getElementById('clientName').value;
+    const phone = document.getElementById('phone').value;
+    const appointmentDate = document.getElementById('appointmentDate').value;
+    const appointmentTime = document.getElementById('appointmentTime').value;
+    const nailService = document.getElementById('nailService').value;
+    const notes = document.getElementById('notes').value;
+    
+    // ✅ EXTRAER PRECIO DEL SERVICIO
+    const priceMatch = nailService.match(/\$(\d+)/);
+    const price = priceMatch ? parseInt(priceMatch[1]) : 0;
 
-            // ✅ ENVIAR LA PETICIÓN A MERCADO PAGO
-            fetch('https://api.mercadopago.com/checkout/preferences', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer APP_USR-1234567890-abcdef123456-1234567890' // ⬅️ ¡REEMPLAZA ESTO CON EL TOKEN DEL COMERCIANTE!
-                },
-                body: JSON.stringify(preference)
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Redirigir al usuario a la página de pago de Mercado Pago
-                window.location.href = data.init_point;
-            })
-            .catch(error => {
-                console.error('Error al crear la preferencia de pago:', error);
-                alert('Hubo un error al procesar el pago. Por favor, intenta nuevamente.');
-            });
+    // ✅ VALIDAR QUE HAYA UN PRECIO
+    if (price <= 0) {
+        alert('Error: No se pudo determinar el precio del servicio. Por favor, selecciona un servicio válido.');
+        return;
+    }
+
+    // ✅ CREAR PREFERENCIA PARA MERCADO PAGO
+    const preference = {
+        items: [
+            {
+                title: nailService,
+                quantity: 1,
+                unit_price: price,
+                currency_id: "ARS"
+            }
+        ],
+        payer: {
+            name: clientName.split(' ')[0] || 'Cliente',
+            surname: clientName.split(' ').slice(1).join(' ') || 'Sin apellido',
+            // ✅ EMAIL OBLIGATORIO: Usamos un email genérico por ahora
+            email: "cliente@tubarrioaunclick.com",
+            phone: {
+                area_code: "11",
+                number: phone.replace(/\D/g, '').slice(-8) || '00000000'
+            }
+        },
+        back_urls: {
+            success: "https://vicgom892.github.io/TuBarrioAUnClick/gracias.html",
+            failure: "https://vicgom892.github.io/TuBarrioAUnClick/fallo.html",
+            pending: "https://vicgom892.github.io/TuBarrioAUnClick/pendiente.html"
+        },
+        auto_return: "approved",
+        // ✅ QUITAR notification_url si no tienes un backend
+        // notification_url: "https://tu-webhook.com/webhook"
+    };
+
+    try {
+        // ✅ ENVIAR LA PETICIÓN A MERCADO PAGO
+        const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // ✅ ¡REEMPLAZA ESTO CON UN TOKEN DE PRUEBA DE MERCADO PAGO!
+                'Authorization': 'Bearer TEST-1234567890-abcdef123456-1234567890' 
+            },
+            body: JSON.stringify(preference)
         });
 
+        // ✅ VERIFICAR SI LA RESPUESTA ES OK
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Error de Mercado Pago:', errorData);
+            throw new Error(`HTTP ${response.status}: ${errorData.message || 'Error desconocido'}`);
+        }
+
+        const data = await response.json();
+        
+        // ✅ VERIFICAR QUE EXISTE init_point
+        if (data.init_point) {
+            window.location.href = data.init_point;
+        } else {
+            throw new Error('La respuesta de Mercado Pago no contiene "init_point"');
+        }
+
+    } catch (error) {
+        console.error('Error al crear la preferencia de pago:', error);
+        alert('Hubo un error al procesar el pago. Por favor, intenta nuevamente más tarde.');
+    }
+});
         // Configurar fecha mínima (hoy)
         document.getElementById('appointmentDate').min = new Date().toISOString().split('T')[0];
     </script>
