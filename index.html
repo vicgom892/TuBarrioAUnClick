@@ -118,979 +118,9 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/fondo.css">
 
 </head>
-<style>
-  :root {
-  --primary: #ff6200;
-  --primary-dark: #f57c00;
-  --whatsapp: #25d366;
-  --whatsapp-hover: #1ebe57;
-  --gray: #6b7280;
-  --text-dark: #333;
-  --bg-light: #f8f9fa;
-  --bg-dark: #222;
-  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-a{
-  text-decoration: none !important;
-}
-/* Estilos generales */
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: var(--bg-light);
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
- /* Splash Screen Tecnológico */
-    .splash-screen {
-        position: fixed;
-        /*top: 50px;*/
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #121212 0%, #1a1a2e 50%, #16213e 100%);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 100000;
-        opacity: 1;
-        transition: opacity 0.8s ease;
-        overflow: hidden;
-    }
-    
-    .splash-screen.fade-out {
-        opacity: 0;
-        pointer-events: none;
-    }
-    
-    /* Fondo de partículas animadas */
-    .splash-particles {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-    }
-    
-    .particle {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        pointer-events: none;
-        animation: float 6s infinite ease-in-out;
-    }
-    
-    /* Grid de fondo */
-    .splash-grid {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: 
-            linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-        background-size: 40px 40px;
-        z-index: 2;
-        opacity: 0.3;
-    }
-    
-    /* Logo con efecto de brillo */
-    .splash-logo {
-        width: 320px;
-        height: 320px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #ff6200 0%, #ff9e2c 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 30px;
-        z-index: 3;
-        box-shadow: 0 20px 60px rgba(255, 98, 0, 0.4);
-        position: relative;
-        overflow: hidden;
-        animation: pulseGlow 2s infinite alternate;
-        border: 4px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .splash-logo::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-        opacity: 0;
-        animation: shine 3s infinite;
-    }
-    
-    .logo-icon {
-        font-size: 80px;
-        color: white;
-        z-index: 1;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        width: 230px;
-        height: 230px;
-    }
-    
-    .splash-text {
-        color: #f8f9fa !important;
-        font-size: 2rem;
-        font-weight: 600;
-        margin-bottom: 30px;
-        text-align: center;
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        z-index: 3;
-        opacity: 0;
-        transform: translateY(20px);
-        animation: fadeInUp 1s ease forwards 0.5s;
-    }
-    
-    .loading-bar-container {
-        width: 200px;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 3px;
-        overflow: hidden;
-        position: relative;
-        z-index: 3;
-        margin-top: 20px;
-    }
-    
-    .loading-bar {
-        width: 0%;
-        height: 100%;
-        background: linear-gradient(90deg, #ff6200, #ff9e2c);
-        border-radius: 3px;
-        transition: width 0.3s ease;
-        position: relative;
-    }
-    
-    .loading-bar::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(90deg, 
-            transparent, 
-            rgba(255, 255, 255, 0.4), 
-            transparent);
-        animation: shimmer 1.5s infinite;
-    }
-    
-    .loading-text {
-        color:#f8f9fa;
-        font-size: 0.9rem;
-        margin-top: 10px;
-        opacity: 0;
-        transform: translateY(10px);
-        animation: fadeInUp 0.5s ease forwards 1.2s;
-        z-index: 3;
-    }
-    
-    .skip-btn {
-        margin-top: 30px;
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 10px 20px;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        z-index: 3;
-        opacity: 0;
-        transform: translateY(20px);
-        animation: fadeInUp 0.5s ease forwards 1.5s;
-    }
-    
-    .skip-btn:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(255, 98, 0, 0.3);
-    }
-    
-    /* Animaciones */
-    @keyframes pulseGlow {
-        0% {
-            box-shadow: 0 20px 60px rgba(255, 98, 0, 0.4);
-            transform: scale(1);
-        }
-        100% {
-            box-shadow: 0 20px 60px rgba(255, 98, 0, 0.6);
-            transform: scale(1.05);
-        }
-    }
-    
-    @keyframes shine {
-        0% {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-50%) rotate(0deg);
-        }
-        50% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-            transform: translateX(50%) translateY(50%) rotate(180deg);
-        }
-    }
-    
-    @keyframes shimmer {
-        0% {
-            transform: translateX(-100%);
-        }
-        100% {
-            transform: translateX(100%);
-        }
-    }
-    
-    @keyframes float {
-        0%, 100% {
-            transform: translate(0, 0);
-        }
-        25% {
-            transform: translate(10px, 15px);
-        }
-        50% {
-            transform: translate(-10px, 5px);
-        }
-        75% {
-            transform: translate(5px, -10px);
-        }
-    }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-        .splash-logo {
-            width: 280px;
-            height: 280px;
-        }
-        
-        .splash-text {
-            font-size: 1.6rem;
-        }
-        
-        .loading-bar-container {
-            width: 160px;
-        }
-    }
-    
-    @media (max-width: 576px) {
-        .splash-logo {
-            width: 250px;
-            height: 250px;
-        }
-        
-        .splash-text {
-            font-size: 1.4rem;
-        }
-        
-        .loading-bar-container {
-            width: 140px;
-        }
-        
-        .skip-btn {
-            padding: 8px 16px;
-            font-size: 0.8rem;
-        }
-    }
-.content {
-  padding: 2rem;
-  text-align: center;
-}
-
-
-
-  /* Animación de pulso (ya existente) notificaciones */
-  .notification-badge {
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
-    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
-  }
-
-  /* Animación de vibración para la campanita */
-  @keyframes vibrar {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-10deg); }
-    75% { transform: rotate(10deg); }
-  }
-
-  /* Animación de salto */
-  @keyframes saltar {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-  }
-
-  /* Clase que activa la animación */
-  .animar-campana {
-    animation: vibrar 0.5s ease-in-out, saltar 0.5s ease-in-out;
-  }
-
-  /* Evita que la animación se repita mientras esté activa */
-  .animar-campana-no-repetir {
-    animation: vibrar 0.5s ease-in-out, saltar 0.5s ease-in-out;
-    animation-iteration-count: 1;
-  }
-
-  /* Badge de notificación */
-  .animate-bounce {
-    animation: bounce 1s infinite;
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-  }
-
-/* Megamenú */
-.dropdown {
-  position: relative;
-}
-
-.mega-menu {
-  width: 100%;
-  max-width: 60rem;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: var(--shadow-md);
-  background-color: #fff;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-}
-
-.mega-menu .dropdown-item {
-  padding: 10px 15px;
-  transition: background-color 0.2s;
-}
-
-.mega-menu .dropdown-item:hover {
-  background-color: var(--bg-light);
-}
-
-.dropdown:hover .dropdown-menu {
-  display: block;
-  margin-top: 0;
-}
-
-.dropdown-menu {
-  border: none;
-  box-shadow: var(--shadow-md);
-  width: 60rem;
-  max-width: 60rem;
-  left: 0%;
-  transform: translateX(0%);
-}
-
-.btn:not(:disabled):not(.disabled) {
-  border: 1px solid #ff9600;
-}
-
-@media (max-width: 992px) {
-  .mega-menu,
-  .dropdown-menu {
-    max-width: 100%;
-    transform: none;
-    left: 0;
-  }
-}
-
-#mobileMenuToggle {
-  font-size: 1rem;
-  background: none;
-  border: none;
-  color: var(--text-dark);
-}
-
-/* Modal Móvil */
-.modal-dialog-scrollable .modal-content {
-  max-height: 80vh;
-  overflow-y: auto;
-  border-radius: 8px;
-}
-
-.modal-dialog-scrollable .modal-body {
-  padding: 15px;
-}
-
-.modal-dialog-scrollable .nav-link {
-  color: var(--text-dark);
-  padding: 10px 15px;
-}
-
-.modal-dialog-scrollable .nav-link:hover {
-  background-color: var(--bg-light);
-}
-
-.modal-dialog-scrollable .collapse {
-  margin-left: 15px;
-  visibility: visible;
-}
-
-.modal-dialog-scrollable .modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.modal-dialog-scrollable .modal-header img {
-  max-height: 48px;
-}
-
-/* Estilos para el modal search */
-.modal-content {
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.modal-header {
-  border-bottom: 1px solid #e9ecef;
-  padding: 1rem;
-  position: relative;
-}
-
-.close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1;
-  color: #000;
-  text-shadow: 0 1px 0 #fff;
-  opacity: 0.5;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  z-index: 10;
-}
-.btn-close{
-  display:none;
-}
-
-.close:hover {
-  opacity: 0.8;
-  color: #000;
-  text-decoration: none;
-}
-
-.close:not(:disabled):not(.disabled):hover,
-.close:not(:disabled):not(.disabled):focus {
-  outline: none;
-}
-
-.modal-body {
-  padding: 1rem;
-  max-height: 70vh;
-  overflow-y: auto;
-}
-
-.open-business {
-  border-left: 4px solid #28a745;
-  background-color: #f8fff8;
-}
-
-.open-business .card-title {
-  color: #28a745;
-}
-
-.font-weight-bold {
-  color: #ff9200;
-}
-
-/* Ajustes responsivos */
-@media (min-width: 768px) {
-  .modal-dialog {
-    max-width: 800px;
-  }
-
-  .close {
-    top: 0.75rem;
-    right: 0.75rem;
-  }
-
-  .modal-body {
-    max-height: 60vh;
-  }
-}
-
-@media (max-width: 767.98px) {
-  .modal-dialog {
-    margin-top: 4.5rem;
-    width: 100%;
-    max-width: 97%;
-  }
-
-  .close {
-    top: 0.5rem;
-    right: 0.5rem;
-  }
-
-  .modal-body {
-    max-height: 70vh;
-  }
-
-  .modal-content {
-    border-radius: 8px;
-  }
-}
-
-.modal {
-  overflow: auto;
-}
-
-/* Hero Section Mejorado */
-.hero-modern {
-  position: relative;
-  height: 100vh;
-  min-height: 600px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-   background: linear-gradient(135deg, #121212 0%, #1a1a2e 50%, #16213e 100%);
-  color: white;
-  text-align: center;
-  padding: 2rem;
-}
-
-.hero-modern::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, transparent 60%, rgba(0,0,0,0.7) 150%);
-  background-image: 
-            linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-        background-size: 40px 40px;
-  z-index: 1;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 900px;
-  padding: 2rem;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-}
-
-.hero-modern h1 {
-  font-family: 'Poppins', sans-serif;
-  font-size: 4rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  background: linear-gradient(to right, #ffffff, #ffd700);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
-}
-
-.hero-modern p {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 300;
-  margin-bottom: 2.5rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.hero-modern .btn-hero {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  padding: 1rem 2.5rem;
-  border-radius: 50px;
-  background: linear-gradient(45deg, #ff6b00, #ff8c00);
-  border: none;
-  color: white;
-  transition: all 0.4s ease;
-  box-shadow: 0 6px 15px rgba(255, 107, 0, 0.4);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-modern .btn-hero:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 12px 25px rgba(255, 107, 0, 0.6);
-  background: linear-gradient(45deg, #ff8c00, #ff6b00);
-}
-
-.hero-modern .btn-hero:active {
-  transform: translateY(0) scale(0.98);
-}
-
-.hero-modern .btn-hero::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -60%;
-  width: 20px;
-  height: 200%;
-  background: rgba(255, 255, 255, 0.3);
-  transform: rotate(30deg);
-  transition: all 0.8s;
-}
-
-.hero-modern .btn-hero:hover::after {
-  left: 120%;
-}
-
-.hero-modern .stats {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
-}
-
-.stat-item {
-  text-align: center;
-  padding: 1rem;
-}
-
-.stat-number {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #ffd700;
-  margin-bottom: 0.5rem;
-}
-
-.stat-label {
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.scroll-down {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  color: white;
-  font-size: 2rem;
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0) translateX(-50%);
-  }
-  40% {
-    transform: translateY(-20px) translateX(-50%);
-  }
-  60% {
-    transform: translateY(-10px) translateX(-50%);
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-modern h1 {
-    font-size: 2.5rem;
-  }
-  
-  .hero-modern p {
-    font-size: 1.1rem;
-  }
-  
-  .hero-modern .btn-hero {
-    font-size: 1rem;
-    padding: 0.8rem 1.8rem;
-  }
-  
-  .stat-number {
-    font-size: 1.8rem;
-  }
-  
-  .stat-label {
-    font-size: 0.8rem;
-  }
-}
-
-/* Carrusel Infinito de Negocios */
-.business-carousel {
-  margin-bottom: 3rem;
-}
-
-.business-carousel .section-title {
-  font-family: 'Bangers', cursive;
-  font-size: 2.5rem;
-  color: var(--primary-dark);
-  justify-content: center;
-}
-
-.business-carousel .section-subtitle {
-  font-size: 1.2rem;
-  color: var(--gray);
-}
-
-.carousel-slider {
-  overflow: hidden;
-  position: relative;
-}
-
-.carousel-container {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  gap: 20px;
-}
-
-.carousel-container::-webkit-scrollbar {
-  display: none;
-}
-
-.carousel-card {
-  flex: 0 0 160px;
-  text-align: center;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.3s ease;
-}
-
-.carousel-card:hover {
-  transform: scale(1.05);
-}
-
-.carousel-card img {
-  width: 100%;
-  height: 100px;
-  object-fit: cover;
-}
-
-.carousel-card p {
-  margin: 10px 0 0;
-  font-size: 0.9rem;
-  color: var(--text-dark);
-}
-
-.nav-arrow {
-  background: var(--primary);
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.nav-arrow:hover {
-  background: var(--primary-dark);
-}
-
-.nav-arrow svg {
-  width: 24px;
-  height: 24px;
-}
- /* Formulario de contacto */
-        .contact-form-section {
-            max-width: 90%;
-            margin: 0 auto 40px;
-            background-color: #1e293b;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
-            border: 1px solid #475569;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        .contact-form-section img {
-            width: 60px;
-            height: 60px;
-            margin: auto;
-        }
-
-        .contact-form-section h2 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #00d4ff;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .contact-form-section input,
-        .contact-form-section textarea,
-        .contact-form-section select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #475569;
-            border-radius: 8px;
-            background-color: #334155;
-            color: #e2e8f0;
-            font-size: 1rem;
-        }
-
-        .contact-form-section input:focus,
-        .contact-form-section textarea:focus,
-        .contact-form-section select:focus {
-            outline: none;
-            border-color: #00d4ff;
-        }
-
-        .contact-form-section textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .contact-form-section button {
-            background-color: #10b981;
-            color: #f8f9fa;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        .contact-form-section button:hover {
-            background-color: #059669;
-            transform: scale(1.02);
-        }
-
-        .contact-form-section .questions-section {
-            display: none;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 212, 255, 0.1);
-            border-radius: 8px;
-        }
-
-        .contact-form-section .questions-section.show {
-            display: block;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .contact-form-section .question-option {
-            margin-bottom: 15px;
-        }
-
-        .contact-form-section .question-option label {
-            display: block;
-            margin-bottom: 5px;
-            color: #e2e8f0;
-        }
-
-        /* Modal de confirmación */
-        .modal-1 {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .modal-1.show {
-            display: flex;
-        }
-
-        .modal-1 .modal-content {
-            background-color: #1e293b;
-            padding: 20px;
-            border-radius: 12px;
-            max-width: 90%;
-            width: 400px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
-            border: 1px solid #475569;
-        }
-
-        .modal-1 .modal-content h3 {
-            font-size: 1.6rem;
-            color: #e2e8f0;
-            margin-bottom: 15px;
-        }
-
-        .modal-1 .modal-content p {
-            color: #e2e8f0;
-            margin-bottom: 20px;
-        }
-
-        .modal-1 .modal-content button {
-            background-color: #10b981;
-            color: #e2e8f0;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .modal-1 .modal-content button:hover {
-            background-color: #059669;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-
-            .contact-form-section {
-                max-width: 95%;
-                padding: 20px;
-            }
-
-            .contact-form-section h2 {
-                font-size: 1.5rem;
-            }
-
-            .modal-1 .modal-content {
-                width: 95%;
-            }
-        }
-</style>
 <body class="bg-light">
   
   <div id="splash-screen" class="splash-screen">
@@ -1345,90 +375,91 @@ body {
   </div>
   
   <!-- Barra de rubros - completamente responsive -->
-    <div class="rubros-bar" id="rubrosBar">
-        <div class="rubros-container">
-            <!-- Botón de Inicio -->
-             <a href="#inicio">
+<div class="rubros-bar" id="rubrosBar">
+    <div class="rubros-container">
+        <!-- Botón de Inicio -->
+        <a href="#inicio">
             <button class="rubro-btn home active" data-rubro="todos">
                 <i class="fas fa-home"></i>
                 Inicio
                 <div class="glow-effect"></div>
             </button>
-             </a>
-            <!-- Categoría: Alimentos -->
-             <a href="#panaderias">
+        </a>
+        
+        <!-- Categoría: Alimentos -->
+        <a href="#panaderias">
             <button class="rubro-btn open" data-rubro="panaderia">
                 <i class="fas fa-bread-slice"></i>
                 <div class="open-indicator"></div>
                 Panadería
                 <div class="glow-effect"></div>
             </button>
-             </a>
-    
-            <a href="#pastas">
+        </a>
+
+        <a href="#pastas">
             <button class="rubro-btn" data-rubro="pastas">
-                <i class="fas fa-shopping-bag"></i>
-                 <div class="open-indicator"></div>
+                <i class="fas fa-pasta"></i>
+                <div class="open-indicator"></div>
                 Pastas
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#verdulerias">
+        </a>
+        
+        <a href="#verdulerias">
             <button class="rubro-btn open" data-rubro="verduleria">
                 <i class="fas fa-carrot"></i>
                 <div class="open-indicator"></div>
                 Verdulería
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#fiambrerias">
+        </a>
+        
+        <a href="#fiambrerias">
             <button class="rubro-btn" data-rubro="fiambreria">
                 <i class="fas fa-cheese"></i>
-                 <div class="open-indicator"></div>
+                <div class="open-indicator"></div>
                 Fiambrería
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#cafeterias">
+        </a>
+        
+        <a href="#cafeterias">
             <button class="rubro-btn open" data-rubro="cafeteria">
-                <i class="fas fa-coffee"></i>
+                <i class="fas fa-mug-hot"></i>
                 <div class="open-indicator"></div>
                 Cafetería
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#carnicerias">
+        </a>
+        
+        <a href="#carnicerias">
             <button class="rubro-btn" data-rubro="carniceria">
                 <i class="fas fa-drumstick-bite"></i>
-                 <div class="open-indicator"></div>
+                <div class="open-indicator"></div>
                 Carnicería
                 <div class="glow-effect"></div>
             </button>
-            </a>
+        </a>
 
-            <a href="#comida">
-            <button class="rubro-btn" data-rubro="comida-rapida">
-                <i class="fas fa-drumstick-bite"></i>
-                 <div class="open-indicator"></div>
+        <a href="#comida">
+            <button class="rubro-btn open" data-rubro="comida-rapida">
+                <i class="fas fa-utensils"></i>
+                <div class="open-indicator"></div>
                 Comida
                 <div class="glow-effect"></div>
             </button>
-            </a>
+        </a>
 
-            <a href="#granjas">
+        <a href="#granjas">
             <button class="rubro-btn" data-rubro="granja">
-                <i class="fas fa-drumstick-bite"></i>
-                 <div class="open-indicator"></div>
+                <i class="fas fa-tractor"></i>
+                <div class="open-indicator"></div>
                 Granja
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#kioscos">
+        </a>
+        
+        <a href="#kioscos">
             <!-- Categoría: Servicios -->
             <button class="rubro-btn open" data-rubro="kiosco">
                 <i class="fas fa-store"></i>
@@ -1436,154 +467,154 @@ body {
                 Kioscos
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#mascotas">
+        </a>
+        
+        <a href="#mascotas">
             <button class="rubro-btn" data-rubro="mascotas">
-                <i class="fas fa-dog"></i>
-                 <div class="open-indicator"></div>
+                <i class="fas fa-paw"></i>
+                <div class="open-indicator"></div>
                 Mascotas
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#barberias">
+        </a>
+        
+        <a href="#barberias">
             <button class="rubro-btn open" data-rubro="barberia">
-                <i class="fas fa-cut"></i>
+                <i class="fas fa-scissors"></i>
                 <div class="open-indicator"></div>
                 Barbería
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#ferreterias">
+        </a>
+        
+        <a href="#ferreterias">
             <button class="rubro-btn" data-rubro="ferreteria">
-                <i class="fas fa-tools"></i>
-                 <div class="open-indicator"></div>
+                <i class="fas fa-hammer"></i>
+                <div class="open-indicator"></div>
                 Ferretería
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#farmacias">
+        </a>
+        
+        <a href="#farmacias">
             <button class="rubro-btn open" data-rubro="farmacia">
-                <i class="fas fa-medkit"></i>
+                <i class="fas fa-pills"></i>
                 <div class="open-indicator"></div>
                 Farmacias
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#florerias">
+        </a>
+        
+        <a href="#florerias">
             <button class="rubro-btn" data-rubro="floreria">
-                <i class="fas fa-seedling"></i>
-                 <div class="open-indicator"></div>
+                <i class="fas fa-flower"></i>
+                <div class="open-indicator"></div>
                 Florerías
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#talleres">
+        </a>
+        
+        <a href="#talleres">
             <button class="rubro-btn open" data-rubro="taller">
                 <i class="fas fa-wrench"></i>
                 <div class="open-indicator"></div>
                 Talleres
                 <div class="glow-effect"></div>
             </button>
-            <a href=""></a>
-            
-            <a href="#veterinarias">
+        </a>
+        
+        <a href="#veterinarias">
             <button class="rubro-btn" data-rubro="veterinaria">
-                <i class="fas fa-paw"></i>
-                 <div class="open-indicator"></div>
+                <i class="fas fa-clinic-medical"></i>
+                <div class="open-indicator"></div>
                 Veterinarias
                 <div class="glow-effect"></div>
             </button>
-            </a>
+        </a>
 
-            <a href="#muebles">
-            <button class="rubro-btn" data-rubro="muebles">
-                <i class="fas fa-paw"></i>
-                 <div class="open-indicator"></div>
+        <a href="#muebles">
+            <button class="rubro-btn open" data-rubro="muebles">
+                <i class="fas fa-couch"></i>
+                <div class="open-indicator"></div>
                 Muebles
                 <div class="glow-effect"></div>
             </button>
-            </a>
+        </a>
 
-            <a href="#uñas">
+        <a href="#uñas">
             <button class="rubro-btn" data-rubro="uñas">
-                <i class="fas fa-paw"></i>
-                 <div class="open-indicator"></div>
+                <i class="fas fa-spa"></i>
+                <div class="open-indicator"></div>
                 Uñas
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#profesiones">
+        </a>
+        
+        <a href="#profesiones">
             <!-- Categoría: Otros -->
             <button class="rubro-btn open" data-rubro="profesion">
-                <i class="fas fa-briefcase"></i>
+                <i class="fas fa-user-tie"></i>
                 <div class="open-indicator"></div>
                 Profesiones
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#librerias">
+        </a>
+        
+        <a href="#librerias">
             <button class="rubro-btn" data-rubro="libreria">
                 <i class="fas fa-book"></i>
-                 <div class="open-indicator"></div>
+                <div class="open-indicator"></div>
                 Librerías
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#ropa">
+        </a>
+        
+        <a href="#ropa">
             <button class="rubro-btn open" data-rubro="ropa">
                 <i class="fas fa-tshirt"></i>
                 <div class="open-indicator"></div>
                 Tiendas
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#servicios">
+        </a>
+        
+        <a href="#servicios">
             <button class="rubro-btn" data-rubro="servicio">
-                <i class="fas fa-concierge-bell"></i>
-                 <div class="open-indicator"></div>
+                <i class="fas fa-tools"></i>
+                <div class="open-indicator"></div>
                 Servicios
                 <div class="glow-effect"></div>
             </button>
-            </a>
+        </a>
 
-            <a href="#mates">
-            <button class="rubro-btn" data-rubro="mates">
-                <i class="fas fa-concierge-bell"></i>
-                 <div class="open-indicator"></div>
+        <a href="#mates">
+            <button class="rubro-btn open" data-rubro="mates">
+                <i class="fas fa-mug-hot"></i>
+                <div class="open-indicator"></div>
                 Mates
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#map">
+        </a>
+        
+        <a href="#map">
             <!-- Botón de Mapa -->
             <button class="rubro-btn map" data-rubro="mapa">
                 <i class="fas fa-map-marker-alt"></i>
                 Mapa
                 <div class="glow-effect"></div>
             </button>
-            </a>
-            
-            <a href="#contact-form">
+        </a>
+        
+        <a href="#contact-form">
             <!-- Botón de Contacto -->
-            <button class="rubro-btn contact" data-rubro="contacto">
+            <button class="rubro-btn contact open" data-rubro="contacto">
                 <i class="fas fa-envelope"></i>
                 Contacto
                 <div class="glow-effect"></div>
             </button>
-            </a>
-        </div>
+        </a>
     </div>
+</div>
     
   <!-- Hero Section Mejorado -->
   <section class="hero-modern" id="inicio">
@@ -2638,6 +1669,9 @@ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <div class="scroll-indicator" onclick="scrollToContent()">
+              <i class="fas fa-chevron-down"></i>
+            </div>
       </div>
     </div>
   </div>

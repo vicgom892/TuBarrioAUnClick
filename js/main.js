@@ -813,30 +813,145 @@ if (modalPromo && negocio.promo) {
       searchButton.addEventListener("click", window.searchBusinesses);
     }
     // --- CARRUSEL ---
-    const carouselContainer = document.getElementById("carouselContainer");
-    if (carouselContainer) {
+    // Reemplaza la función existente en main.js que maneja el carrusel
+// Busca y reemplaza la sección que dice "// --- CARRUSEL ---" con este código mejorado:
+
+// --- CARRUSEL INFINITO DE NEGOCIOS (CARGADO DESDE carousel.json) ---
+const carouselContainer = document.getElementById("carouselContainer");
+if (carouselContainer) {
+  // Mostrar estado de carga
+  carouselContainer.innerHTML = '<div class="text-center py-3 text-dark">Cargando negocios destacados...</div>';
+  
+  // Cargar el carrusel desde carousel.json
+  fetch("data/carousel.json")
+    .then(res => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    })
+    .then(carouselItems => {
+      // Verificar que tenemos datos
+      if (!carouselItems || carouselItems.length === 0) {
+        throw new Error("No se encontraron items para el carrusel");
+      }
+      
+      // Limpiar el contenedor
       carouselContainer.innerHTML = '';
-      const doubled = [...window.businesses.slice(0, 8), ...window.businesses.slice(0, 8)];
-      doubled.forEach(b => {
+      
+      // Crear los elementos del carrusel
+      carouselItems.forEach(item => {
         const card = document.createElement("div");
         card.className = "carousel-card";
-        card.innerHTML = `<a href="${b.url || '#'}"><img src="${b.image}" alt="${b.name}"><p>${b.name}</p></a>`;
+        card.innerHTML = `
+          <a href="${item.url || '#'}" class="text-decoration-none">
+            <img src="${item.image || 'img/placeholder.webp'}" 
+                 alt="${item.name || 'Negocio'}" 
+                 loading="lazy"
+                 class="w-100 h-100 object-fit-cover"
+                 style="height: 100px; object-fit: cover;">
+            <p class="mt-2 mb-0 text-center fw-bold" style="font-size: 0.85rem; color: #333;">
+              ${item.name || 'Sin nombre'}
+            </p>
+          </a>
+        `;
         carouselContainer.appendChild(card);
       });
-    }
-    window.scrollCarousel = function(offset) {
-      const container = document.querySelector(".carousel-container");
-      if (!container) return;
-      const newPos = container.scrollLeft + offset;
-      container.scrollTo({ left: newPos, behavior: "smooth" });
-      // Reset infinito
-      const maxWidth = container.scrollWidth / 2;
-      if (newPos >= maxWidth) {
-        setTimeout(() => container.scrollTo({ left: 0, behavior: 'auto' }), 500);
-      } else if (newPos <= 0) {
-        setTimeout(() => container.scrollTo({ left: maxWidth, behavior: 'auto' }), 500);
+      
+      // Duplicar items para efecto infinito
+      const originalItems = carouselItems.length;
+      for (let i = 0; i < originalItems; i++) {
+        const item = carouselItems[i];
+        const card = document.createElement("div");
+        card.className = "carousel-card";
+        card.innerHTML = `
+          <a href="${item.url || '#'}" class="text-decoration-none">
+            <img src="${item.image || 'img/placeholder.webp'}" 
+                 alt="${item.name || 'Negocio'}" 
+                 loading="lazy"
+                 class="w-100 h-100 object-fit-cover"
+                 style="height: 100px; object-fit: cover;">
+            <p class="mt-2 mb-0 text-center fw-bold" style="font-size: 0.85rem; color: #333;">
+              ${item.name || 'Sin nombre'}
+            </p>
+          </a>
+        `;
+        carouselContainer.appendChild(card);
       }
-    };
+      
+      console.log(`✅ Carrusel cargado con ${carouselItems.length} negocios (duplicados para efecto infinito)`);
+      
+      // Forzar reflow para asegurar renderizado
+      carouselContainer.offsetHeight;
+    })
+    .catch(err => {
+      console.error("Error cargando carrusel:", err);
+      carouselContainer.innerHTML = '<p class="text-center text-danger py-3">Error al cargar negocios destacados.</p>';
+    });
+}
+
+// Función para scroll del carrusel (mantiene la lógica infinita)
+window.scrollCarousel = function(offset) {
+  const container = document.querySelector(".carousel-container");
+  if (!container) return;
+  
+  const newPos = container.scrollLeft + offset;
+  container.scrollTo({ left: newPos, behavior: "smooth" });
+  
+  // Reset infinito
+  const maxScroll = container.scrollWidth / 2;
+  if (newPos >= maxScroll) {
+    setTimeout(() => container.scrollTo({ left: 0, behavior: 'auto' }), 500);
+  } else if (newPos <= 0) {
+    setTimeout(() => container.scrollTo({ left: maxScroll, behavior: 'auto' }), 500);
+  }
+};
+
+// Agregar soporte para navegación con teclado y accesibilidad
+document.addEventListener('DOMContentLoaded', function() {
+  const prevBtn = document.querySelector('.nav-arrow.prev');
+  const nextBtn = document.querySelector('.nav-arrow.next');
+  
+  if (prevBtn) {
+    prevBtn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        scrollCarousel(-168);
+      }
+    });
+  }
+  
+  if (nextBtn) {
+    nextBtn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        scrollCarousel(168);
+      }
+    });
+  }
+});
+
+// Auto-scroll opcional (comentado por defecto)
+
+let autoScrollInterval;
+function startAutoScroll() {
+  autoScrollInterval = setInterval(() => {
+    scrollCarousel(168);
+  }, 4000);
+}
+
+function stopAutoScroll() {
+  if (autoScrollInterval) {
+    clearInterval(autoScrollInterval);
+  }
+}
+
+// Iniciar auto-scroll cuando el mouse no está sobre el carrusel
+const carouselSlider = document.querySelector('.carousel-slider');
+if (carouselSlider) {
+  carouselSlider.addEventListener('mouseenter', stopAutoScroll);
+  carouselSlider.addEventListener('mouseleave', startAutoScroll);
+  startAutoScroll();
+}
+
     // --- PROMOCIONES ---
     const offerContainer = document.getElementById("offerContainer");
     if (offerContainer) {

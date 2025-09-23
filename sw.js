@@ -201,8 +201,8 @@ self.addEventListener('push', (event) => {
   const data = event.data?.json() || {};
   const options = {
     body: data.body || 'Tienes una nueva actualización',
-    icon: '/img/icono-192x192.png',
-    badge: '/img/icono-192x192.png',
+    icon: '../img/icono-192x192.png',
+    badge: '../img/icono-192x192.png',
     data: { 
       url: data.url || '/' 
     },
