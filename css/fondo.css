@@ -523,3 +523,108 @@
   pointer-events: none;
   z-index: 1;
 }
+
+/* Modal de Bienvenida */
+.welcome-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.welcome-modal.active {
+  display: flex;
+  opacity: 1;
+}
+
+.welcome-modal-content {
+  background: #1e293b;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+  position: relative;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.welcome-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.welcome-title {
+  color: #0ea5e9;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.welcome-message {
+  color: #e2e8f0;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.welcome-features {
+  text-align: left;
+  margin: 20px 0;
+  padding-left: 20px;
+}
+
+.welcome-features li {
+  margin-bottom: 10px;
+  color: #94a3b8;
+}
+
+.welcome-team {
+  color: #64748b;
+  font-style: italic;
+  margin-top: 15px;
+}
+
+.welcome-btn {
+  background: linear-gradient(135deg, #1e3a8a, #0ea5e9);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+}
+
+.welcome-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .welcome-modal-content {
+    padding: 20px;
+  }
+  .welcome-title {
+    font-size: 1.5rem;
+  }
+  .welcome-message {
+    font-size: 0.95rem;
+  }
+}
+
+/*localStorage.removeItem('hasSeenWelcome');*/

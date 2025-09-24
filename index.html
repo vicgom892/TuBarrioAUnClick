@@ -550,12 +550,12 @@
             </button>
         </a>
         
-        <a href="#profesiones">
+        <a href="oficios-profeciones.html">
             <!-- Categoría: Otros -->
             <button class="rubro-btn open" data-rubro="profesion">
                 <i class="fas fa-user-tie"></i>
                 <div class="open-indicator"></div>
-                Profesiones
+                Oficios
                 <div class="glow-effect"></div>
             </button>
         </a>
@@ -1412,6 +1412,134 @@ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   </div>
 </section>
 
+<!-- Banner promocional: Conoce la sección Oficios -->
+<div class="oficios-banner">
+  <div class="oficios-banner-content">
+    <h2 class="oficios-banner-title">¡Conoce la Sección Oficios!</h2>
+    <p class="oficios-banner-text">Profesionales verificados, cerca de tu barrio y listos para ayudarte.</p>
+    <a href="oficios-profeciones.html" class="oficios-banner-btn">
+      <i class="fas fa-hammer me-2"></i>Explorar Oficios
+    </a>
+  </div>
+</div>
+
+<style>
+  .oficios-banner {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    border: 2px solid transparent;
+    border-radius: 20px;
+    margin: 40px auto;
+    max-width: 800px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Efecto de borde neón animado */
+  .oficios-banner::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00f5ff, #0ea5e9, #00f5ff, #10b981, #00f5ff);
+    background-size: 400% 400%;
+    border-radius: 22px;
+    z-index: -1;
+    animation: neonBorder 3s ease-in-out infinite;
+    filter: blur(10px);
+    opacity: 0.7;
+  }
+
+  .oficios-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    border-radius: 20px;
+    z-index: -1;
+  }
+
+  @keyframes neonBorder {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .oficios-banner-content {
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .oficios-banner-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    color: #00f5ff;
+    text-shadow: 0 0 10px rgba(0, 245, 255, 0.7);
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 10px rgba(0, 245, 255, 0.7); }
+    to { text-shadow: 0 0 20px rgba(14, 165, 233, 1), 0 0 30px rgba(0, 245, 255, 0.8); }
+  }
+
+  .oficios-banner-text {
+    color: #e2e8f0;
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+    opacity: 0.9;
+  }
+
+  .oficios-banner-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1e3a8a, #0ea5e9);
+    color: white;
+    font-weight: 700;
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 245, 255, 0.3);
+    border: 2px solid transparent;
+  }
+
+  .oficios-banner-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 25px rgba(0, 245, 255, 0.6);
+    background: linear-gradient(135deg, #0ea5e9, #1e3a8a);
+    border-color: #00f5ff;
+  }
+
+  .oficios-banner-btn i {
+    font-size: 1.2rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .oficios-banner-title {
+      font-size: 1.8rem;
+    }
+    .oficios-banner-text {
+      font-size: 1rem;
+    }
+    .oficios-banner-btn {
+      padding: 12px 24px;
+      font-size: 1rem;
+    }
+  }
+</style>
+
 <!-- Talleres Mecánicos -->
 <section id="talleres" class="parallax my-5">
   <div class="container">
@@ -1963,6 +2091,27 @@ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   </div>
 </div>
 
+<!-- Modal de Bienvenida para Nuevos Usuarios -->
+<div id="welcomeModal" class="welcome-modal">
+  <div class="welcome-modal-content">
+    <div class="welcome-icon">
+      <img src="img/icon-192x192.png" alt="Tu Barrio a un Click" class="welcome-logo">
+    </div>
+    <h2 class="welcome-title">¡Bienvenido a Tu Barrio a un Click!</h2>
+    <div class="welcome-message">
+      <p>Te presentamos tu nuevo aliado para hacer compras .</p>
+      <ul class="welcome-features">
+        <li>✅ Explora <strong>todos los comercios de tu localidad</strong></li>
+        <li>📍 Descubre en <strong>tiempo real</strong> qué negocios están <strong>abiertos cerca de tu ubicación</strong></li>
+        <li>🤖 Usa nuestro <strong>chatbot inteligente</strong> que puede <strong>escucharte y responderte</strong> (con tu permiso)</li>
+        <li>💬 Contacta directamente por <strong>WhatsApp</strong> con un solo clic</li>
+      </ul>
+      <p>¡Esperamos que disfrutes y aproveches al máximo esta experiencia!</p>
+      <p class="welcome-team">— El equipo de <strong>Tu Barrio A Un Click</strong></p>
+    </div>
+    <button id="welcomeCloseBtn" class="welcome-btn">Empezar a explorar</button>
+  </div>
+</div>
   <!-- Scripts - Cargados al final del body en el orden correcto -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -2002,11 +2151,6 @@ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             localStorage.setItem('userRole', 'consumer');
             localStorage.setItem('hasVisited', 'true');
             roleModal.style.display = 'none';
-            
-            // Mostrar mensaje de bienvenida con toast (no bloqueante)
-            setTimeout(() => {
-              mostrarToastBienvenida();
-            }, 300);
           });
         }
         
@@ -2034,44 +2178,6 @@ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
   });
 
-  // Función para mostrar un toast de bienvenida (sin bloquear)
-function mostrarToastBienvenida() {
-  if (document.getElementById('toastBienvenida')) return;
-
-  const toast = document.createElement('div');
-  toast.id = 'toastBienvenida';
-  toast.className = `
-    fixed top-20 left-1/2 transform -translate-x-1/2
-    bg-gradient-to-r from-green-500 to-green-700 text-white
-    px-6 py-3 rounded-full shadow-lg
-    text-sm font-medium z-[100]
-    opacity-0 translate-y-[-20px]
-    transition-all duration-300
-    flex items-center gap-2
-    max-w-xs
-  `;
-  toast.innerHTML = `
-    <i class="fas fa-handshake"></i>
-    <span>¡Bienvenido! Podrás buscar negocios cercanos en Castelar.</span>
-  `;
-
-  document.body.appendChild(toast);
-
-  // Animar entrada
-  setTimeout(() => {
-    toast.classList.remove('opacity-0', 'translate-y-[-20px]');
-    toast.classList.add('opacity-100', 'translate-y-0');
-  }, 100);
-
-  // Cerrar automáticamente
-  setTimeout(() => {
-    toast.classList.remove('opacity-100', 'translate-y-0');
-    toast.classList.add('opacity-0', 'translate-y-[-20px]');
-    setTimeout(() => {
-      if (toast.parentNode) toast.parentNode.removeChild(toast);
-    }, 300);
-  }, 4000);
-}
 </script>
   <script>
     // Inicialización de AOS después de que el DOM esté listo

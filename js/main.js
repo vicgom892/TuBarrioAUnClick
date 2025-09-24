@@ -80,7 +80,7 @@ function showUpdateModal(registration) {
       registration.waiting.postMessage({ type: 'SKIP_WAITING' });
       // Recargar la página después de un pequeño delay para asegurar la activación
       setTimeout(() => {
-        window.location.reload();
+        window.location.reload(true);
       }, 1000);
     } else {
       // Fallback: recargar directamente
@@ -1681,7 +1681,34 @@ if (carouselSlider) {
       }
     });
   }
+  // --- MODAL DE BIENVENIDA PARA NUEVOS USUARIOS ---
+  function showWelcomeModal() {
+    const hasSeenWelcome = localStorage.getItem('hasSeenWelcome');
+    if (!hasSeenWelcome) {
+      const modal = document.getElementById('welcomeModal');
+      if (modal) {
+        modal.classList.add('active');
+        
+        const closeBtn = document.getElementById('welcomeCloseBtn');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+            localStorage.setItem('hasSeenWelcome', 'true');
+          });
+        }
+        
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.remove('active');
+            localStorage.setItem('hasSeenWelcome', 'true');
+          }
+        });
+      }
+    }
+  }
 
+  // Mostrar el modal de bienvenida después de que todo esté listo
+  setTimeout(showWelcomeModal, 1500);
   // --- INICIALIZACIÓN FINAL ---
   if (loadBusinessesFromCache() && window.businesses.length > 0) {
     console.log("✅ Negocios cargados desde caché");
