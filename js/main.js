@@ -22,43 +22,48 @@ document.addEventListener('DOMContentLoaded', function() {
   let updateBusinessListDebounced;
   let businessIndex = null;
 
-// --- Service Worker + Modal de Actualización (CORREGIDO PARA GITHUB PAGES) ---
-const APP_VERSION = 'v38'; // ⬅️ ¡DEBE COINCIDIR EXACTAMENTE CON CACHE_VERSION EN sw.js!
+// --- Service Worker + Modal de Actualización (CORREGIDO Y MEJORADO) ---
+const APP_VERSION = 'v41'; // ⬅️ ¡DEBE COINCIDIR EXACTAMENTE CON CACHE_VERSION EN sw.js!
 
 if ("serviceWorker" in navigator) {
-  // Registrar el SW con la versión en el query string para romper la caché de GitHub Pages
   navigator.serviceWorker.register(`./sw.js?v=${APP_VERSION}`)
     .then(registration => {
       console.log("✅ SW registrado con éxito:", registration);
 
-      // Escuchar cuando se instala un nuevo SW
+      // Escuchar nuevas instalaciones (mientras la página está abierta)
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         if (!newWorker) return;
-
         newWorker.addEventListener('statechange', () => {
-          // Mostrar modal SOLO cuando el nuevo SW está "installed" y hay uno activo ("controller")
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
             showUpdateModal(registration);
           }
         });
       });
 
-      // Escuchar mensajes del SW (por si quieres hacer algo cuando se activa)
+      // Escuchar mensajes del SW
       navigator.serviceWorker.addEventListener('message', event => {
         if (event.data?.type === 'SW_ACTIVATED') {
           console.log('🆕 Nuevo SW activado completamente.');
-          // Opcional: Aquí podrías hacer algo, pero NO recargar automáticamente.
-          // Dejamos que el usuario decida recargar desde el modal.
         }
       });
+
+      // ✅ NUEVO: Verificar si ya hay una versión esperando (para usuarios que entran después)
+      checkForWaitingSW(registration);
     })
     .catch(err => {
       console.error("❌ Error al registrar el SW:", err);
     });
 }
 
-// Función para mostrar el modal de actualización (MEJORADA)
+// ✅ NUEVA FUNCIÓN: Verificar si hay un SW en espera al cargar la página
+function checkForWaitingSW(registration) {
+  if (registration && registration.waiting) {
+    showUpdateModal(registration);
+  }
+}
+
+// Función para mostrar el modal de actualización
 function showUpdateModal(registration) {
   const modal = document.getElementById('update-modal');
   const nowBtn = document.getElementById('update-now');
@@ -72,29 +77,26 @@ function showUpdateModal(registration) {
   // Mostrar modal
   modal.classList.add('active');
 
-  // Botón: Actualizar ahora → Forzar activación del nuevo SW y recargar
+  // Botón: Actualizar ahora
   nowBtn.onclick = () => {
     modal.classList.remove('active');
     if (registration && registration.waiting) {
-      // Enviar mensaje al SW para que salte la espera
       registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-      // Recargar la página después de un pequeño delay para asegurar la activación
       setTimeout(() => {
-        window.location.reload(true);
+        window.location.reload(true); // ✅ Recargar SIN caché
       }, 1000);
     } else {
-      // Fallback: recargar directamente
-      setTimeout(() => window.location.reload(), 500);
+      setTimeout(() => window.location.reload(true), 500);
     }
   };
 
-  // Botón: Más tarde → Solo cerrar modal
+  // Botón: Más tarde
   laterBtn.onclick = () => {
     modal.classList.remove('active');
     console.log("🕒 Usuario pospuso la actualización.");
   };
 
-  // Cerrar modal al hacer clic fuera
+  // Cerrar al hacer clic fuera
   modal.addEventListener('click', (e) => {
     if (e.target === modal) {
       modal.classList.remove('active');

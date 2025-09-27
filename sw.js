@@ -1,7 +1,7 @@
 // sw.js — Service Worker para Tu Barrio A Un Click
 // Versión: v35 — ¡Recuerda incrementar esto en cada actualización!
 
-const CACHE_VERSION = 'v38'; // ⬅️ ¡CAMBIA ESTO EN CADA DEPLOY!
+const CACHE_VERSION = 'v41'; // ⬅️ ¡CAMBIA ESTO EN CADA DEPLOY!
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const ASSETS_CACHE = `assets-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
@@ -83,7 +83,7 @@ const cacheTimestamps = {
 // === INSTALL: Precachea todo lo esencial ===
 self.addEventListener('install', (event) => {
   console.log(`[SW] Instalando nueva versión: ${CACHE_VERSION}`);
-  self.skipWaiting(); // Activa inmediatamente si es posible
+  //self.skipWaiting(); // Activa inmediatamente si es posible
 
   event.waitUntil(
     (async () => {

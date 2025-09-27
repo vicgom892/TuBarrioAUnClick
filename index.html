@@ -176,11 +176,11 @@
               </div>
               <div class="col-md-3">
                 <h5 class="font-weight-bold mb-3"><i class="fas fa-shopping-bag mr-2"></i>Otros</h5>
-                <a class="dropdown-item" href="#profesiones"><i class="fas fa-user-tie mr-2"></i>Profesiones</a>
+                <a class="dropdown-item" href="./oficios-profeciones.html"><i class="fas fa-user-tie mr-2"></i>Oficios</a>
                 <a class="dropdown-item" href="#librerias"><i class="fas fa-book mr-2"></i>Librerías</a>
                 <a class="dropdown-item" href="#ropa"><i class="fas fa-tshirt mr-2"></i>Tiendas</a>
-                <a class="dropdown-item" href="#servicios"><i class="fas fa-concierge-bell mr-2"></i>Servicios</a>
                 <a class="dropdown-item" href="#mates"><i class="fas fa-concierge-bell mr-2"></i>Mates</a>
+                <a class="dropdown-item" href="./comunidad.html"><i class="fas fa-concierge-bell mr-2"></i>Ofertas</a>
                 <a class="dropdown-item" href="#ubicacion"><i class="fas fa-map-marker-alt mr-2"></i>Ubicación</a>
                 <a class="dropdown-item" href="#contact-form"><i class="fas fa-envelope mr-2"></i>Contacto</a>
               </div>
@@ -335,11 +335,11 @@
                   <a class="dropdown-item" href="#muebles"><i class="fas fa-cheese mr-2"></i>Mueblerías</a>
                   <a class="dropdown-item" href="#uñas"><i class="fas fa-cheese mr-2"></i>Uñas</a>
                   <h6 class="font-weight-bold mt-2"><i class="fas fa-shopping-bag mr-2"></i>Otros</h6>
-                  <a class="dropdown-item" href="#profesiones"><i class="fas fa-cheese mr-2"></i>Profeciones</a>
+                  <a class="dropdown-item" href="./oficios-profeciones.html"><i class="fas fa-cheese mr-2"></i>Oficios</a>
                   <a class="dropdown-item" href="#librerias"><i class="fas fa-cheese mr-2"></i>Librerías</a>
                   <a class="dropdown-item" href="#ropa"><i class="fas fa-tshirt mr-2"></i>Tiendas</a>
-                  <a class="dropdown-item" href="#servicios"><i class="fas fa-tools mr-2"></i>Servicios</a>
                   <a class="dropdown-item" href="#mates"><i class="fas fa-tools mr-2"></i>Mates</a>
+                  <a class="dropdown-item" href="./comunidad.html"><i class="fas fa-concierge-bell mr-2"></i>Ofertas</a>
                   <a class="dropdown-item" href="#map"><i class="fas fa-map-marker-alt mr-2"></i>Ubicación</a>
                   <a class="dropdown-item" href="#contact-form"><i class="fas fa-envelope mr-2"></i>Contacto</a>
                 </div>
@@ -574,15 +574,6 @@
                 <i class="fas fa-tshirt"></i>
                 <div class="open-indicator"></div>
                 Tiendas
-                <div class="glow-effect"></div>
-            </button>
-        </a>
-        
-        <a href="#servicios">
-            <button class="rubro-btn" data-rubro="servicio">
-                <i class="fas fa-tools"></i>
-                <div class="open-indicator"></div>
-                Servicios
                 <div class="glow-effect"></div>
             </button>
         </a>
@@ -1879,13 +1870,13 @@ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             <textarea id="message" placeholder="Tu mensaje" required></textarea>
             <div id="questions-prompt" style="display: none; margin-bottom: 15px;">
                 <p style="color: #e2e8f0; margin-bottom: 10px;">¿Te gustaría responder algunas preguntas? Esto nos ayudará a mejorar.</p>
-                <button onclick="showQuestions(true)">Sí</button>
-                <button onclick="showQuestions(false)">No</button>
+                <button type="button" onclick="showQuestions(true)">Sí</button>
+                <button type="button" onclick="showQuestions(false)">No</button>
             </div>
             <div id="questions-section" class="questions-section">
                 <!-- Preguntas dinámicas se insertan aquí -->
             </div>
-            <button onclick="submitForm()">Enviar</button>
+           <button type="button" onclick="submitForm()">Enviar</button> 
         </form>
     </section>
 
@@ -2014,9 +2005,9 @@ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         <button class="faq-btn" onclick="sendQuickReply('ubicación')" aria-label="Ver ubicaciones">📍 Ubicación</button>
         <button class="faq-btn" onclick="sendQuickReply('pagos')" aria-label="Ver formas de pago">💳 Pagos</button>
         <button class="faq-btn" onclick="sendQuickReply('ofertas')" aria-label="Ver ofertas">🎁 Ofertas</button>
-        <button class="faq-btn support-btn" onclick="openWhatsApp()" aria-label="Contactar por WhatsApp">
+        <a href="https://wa.me/5491157194796" class="faq-btn support-btn" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
           <i class="fab fa-whatsapp"></i> Soporte
-        </button>
+        </a>
       </div>
 
       <div class="input-group">
