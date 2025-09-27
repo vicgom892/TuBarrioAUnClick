@@ -692,7 +692,7 @@ function showUpdateModal(registration) {
         contenedor.offsetHeight;
         loadedSections++;
         checkInitialization();
-      });
+      }); 
     } catch (err) {
       console.error(`Error cargando ${rubro}:`, err);
       contenedor.innerHTML = '<div class="col-12"><p class="text-center text-danger">Error al cargar negocios.</p></div>';
