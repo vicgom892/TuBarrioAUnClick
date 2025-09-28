@@ -1040,9 +1040,14 @@ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         card.innerHTML = `
           <img src="${emp.image || 'https://via.placeholder.com/300x200?text=Emprendedor'}" alt="${emp.name}">
           <h4>${emp.name}</h4>
+          <div class="emprendedor">
           <a href="https://wa.me/${emp.whatsapp}" target="_blank" class="btn-whatsapp">
             <i class="fab fa-whatsapp"></i> WhatsApp
           </a>
+          <a href="emprendimientos.html" target="_blank" class="btn-whatsapp">
+            <i class="fa fa-wifi"></i> Web
+          </a>
+          </div>
         `;
         carouselInner.appendChild(card);
       });
