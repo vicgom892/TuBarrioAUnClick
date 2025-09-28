@@ -284,10 +284,14 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header search-results-header">
-        <h5 class="modal-title" id="searchModalLabel"><i class="fas fa-search"></i> Resultados de búsqueda</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title" id="searchModalLabel">
+          <i class="fas fa-search me-2"></i> Resultados de búsqueda
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
-      <div class="modal-body search-results-body" id="searchModalBody"></div>
+      <div class="modal-body search-results-body" id="searchModalBody">
+        <!-- Los resultados de búsqueda se insertan dinámicamente aquí -->
+      </div>
       <div class="modal-footer search-results-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
@@ -1966,9 +1970,8 @@ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         <h5>Asistente Virtual</h5>
         <small><span class="status-dot"></span>En línea • Inteligencia Artificial</small>
       </div>
-      <button id="closeChat" class="close-btn" aria-label="Cerrar chat">
-        <i class="fas fa-times"></i>
-      </button>
+      
+      <button id="closeChat" class="btn btn-secondary" aria-label="Cerrar chat">Cerrar</button>
     </div>
 
     <div class="chat-body" id="chatBody" role="log" aria-live="polite">

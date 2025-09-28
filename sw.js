@@ -1,27 +1,39 @@
 // sw.js — Service Worker para Tu Barrio A Un Click
-// Versión: v35 — ¡Recuerda incrementar esto en cada actualización!
+// Versión: v41 — ¡Recuerda incrementar esto en cada actualización!
 
-const CACHE_VERSION = 'v41'; // ⬅️ ¡CAMBIA ESTO EN CADA DEPLOY!
-const STATIC_CACHE = `static-${CACHE_VERSION}`;
-const ASSETS_CACHE = `assets-${CACHE_VERSION}`;
-const API_CACHE = `api-${CACHE_VERSION}`;
-const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
-const BUSINESS_CACHE = `business-${CACHE_VERSION}`;
+const CONFIG = {
+  CACHE_VERSION: 'v42',
+  CACHES: {
+    STATIC: 'static',
+    ASSETS: 'assets',
+    API: 'api',
+    DYNAMIC: 'dynamic',
+    BUSINESS: 'business'
+  },
+  LIMITS: {
+    assets: 500,
+    dynamic: 300,
+    api: 200,
+    business: 300
+  },
+  TTL: {
+    api: 15 * 60 * 1000,
+    business: 24 * 60 * 60 * 1000,
+    dynamic: 60 * 60 * 1000
+  }
+};
+
+const STATIC_CACHE = `${CONFIG.CACHES.STATIC}-${CONFIG.CACHE_VERSION}`;
+const ASSETS_CACHE = `${CONFIG.CACHES.ASSETS}-${CONFIG.CACHE_VERSION}`;
+const API_CACHE = `${CONFIG.CACHES.API}-${CONFIG.CACHE_VERSION}`;
+const DYNAMIC_CACHE = `${CONFIG.CACHES.DYNAMIC}-${CONFIG.CACHE_VERSION}`;
+const BUSINESS_CACHE = `${CONFIG.CACHES.BUSINESS}-${CONFIG.CACHE_VERSION}`;
 
 // Límites de caché optimizados para +200 comercios
-const CACHE_LIMITS = {
-  assets: 500,           // Imágenes y assets
-  dynamic: 300,          // Páginas dinámicas
-  api: 200,              // Endpoints API
-  business: 300          // Páginas de negocios (para +200 comercios)
-};
+const CACHE_LIMITS = CONFIG.LIMITS;
 
 // Configuración de tiempo de vida para cachés
-const CACHE_TTL = {
-  api: 15 * 60 * 1000,   // 15 minutos para APIs
-  business: 24 * 60 * 60 * 1000, // 24 horas para páginas de negocios
-  dynamic: 60 * 60 * 1000 // 1 hora para contenido dinámico
-};
+const CACHE_TTL = CONFIG.TTL;
 
 // === ARCHIVOS ESENCIALES (se precargan en install) ===
 const PRECACHED_URLS = [
@@ -82,12 +94,14 @@ const cacheTimestamps = {
 
 // === INSTALL: Precachea todo lo esencial ===
 self.addEventListener('install', (event) => {
-  console.log(`[SW] Instalando nueva versión: ${CACHE_VERSION}`);
+  log('info', `Instalando nueva versión: ${CONFIG.CACHE_VERSION}`);
   //self.skipWaiting(); // Activa inmediatamente si es posible
 
   event.waitUntil(
     (async () => {
       try {
+        await checkStorageQuota();
+
         const [staticCache, assetsCache, apiCache, businessCache] = await Promise.all([
           caches.open(STATIC_CACHE),
           caches.open(ASSETS_CACHE),
@@ -95,22 +109,33 @@ self.addEventListener('install', (event) => {
           caches.open(BUSINESS_CACHE)
         ]);
 
-        // Precache en paralelo con mejor manejo de errores
-        const results = await Promise.allSettled([
-          precacheResources(staticCache, PRECACHED_URLS),
-          precacheResources(assetsCache, PRECACHED_IMAGES),
-          precacheResources(apiCache, API_ENDPOINTS)
-        ]);
+        // Precache en paralelo con mejor manejo de errores y batching
+        const batchSize = 10;
+        const batches = [];
+        for (let i = 0; i < ALL_PRECACHED.length; i += batchSize) {
+          batches.push(ALL_PRECACHED.slice(i, i + batchSize));
+        }
 
-        results.forEach((result, index) => {
-          if (result.status === 'rejected') {
-            console.warn(`[SW] Error en precache grupo ${index}:`, result.reason);
-          }
-        });
+        for (const batch of batches) {
+          const results = await Promise.allSettled([
+            precacheResources(staticCache, batch.filter(url => isStaticAsset(url))),
+            precacheResources(assetsCache, batch.filter(url => isImage(url))),
+            precacheResources(apiCache, batch.filter(url => isApiRequest(url)))
+          ]);
 
-        console.log('[SW] Instalación completada. Listo para activar.');
+          results.forEach((result, index) => {
+            if (result.status === 'rejected') {
+              log('warn', `Error en precache grupo ${index}:`, result.reason);
+            }
+          });
+
+          // Pequeño retraso para no saturar la red
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        log('info', 'Instalación completada. Listo para activar.');
       } catch (error) {
-        console.error('[SW] Error crítico en install:', error);
+        log('error', 'Error crítico en install:', error);
       }
     })()
   );
@@ -141,12 +166,16 @@ self.addEventListener('activate', (event) => {
       // Tomar control inmediato de las pestañas abiertas
       await clients.claim();
 
-      console.log(`[SW] ✅ Activado: ${CACHE_VERSION}`);
+      log('info', `✅ Activado: ${CONFIG.CACHE_VERSION}`);
 
       // Notificar a todas las ventanas abiertas que el SW está activo
       const clientsList = await clients.matchAll({ type: 'window' });
       clientsList.forEach(client => {
-        client.postMessage({ type: 'SW_ACTIVATED' });
+        client.postMessage({ 
+          type: 'SW_UPDATED',
+          version: CONFIG.CACHE_VERSION,
+          message: `Nueva versión ${CONFIG.CACHE_VERSION} instalada. ¡Nuevas promociones disponibles!`
+        });
       });
     })()
   );
@@ -176,10 +205,10 @@ self.addEventListener('fetch', (event) => {
 });
 
 // === MESSAGE: Comunicación con la app ===
-self.addEventListener('message', (event) => {
+self.addEventListener('message', async (event) => {
   if (event.data?.type === 'SKIP_WAITING') {
-    console.log('[SW] Mensaje recibido: SKIP_WAITING → Activando nuevo SW');
-    self.skipWaiting(); // ¡Esto fuerza la activación inmediata!
+    log('info', 'Mensaje recibido: SKIP_WAITING → Activando nuevo SW');
+    self.skipWaiting();
   } else if (event.data?.type === 'CLEAN_CACHE') {
     event.waitUntil(
       Promise.all([
@@ -191,14 +220,31 @@ self.addEventListener('message', (event) => {
   } else if (event.data?.type === 'REFRESH_CONTENT') {
     event.waitUntil(refreshContent());
   } else if (event.data?.type === 'CACHE_BUSINESS_PAGE') {
-    // Para cachear páginas de negocios específicas
     event.waitUntil(cacheBusinessPage(event.data.url));
+  } else if (event.data?.type === 'PRECACHE_SECONDARY') {
+    event.waitUntil(
+      precacheResources(await caches.open(ASSETS_CACHE), [
+        // Añade recursos secundarios aquí, por ejemplo:
+        // '/img/banner-3.jpeg',
+        // '/img/secondary-image.png'
+      ])
+    );
+  } else if (event.data?.type === 'CHECK_CACHE_FRESHNESS') {
+    event.waitUntil(checkCacheFreshness());
   }
 });
 
 // === PUSH NOTIFICATIONS ===
 self.addEventListener('push', (event) => {
-  const data = event.data?.json() || {};
+  let data;
+  try {
+    data = event.data?.json() || {};
+    if (!data.title) throw new Error('Falta título en la notificación');
+  } catch (error) {
+    log('error', 'Error en datos de notificación push:', error);
+    data = { title: 'Actualización', body: 'Nueva notificación recibida' };
+  }
+
   const options = {
     body: data.body || 'Tienes una nueva actualización',
     icon: '../img/icono-192x192.png',
@@ -214,7 +260,7 @@ self.addEventListener('push', (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification(data.title || 'Tu Barrio A Un Click', options)
+    self.registration.showNotification(data.title, options)
   );
 });
 
@@ -231,6 +277,25 @@ self.addEventListener('notificationclick', (event) => {
     })
   );
 });
+
+// === SYNC: Sincronización en segundo plano ===
+self.addEventListener('sync', (event) => {
+  if (event.tag === 'sync-business-data') {
+    event.waitUntil(syncBusinessData());
+  }
+});
+
+async function syncBusinessData() {
+  log('info', 'Sincronizando datos de negocios...');
+  // Aquí iría la lógica para sincronizar datos pendientes, por ejemplo, desde IndexedDB al servidor
+  // Ejemplo: 
+  // const db = await openIndexedDB();
+  // const pending = await db.getAll('pendingSync');
+  // for (const item of pending) {
+  //   await fetch('/api/sync', { method: 'POST', body: JSON.stringify(item) });
+  //   await db.delete('pendingSync', item.id);
+  // }
+}
 
 // === FUNCIONES DE APOYO MEJORADAS ===
 
@@ -264,7 +329,7 @@ async function precacheResources(cache, resources) {
               }
             });
           } catch (jsonError) {
-            console.warn(`[SW] JSON inválido: ${resource}`, jsonError);
+            log('warn', `JSON inválido: ${resource}`, jsonError);
             continue;
           }
         }
@@ -279,9 +344,9 @@ async function precacheResources(cache, resources) {
     }
   }
 
-  console.log(`[SW] ✅ Precacheados: ${successful.length}/${resources.length}`);
+  log('info', `✅ Precacheados: ${successful.length}/${resources.length}`);
   if (failed.length > 0) {
-    console.warn(`[SW] ❌ Fallaron: ${failed.length}`, failed);
+    log('warn', `❌ Fallaron: ${failed.length}`, failed);
   }
   
   return { successful, failed };
@@ -309,7 +374,7 @@ function isNegocioPage(path) {
 async function cacheFirst(request, cacheName) {
   const cached = await caches.match(request);
   if (cached) {
-    console.log(`[SW] 🗃️ Servido desde caché: ${request.url}`);
+    log('info', `🗃️ Servido desde caché: ${request.url}`);
     return cached;
   }
 
@@ -318,23 +383,23 @@ async function cacheFirst(request, cacheName) {
     if (response.ok) {
       const cache = await caches.open(cacheName);
       await cache.put(request, response.clone());
-      console.log(`[SW] 🌐 Servido desde red y cacheado: ${request.url}`);
+      log('info', `🌐 Servido desde red y cacheado: ${request.url}`);
     }
     return response;
   } catch (error) {
-    console.error('[SW] Cache-first falló:', error);
+    log('error', 'Cache-first falló:', error);
     const fallback = await caches.match('/offline.html');
     return fallback || new Response('Offline', { status: 503 });
   }
 }
 
-// Cache First con limpieza automática para imágenes
+// Cache First con limpieza automática para imágenes y fallback
 async function cacheFirstWithCleanup(request, cacheName) {
   const cache = await caches.open(cacheName);
   const cached = await cache.match(request);
   
   if (cached) {
-    console.log(`[SW] 🖼️ Imagen desde caché: ${request.url}`);
+    log('info', `🖼️ Imagen desde caché: ${request.url}`);
     return cached;
   }
 
@@ -350,12 +415,13 @@ async function cacheFirstWithCleanup(request, cacheName) {
       }
       
       await cache.put(request, response.clone());
-      console.log(`[SW] 🖼️ Imagen cacheada: ${request.url}`);
+      log('info', `🖼️ Imagen cacheada: ${request.url}`);
+      return response;
     }
-    return response;
+    throw new Error('No disponible');
   } catch (error) {
-    console.error('[SW] Error cacheando imagen:', error);
-    return response || new Response('Image not available', { status: 503 });
+    log('error', `Error al obtener imagen: ${request.url}`, error);
+    return caches.match('/img/fallback-image.png') || new Response('Image not available', { status: 503 });
   }
 }
 
@@ -368,16 +434,16 @@ async function networkFirstWithTTL(request, cacheName, ttl) {
       cache: 'no-cache'
     });
 
-    if (response.ok) {
+    if (response.ok && response.headers.get('Content-Type')?.includes('application/json')) {
+      const text = await response.clone().text();
+      JSON.parse(text); // Validar JSON antes de cachear
+
       const cache = await caches.open(cacheName);
       
       // Guardar con timestamp
       const timestamp = Date.now();
       const headers = new Headers(response.headers);
       headers.set('x-cache-timestamp', timestamp.toString());
-      
-      const clonedResponse = response.clone();
-      const text = await clonedResponse.text();
       
       await cache.put(request, new Response(text, {
         status: response.status,
@@ -387,11 +453,13 @@ async function networkFirstWithTTL(request, cacheName, ttl) {
       // Actualizar timestamp
       cacheTimestamps.api[request.url] = timestamp;
       
-      console.log(`[SW] 🔄 API actualizada: ${request.url}`);
+      log('info', `🔄 API actualizada: ${request.url}`);
       return new Response(text, response);
+    } else {
+      throw new Error('Respuesta inválida o no JSON');
     }
   } catch (error) {
-    console.error(`[SW] Network falló: ${request.url}`, error);
+    log('error', `Network falló: ${request.url}`, error);
   }
 
   // Fallback: caché con verificación de TTL
@@ -406,13 +474,13 @@ async function networkFirstWithTTL(request, cacheName, ttl) {
       try {
         const body = await cached.text();
         JSON.parse(body); // Validar JSON
-        console.log(`[SW] ⏳ Sirviendo API desde caché (vigente): ${request.url}`);
+        log('info', `⏳ Sirviendo API desde caché (vigente): ${request.url}`);
         return new Response(body, cached);
       } catch (e) {
-        console.warn(`[SW] JSON inválido en caché: ${request.url}`);
+        log('warn', `JSON inválido en caché: ${request.url}`);
       }
     } else {
-      console.log(`[SW] 🗑️ Cache expirado para: ${request.url}`);
+      log('info', `🗑️ Cache expirado para: ${request.url}`);
     }
   }
 
@@ -444,9 +512,9 @@ async function staleWhileRevalidateWithTTL(request, cacheName, ttl) {
     isFresh = (Date.now() - cachedTimestamp) < ttl;
     
     if (isFresh) {
-      console.log(`[SW] 🗃️ Servido desde caché (vigente): ${request.url}`);
+      log('info', `🗃️ Servido desde caché (vigente): ${request.url}`);
     } else {
-      console.log(`[SW] 🔄 Caché expirado, actualizando: ${request.url}`);
+      log('info', `🔄 Caché expirado, actualizando: ${request.url}`);
     }
   }
 
@@ -471,12 +539,12 @@ async function staleWhileRevalidateWithTTL(request, cacheName, ttl) {
         cacheTimestamps.dynamic[request.url] = Date.now();
       }
       
-      console.log(`[SW] 🌐 Actualizado: ${request.url}`);
+      log('info', `🌐 Actualizado: ${request.url}`);
       return new Response(text, res);
     }
     return res;
   }).catch(async (error) => {
-    console.error(`[SW] Error en red para: ${request.url}`, error);
+    log('error', `Error en red para: ${request.url}`, error);
     if (cached && !isFresh) {
       return cached;
     }
@@ -517,16 +585,16 @@ async function limitCacheSize(cacheName, maxItems) {
         .map(entry => entry.key);
       
       await Promise.all(toDelete.map(key => cache.delete(key)));
-      console.log(`[SW] 🧹 Limpiado ${toDelete.length} entradas de ${cacheName}`);
+      log('info', `🧹 Limpiado ${toDelete.length} entradas de ${cacheName}`);
     }
   } catch (error) {
-    console.error(`[SW] Error limpiando ${cacheName}:`, error);
+    log('error', `Error limpiando ${cacheName}:`, error);
   }
 }
 
 // Refrescar contenido manualmente
 async function refreshContent() {
-  console.log('[SW] ♻️ Iniciando refresco de contenido');
+  log('info', '♻️ Iniciando refresco de contenido');
   
   const apiCache = await caches.open(API_CACHE);
   const staticCache = await caches.open(STATIC_CACHE);
@@ -556,20 +624,21 @@ async function refreshContent() {
           headers: headers
         }));
         
-        console.log(`[SW] ♻️ Actualizado: ${url}`);
+        log('info', `♻️ Actualizado: ${url}`);
       }
     } catch (error) {
-      console.warn(`[SW] No se pudo refrescar: ${url}`, error);
+      log('warn', `No se pudo refrescar: ${url}`, error);
     }
   });
 
   await Promise.all(refreshPromises);
-  console.log('[SW] ♻️ Refresco de contenido completado');
+  log('info', '♻️ Refresco de contenido completado');
 }
 
 // Función específica para cachear páginas de negocios
 async function cacheBusinessPage(url) {
   try {
+    await checkStorageQuota();
     const cache = await caches.open(BUSINESS_CACHE);
     const response = await fetch(url);
     
@@ -586,18 +655,18 @@ async function cacheBusinessPage(url) {
       }));
       
       cacheTimestamps.business[url] = Date.now();
-      console.log(`[SW] 🏪 Página de negocio cacheada: ${url}`);
+      log('info', `🏪 Página de negocio cacheada: ${url}`);
       return true;
     }
   } catch (error) {
-    console.error(`[SW] Error cacheando página de negocio: ${url}`, error);
+    log('error', `Error cacheando página de negocio: ${url}`, error);
   }
   return false;
 }
 
 // Función para pre-cachear múltiples negocios
 async function precacheBusinessPages(businessPages) {
-  console.log(`[SW] 🏪 Iniciando precache de ${businessPages.length} páginas de negocios`);
+  log('info', `🏪 Iniciando precache de ${businessPages.length} páginas de negocios`);
   
   const cache = await caches.open(BUSINESS_CACHE);
   const results = {
@@ -633,8 +702,52 @@ async function precacheBusinessPages(businessPages) {
     }
   }
   
-  console.log(`[SW] 🏪 Precache completado: ${results.success} exitosos, ${results.failed} fallidos`);
+  log('info', `🏪 Precache completado: ${results.success} exitosos, ${results.failed} fallidos`);
   return results;
 }
 
-console.log('[SW] 💼 Service Worker cargado y optimizado para +200 comercios');
+// Verificar frescura de caché (ETag)
+async function checkCacheFreshness() {
+  const cache = await caches.open(STATIC_CACHE);
+  const keys = await cache.keys();
+  for (const request of keys) {
+    const cachedResponse = await cache.match(request);
+    const etag = cachedResponse.headers.get('ETag');
+    if (etag) {
+      const response = await fetch(request, { method: 'HEAD' });
+      if (response.headers.get('ETag') !== etag) {
+        log('info', `Actualizando recurso obsoleto: ${request.url}`);
+        await cacheFirst(request, STATIC_CACHE);
+      }
+    }
+  }
+}
+
+// Chequeo de cuota de almacenamiento
+async function checkStorageQuota() {
+  if (navigator.storage && navigator.storage.estimate) {
+    const { quota, usage } = await navigator.storage.estimate();
+    const freeSpace = quota - usage;
+    log('info', `Espacio disponible: ${(freeSpace / 1024 / 1024).toFixed(2)} MB`);
+    if (freeSpace < 10 * 1024 * 1024) { // Menos de 10MB disponibles
+      log('warn', 'Espacio bajo, limpiando cachés antiguos');
+      await limitCacheSize(DYNAMIC_CACHE, CACHE_LIMITS.dynamic / 2);
+      await limitCacheSize(ASSETS_CACHE, CACHE_LIMITS.assets / 2);
+    }
+  }
+}
+
+// Sistema de logging
+function log(level, message, ...args) {
+  const levels = { info: 'ℹ️', warn: '⚠️', error: '❌' };
+  console[level](`[SW] ${levels[level]} ${message}`, ...args);
+  // Opcional: Enviar logs críticos a un servidor si está online
+  if (level === 'error' && navigator.onLine) {
+    fetch('/api/log', {
+      method: 'POST',
+      body: JSON.stringify({ message, args, timestamp: Date.now() })
+    }).catch(() => {});
+  }
+}
+
+log('info', '💼 Service Worker cargado y optimizado para +200 comercios');
