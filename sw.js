@@ -2,7 +2,7 @@
 // Versión: v41 — ¡Recuerda incrementar esto en cada actualización!
 
 const CONFIG = {
-  CACHE_VERSION: 'v42',
+  CACHE_VERSION: 'v47',
   CACHES: {
     STATIC: 'static',
     ASSETS: 'assets',

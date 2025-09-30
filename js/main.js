@@ -22,88 +22,90 @@ document.addEventListener('DOMContentLoaded', function() {
   let updateBusinessListDebounced;
   let businessIndex = null;
 
-// --- Service Worker + Modal de Actualización (CORREGIDO Y MEJORADO) ---
-const APP_VERSION = 'v41'; // ⬅️ ¡DEBE COINCIDIR EXACTAMENTE CON CACHE_VERSION EN sw.js!
+ // --- CONFIGURACIÓN DE PRODUCCIÓN ---
+    const APP_VERSION = 'v47'; // ⬅️ ¡DEBE COINCIDIR EXACTAMENTE CON CACHE_VERSION EN sw.js!
+    // --- SERVICE WORKER EN PRODUCCIÓN ---
+    if ('serviceWorker' in navigator) {
+      // Registrar SW sin caché y con control de versiones
+      navigator.serviceWorker.register(`./sw.js?v=${APP_VERSION}`, {
+        updateViaCache: 'none'
+      }).then(registration => {
+        console.log('✅ SW registrado en producción:', APP_VERSION);
 
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register(`./sw.js?v=${APP_VERSION}`)
-    .then(registration => {
-      console.log("✅ SW registrado con éxito:", registration);
-
-      // Escuchar nuevas instalaciones (mientras la página está abierta)
-      registration.addEventListener('updatefound', () => {
-        const newWorker = registration.installing;
-        if (!newWorker) return;
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+        // Verificar actualizaciones periódicas (cada 10 minutos)
+        const checkForUpdates = () => {
+          if (registration.waiting) {
             showUpdateModal(registration);
           }
+        };
+
+        // Escuchar nuevas instalaciones
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                checkForUpdates();
+              }
+            });
+          }
         });
-      });
 
-      // Escuchar mensajes del SW
-      navigator.serviceWorker.addEventListener('message', event => {
-        if (event.data?.type === 'SW_ACTIVATED') {
-          console.log('🆕 Nuevo SW activado completamente.');
+        // Verificar al cargar y periódicamente
+        checkForUpdates();
+        setInterval(() => registration.update(), 10 * 60 * 1000); // Cada 10 minutos
+
+      }).catch(err => {
+        console.error('❌ Error crítico en SW:', err);
+        // En producción, no mostramos errores al usuario, solo logueamos
+      });
+    }
+
+    // --- GESTIÓN DEL MODAL DE ACTUALIZACIÓN ---
+    function showUpdateModal(registration) {
+      // Verificar si ya se mostró para esta versión (usando sessionStorage para no persistir entre sesiones)
+      const modalShownKey = `update_modal_shown_${APP_VERSION}`;
+      if (sessionStorage.getItem(modalShownKey)) {
+        return; // Ya se mostró en esta sesión
+      }
+
+      const modal = document.getElementById('update-modal');
+      if (!modal) return;
+
+      // Mostrar modal
+      modal.style.display = 'flex';
+
+      // Botón: Actualizar ahora
+      document.getElementById('update-now')?.addEventListener('click', function handler() {
+        modal.style.display = 'none';
+        sessionStorage.setItem(modalShownKey, 'true'); // Marcar como mostrado
+        
+        if (registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
         }
-      });
+        // Recargar después de un breve retraso
+        setTimeout(() => window.location.reload(), 1000);
+        
+        // Limpiar listener
+        this.removeEventListener('click', handler);
+      }, { once: true });
 
-      // ✅ NUEVO: Verificar si ya hay una versión esperando (para usuarios que entran después)
-      checkForWaitingSW(registration);
-    })
-    .catch(err => {
-      console.error("❌ Error al registrar el SW:", err);
-    });
-}
+      // Botón: Más tarde
+      document.getElementById('update-later')?.addEventListener('click', function handler() {
+        modal.style.display = 'none';
+        // No marcamos como mostrado, aparecerá en próxima visita
+        this.removeEventListener('click', handler);
+      }, { once: true });
 
-// ✅ NUEVA FUNCIÓN: Verificar si hay un SW en espera al cargar la página
-function checkForWaitingSW(registration) {
-  if (registration && registration.waiting) {
-    showUpdateModal(registration);
-  }
-}
-
-// Función para mostrar el modal de actualización
-function showUpdateModal(registration) {
-  const modal = document.getElementById('update-modal');
-  const nowBtn = document.getElementById('update-now');
-  const laterBtn = document.getElementById('update-later');
-
-  if (!modal || !nowBtn || !laterBtn) {
-    console.error('❌ No se encontraron elementos del modal de actualización.');
-    return;
-  }
-
-  // Mostrar modal
-  modal.classList.add('active');
-
-  // Botón: Actualizar ahora
-  nowBtn.onclick = () => {
-    modal.classList.remove('active');
-    if (registration && registration.waiting) {
-      registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-      setTimeout(() => {
-        window.location.reload(true); // ✅ Recargar SIN caché
-      }, 1000);
-    } else {
-      setTimeout(() => window.location.reload(true), 500);
+      // Cerrar al hacer clic fuera
+      modal.addEventListener('click', function handler(e) {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          this.removeEventListener('click', handler);
+        }
+      }, { once: true });
     }
-  };
 
-  // Botón: Más tarde
-  laterBtn.onclick = () => {
-    modal.classList.remove('active');
-    console.log("🕒 Usuario pospuso la actualización.");
-  };
-
-  // Cerrar al hacer clic fuera
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.remove('active');
-      console.log("🕒 Usuario cerró el modal haciendo clic fuera.");
-    }
-  });
-}
   // Capturar el evento beforeinstallprompt
   window.addEventListener('beforeinstallprompt', (e) => {
     // Prevenir que el banner de instalación aparezca automáticamente
