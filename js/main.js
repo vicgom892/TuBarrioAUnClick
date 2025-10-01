@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const MAX_ACCURACY = 15;
   const MAX_ATTEMPTS = 10;
   const MAX_TIMEOUT = 30000;
+  
   // --- VARIABLES GLOBALES ---
   let deferredPrompt = null;
   window.businesses = [];
@@ -22,90 +23,129 @@ document.addEventListener('DOMContentLoaded', function() {
   let updateBusinessListDebounced;
   let businessIndex = null;
 
- // --- CONFIGURACIÓN DE PRODUCCIÓN ---
-    const APP_VERSION = 'v47'; // ⬅️ ¡DEBE COINCIDIR EXACTAMENTE CON CACHE_VERSION EN sw.js!
-    // --- SERVICE WORKER EN PRODUCCIÓN ---
-    if ('serviceWorker' in navigator) {
-      // Registrar SW sin caché y con control de versiones
-      navigator.serviceWorker.register(`./sw.js?v=${APP_VERSION}`, {
-        updateViaCache: 'none'
-      }).then(registration => {
-        console.log('✅ SW registrado en producción:', APP_VERSION);
+  // --- CONFIGURACIÓN DE PRODUCCIÓN ---
+  const APP_VERSION = 'v49'; // ⬅️ ¡DEBE COINCIDIR EXACTAMENTE CON CACHE_VERSION EN sw.js!
+  
+  // --- SERVICE WORKER EN PRODUCCIÓN ---
+  if ('serviceWorker' in navigator) {
+    // Registrar SW sin caché y con control de versiones
+    navigator.serviceWorker.register(`/sw-1.js?v=${APP_VERSION}`, {
+      updateViaCache: 'none'
+    }).then(registration => {
+      console.log('✅ SW registrado en producción:', APP_VERSION);
 
-        // Verificar actualizaciones periódicas (cada 10 minutos)
-        const checkForUpdates = () => {
-          if (registration.waiting) {
-            showUpdateModal(registration);
-          }
-        };
-
-        // Escuchar nuevas instalaciones
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          if (newWorker) {
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                checkForUpdates();
-              }
-            });
-          }
-        });
-
-        // Verificar al cargar y periódicamente
-        checkForUpdates();
-        setInterval(() => registration.update(), 10 * 60 * 1000); // Cada 10 minutos
-
-      }).catch(err => {
-        console.error('❌ Error crítico en SW:', err);
-        // En producción, no mostramos errores al usuario, solo logueamos
-      });
-    }
-
-    // --- GESTIÓN DEL MODAL DE ACTUALIZACIÓN ---
-    function showUpdateModal(registration) {
-      // Verificar si ya se mostró para esta versión (usando sessionStorage para no persistir entre sesiones)
-      const modalShownKey = `update_modal_shown_${APP_VERSION}`;
-      if (sessionStorage.getItem(modalShownKey)) {
-        return; // Ya se mostró en esta sesión
-      }
-
-      const modal = document.getElementById('update-modal');
-      if (!modal) return;
-
-      // Mostrar modal
-      modal.style.display = 'flex';
-
-      // Botón: Actualizar ahora
-      document.getElementById('update-now')?.addEventListener('click', function handler() {
-        modal.style.display = 'none';
-        sessionStorage.setItem(modalShownKey, 'true'); // Marcar como mostrado
-        
+      // Verificar actualizaciones periódicas (cada 10 minutos)
+      const checkForUpdates = () => {
         if (registration.waiting) {
-          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+          showUpdateModal(registration);
         }
-        // Recargar después de un breve retraso
-        setTimeout(() => window.location.reload(), 1000);
-        
-        // Limpiar listener
-        this.removeEventListener('click', handler);
-      }, { once: true });
+      };
 
-      // Botón: Más tarde
-      document.getElementById('update-later')?.addEventListener('click', function handler() {
-        modal.style.display = 'none';
-        // No marcamos como mostrado, aparecerá en próxima visita
-        this.removeEventListener('click', handler);
-      }, { once: true });
-
-      // Cerrar al hacer clic fuera
-      modal.addEventListener('click', function handler(e) {
-        if (e.target === modal) {
-          modal.style.display = 'none';
-          this.removeEventListener('click', handler);
+      // Escuchar nuevas instalaciones
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        if (newWorker) {
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              checkForUpdates();
+            }
+          });
         }
-      }, { once: true });
+      });
+
+      // Verificar al cargar y periódicamente
+      checkForUpdates();
+      setInterval(() => registration.update(), 10 * 60 * 1000); // Cada 10 minutos
+
+    }).catch(err => {
+      console.error('❌ Error crítico en SW:', err);
+      // En producción, no mostramos errores al usuario, solo logueamos
+    });
+  }
+
+  // --- GESTIÓN DEL MODAL DE ACTUALIZACIÓN ---
+  function showUpdateModal(registration) {
+    // Verificar si ya se mostró para esta versión (usando sessionStorage para no persistir entre sesiones)
+    const modalShownKey = `update_modal_shown_${APP_VERSION}`;
+    if (sessionStorage.getItem(modalShownKey)) {
+      return; // Ya se mostró en esta sesión
     }
 
+    const modal = document.getElementById('update-modal');
+    if (!modal) return;
+
+    // Mostrar modal
+    modal.style.display = 'flex';
+
+    // Botón: Actualizar ahora
+    document.getElementById('update-now')?.addEventListener('click', function handler() {
+      modal.style.display = 'none';
+      sessionStorage.setItem(modalShownKey, 'true'); // Marcar como mostrado
+      
+      if (registration.waiting) {
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+      }
+      // Recargar después de un breve retraso
+      setTimeout(() => window.location.reload(), 1000);
+      
+      // Limpiar listener
+      this.removeEventListener('click', handler);
+    }, { once: true });
+
+    // Botón: Más tarde
+    document.getElementById('update-later')?.addEventListener('click', function handler() {
+      modal.style.display = 'none';
+      // No marcamos como mostrado, aparecerá en próxima visita
+      this.removeEventListener('click', handler);
+    }, { once: true });
+
+    // Cerrar al hacer clic fuera
+    modal.addEventListener('click', function handler(e) {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+        this.removeEventListener('click', handler);
+      }
+    }, { once: true });
+  }
+
+  // --- NUEVA INTEGRACIÓN CON SW PARA REFRESCOS CONTINUOS ---
+  // (Agregado para activar PAGE_FOCUS y mensajes del SW v48)
+  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    // Escucha mensajes del SW (ej: notificación de nueva versión o refresh completado)
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data.type === 'SW_UPDATED') {
+        console.log('¡Nueva versión detectada!', event.data.message);
+        // Opcional: Integra con tu UI, ej: showToast(event.data.message);
+        if (event.data.forceRefresh) {
+          // Si el SW lo pide, recarga para frescura total
+          window.location.reload();
+        }
+      } else if (event.data.type === 'CONTENT_REFRESHED') {
+        console.log('Contenido refrescado exitosamente');
+        // Opcional: Actualiza tu UI aquí, ej: loadBusinesses() o recarga listas de promociones
+        // Ej: if (window.loadBusinesses) window.loadBusinesses();
+      } else if (event.data.type === 'FORCE_REFRESH') {
+        console.log('Refresh forzado por push notification');
+        window.location.reload(); // Recarga inmediata
+      }
+    });
+
+    // Función para enviar 'PAGE_FOCUS' al SW (refresca dinámicos al abrir/focalizar)
+    function sendPageFocus() {
+      navigator.serviceWorker.controller.postMessage({ type: 'PAGE_FOCUS' });
+      console.log('📱 PAGE_FOCUS enviado al SW - Refrescando datos frescos');
+    }
+
+    // Al cargar la página (DOMContentLoaded ya está activo, pero aseguramos)
+    sendPageFocus();
+
+    // Al focalizar la pestaña/app (para pestañas inactivas o app móvil)
+    window.addEventListener('focus', sendPageFocus);
+
+    // Opcional: En funciones clave de tu app, envía refresh manual
+    // Ej: Si tienes una función loadBusinesses(), agrega al final: sendPageFocus();
+    // Ej: window.loadBusinesses = function() { /* tu lógica */; sendPageFocus(); };
+  }
   // Capturar el evento beforeinstallprompt
   window.addEventListener('beforeinstallprompt', (e) => {
     // Prevenir que el banner de instalación aparezca automáticamente
