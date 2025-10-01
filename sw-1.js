@@ -476,4 +476,4 @@ function log(level, message, ...args) {
   }
 }
 
-log('info', '💼 SW v48 cargado: Modo producción - Updates continuos y caché mínimo activado');
+log('info', '💼 SW v49 cargado: Modo producción - Updates continuos y caché mínimo activado');

@@ -3980,6 +3980,7 @@ margin: 5px !important;
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
   transition: all 0.3s ease;
   margin-bottom: 1rem;
+  margin-left: 4rem;
 }
 
 #locateMe:hover {
@@ -5054,8 +5055,8 @@ margin: 5px !important;
 @media (max-width: 767.98px) {
   .col-4 {
     padding: 1px;
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
+    flex: 0 0 49.333333%;
+    max-width: 49.333333%;
   }
 }
 
